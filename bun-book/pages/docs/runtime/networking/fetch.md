@@ -1,0 +1,153 @@
+---
+type: Web Page
+title: Fetch - Bun
+description: Send HTTP requests with Bun's fetch API
+resource: https://bun.sh/docs/runtime/networking/fetch
+timestamp: '2026-07-07T10:59:41.879776+00:00'
+---
+
+`fetch` standard, with some extensions to meet the needs of server-side JavaScript.
+Bun also implements `node:http`, but `fetch` is generally recommended instead.
+## Sending an HTTP request
+
+To send an HTTP request, use`fetch`:
+`fetch` also works with HTTPS URLs.
+`fetch` a `Request` object.
+### Sending a POST request
+
+To send a POST request, pass an object with the`method` property set to `"POST"`.
+`body` can be a string, a `FormData` object, an `ArrayBuffer`, a `Blob`, or another of the body types listed in the MDN documentation.
+### Proxying requests
+
+To proxy a request, pass an object with the`proxy` property set to a URL string:
+`headers` are sent directly to the proxy in `CONNECT` requests (for HTTPS targets) or in the proxy request (for HTTP targets). If you provide a `Proxy-Authorization` header, it overrides any credentials in the proxy URL.
+### Custom headers
+
+To set custom headers, pass an object with the`headers` property set to an object.
+### Response bodies
+
+To read the response body, use one of the following methods:- `response.text(): Promise<string>`: Returns a promise that resolves with the response body as a string.
+- `response.json(): Promise<any>`: Returns a promise that resolves with the response body as a JSON object.
+- `response.formData(): Promise<FormData>`: Returns a promise that resolves with the response body as a- `FormData`object.
+- `response.bytes(): Promise<Uint8Array>`: Returns a promise that resolves with the response body as a- `Uint8Array`.
+- `response.arrayBuffer(): Promise<ArrayBuffer>`: Returns a promise that resolves with the response body as an- `ArrayBuffer`.
+- `response.blob(): Promise<Blob>`: Returns a promise that resolves with the response body as a- `Blob`.
+
+#### Streaming response bodies
+
+You can use async iterators to stream the response body.`ReadableStream` directly.
+### Streaming request bodies
+
+You can also stream data in request bodies using a`ReadableStream`:
+- The data is streamed directly to the network without buffering the entire body in memory
+- If the connection is lost, the stream is canceled
+- The `Content-Length`header is not automatically set unless the stream has a known size
+
+- For PUT/POST requests, Bun automatically uses multipart upload
+- The stream is consumed in chunks and uploaded in parallel
+- Progress can be monitored through the S3 options
+
+### Fetching a URL with a timeout
+
+To fetch a URL with a timeout, use`AbortSignal.timeout`:
+#### Canceling a request
+
+To cancel a request, use an`AbortController`:
+### Unix domain sockets
+
+To fetch a URL using a Unix domain socket, use the`unix: string` option:
+### TLS
+
+To use a client certificate, use the`tls` option:
+#### Custom TLS Validation
+
+To customize TLS validation, use the`checkServerIdentity` option in `tls`:
+`net` module.
+#### Disable TLS validation
+
+To disable TLS validation, set`rejectUnauthorized` to `false`:
+### Request options
+
+In addition to the standard fetch options, Bun provides several extensions:### Protocol support
+
+Beyond HTTP(S), Bun’s fetch supports several additional protocols:#### S3 URLs - `s3://`
+
+Bun supports fetching from S3 buckets directly.
+#### File URLs - `file://`
+
+You can fetch local files using the `file:` protocol:
+#### Data URLs - `data:`
+
+Bun supports the `data:` URL scheme:
+#### Blob URLs - `blob:`
+
+You can fetch blobs using URLs created by `URL.createObjectURL()`:
+### Error handling
+
+Bun’s fetch implementation includes several specific error cases:- Using a request body with GET/HEAD methods throws an error (which is expected for the fetch API)
+- Using the `proxy`and`unix`options together throws an error
+- TLS certificate validation failures when `rejectUnauthorized`is true (or undefined)
+- S3 operations may throw specific errors related to authentication or permissions
+
+### Content-Type handling
+
+Bun automatically sets the`Content-Type` header for request bodies when not explicitly provided:
+- For `Blob`objects, uses the blob’s`type`
+- For `FormData`, sets appropriate multipart boundary
+
+## Debugging
+
+For debugging, pass`verbose: true` to `fetch`:
+`verbose: boolean` is a Bun-specific extension, not part of the Web standard `fetch` API.
+## Performance
+
+Before an HTTP request can be sent, Bun has to resolve DNS, connect the TCP socket, and sometimes complete a TLS handshake. Each step takes time, especially over a slow DNS server or a poor network connection. After the request completes, consuming the response body also takes time and memory. Bun provides APIs to optimize each of these steps.### DNS prefetching
+
+Use`dns.prefetch` when you know you’ll connect to a host soon and want to avoid the initial DNS lookup.
+#### DNS caching
+
+By default, Bun caches and deduplicates DNS queries in-memory for up to 30 seconds.`dns.getCacheStats()` returns the cache stats.
+See DNS caching.
+### Preconnect to a host
+
+`fetch.preconnect` starts the DNS lookup, TCP socket connection, and TLS handshake for a host before you’re ready to send a request to it.
+`fetch` immediately after `fetch.preconnect` does not make your request faster. Preconnecting only helps when there’s a gap between knowing the host and sending the request.
+#### Preconnect at startup
+
+To preconnect to a host at startup, pass`--fetch-preconnect`:
+`--fetch-preconnect` is similar to `<link rel="preconnect">` in HTML. It is not implemented on Windows; if you need it there, file an issue.
+### Connection pooling & HTTP keep-alive
+
+Bun automatically reuses connections to the same host. This is called**connection pooling**, and it can significantly reduce the time spent establishing connections.
+
+#### Simultaneous connection limit
+
+By default, Bun limits the number of simultaneous`fetch` requests to 256, for two reasons:
+- It improves overall system stability. Operating systems have an upper limit on the number of simultaneous open TCP sockets, usually in the low thousands. Nearing this limit causes your entire computer to behave strangely. Applications hang and crash.
+- It encourages HTTP Keep-Alive connection reuse. For short-lived HTTP requests, the slowest step is often the initial connection setup. Reusing connections can save a lot of time.
+
+`BUN_CONFIG_MAX_HTTP_REQUESTS` environment variable:
+### Response buffering
+
+The fastest way to read the response body is to use one of these methods:- `response.text(): Promise<string>`
+- `response.json(): Promise<any>`
+- `response.formData(): Promise<FormData>`
+- `response.bytes(): Promise<Uint8Array>`
+- `response.arrayBuffer(): Promise<ArrayBuffer>`
+- `response.blob(): Promise<Blob>`
+
+`Bun.write` to write the response body to a file on disk:
+### Implementation details
+
+- Connection pooling is enabled by default but can be disabled per-request with `keepalive: false`or the`"Connection: close"`header.
+- Large file uploads are optimized using the operating system’s `sendfile`syscall under specific conditions:- The file must be larger than 32KB
+- The request must not be using a proxy
+- On macOS, only regular files (not pipes, sockets, or devices) can use `sendfile`
+- When these conditions aren’t met, or when using S3/streaming uploads, Bun falls back to reading the file into memory
+- This optimization is particularly effective for HTTP (not HTTPS) requests where the file can be sent directly from the kernel to the network stack
+ 
+- S3 operations automatically handle signing requests and merging authentication headers
+
+# Citations
+
+1. Source page: https://bun.sh/docs/runtime/networking/fetch

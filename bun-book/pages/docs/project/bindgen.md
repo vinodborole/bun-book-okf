@@ -1,0 +1,94 @@
+---
+type: Web Page
+title: Bindgen - Bun
+description: Bindgen for Bun
+resource: https://bun.sh/docs/project/bindgen
+timestamp: '2026-07-07T10:59:41.879776+00:00'
+---
+
+This document is for maintainers and contributors to Bun, and describes internal implementation details.
+
+`*.bind.ts` files to find function and class
+definitions, and generates glue code to interop between JavaScript and native
+code.
+There are other code generators and systems that achieve similar purposes;
+the following will all eventually be phased out in favor of this one:
+- “Classes generator”, converting `*.classes.ts`for custom classes.
+- “JS2Native”, allowing ad-hoc calls from `src/js`to native code.
+
+## Creating JS Functions in Rust
+
+Given a file implementing a function, such as`add`:
+src/jsc/bindgen_test.rs
+
+`.bind.ts` file. The binding file goes
+next to the Rust file.
+src/jsc/bindgen_test.bind.ts
+
+`crate::r#gen::<basename>` (for `bindgen_test.bind.ts`,
+that’s `crate::r#gen::bindgen_test`). To construct a `JSFunction` wrapping the
+native implementation, use `generated::create_add_callback(global)`:
+`src/js/`, `$bindgenFn("bindgen_test.bind.ts", "add")` returns
+a handle to the implementation.
+Exported bindgen functions are snake_cased on the Rust side
+(`requiredAndOptionalArg` → `required_and_optional_arg`), and the generated
+callback constructor follows the same convention
+(`create_required_and_optional_arg_callback`).
+## Strings
+
+To receive a string, use`t.DOMString`, `t.ByteString`, or `t.USVString`. These map directly to their WebIDL counterparts and have slightly different conversion logic. Bindgen passes `bun_core::String` to native code in all cases.
+When in doubt, use DOMString.
+`t.UTF8String` works in place of `t.DOMString`, but eagerly converts to UTF-8.
+The native callback receives a `&[u8]` slice (WTF-8 data) that is
+freed after the function returns.
+TLDRs from the WebIDL spec:
+- ByteString can only contain valid latin1 characters. It is not safe to assume `bun_core::String`is already in 8-bit format, but it is extremely likely.
+- USVString does not contain invalid surrogate pairs, so its text can be represented correctly in UTF-8.
+- DOMString is the loosest but also the most recommended strategy.
+
+## Function Variants
+
+The`variants` key declares multiple variants (also known as overloads) of a function.
+`t.dictionary`
+
+A `dictionary` describes a JavaScript object, typically a function input. For function outputs, prefer a class type so you can add methods and support destructuring.
+## Enumerations
+
+`t.stringEnum` creates a WebIDL enumeration and generates a new enum type for it.
+An example of `stringEnum` from `fmt_jsc.bind.ts` / `bun:internal-for-testing`:
+`#[repr(u8)]` enum. Bindgen
+**sorts**before emitting the C++
+
+`t.stringEnum` values alphabetically`enum class`, so discriminants must match the generated header’s order, not
+the `.bind.ts` declaration order:
+`implNamespace`
+
+Setting `implNamespace: "foo"` on a `fn({...})` routes the generated call to
+`crate::<basename>::foo::fn_name` instead of `crate::<basename>::fn_name`. Use
+this to group related binding implementations under a submodule.
+`t.oneOf`
+
+A `oneOf` is a union of two or more types. It is represented as a Rust
+`enum` with one variant per member type.
+## Attributes
+
+Attributes can be chained onto`t.*` types. On all types:
+- `.required`, in dictionary parameters only
+- `.optional`, in function arguments only
+- `.default(T)`
+
+`.optional`, it is lowered to a Rust `Option<T>`:
+### Integer Attributes
+
+Integer types take`clamp` or `enforceRange` to customize overflow behavior:
+`validateInteger` and `validateNumber`
+are also available. Use these when implementing Node.js APIs so the error
+messages match Node exactly.
+Unlike `enforceRange`, which is taken from WebIDL, the `validate*` functions
+are much stricter about the input they accept. For example, Node’s numerical
+validator checks `typeof value === 'number'`, while WebIDL uses `ToNumber` for
+lossy conversion.
+
+# Citations
+
+1. Source page: https://bun.sh/docs/project/bindgen
