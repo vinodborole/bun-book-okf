@@ -4,7 +4,7 @@ title: Test runner - Bun
 description: Bun's fast, built-in, Jest-compatible test runner with TypeScript support,
   lifecycle hooks, mocking, and watch mode
 resource: https://bun.sh/docs/test
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 - TypeScript and JSX
@@ -14,19 +14,20 @@ timestamp: '2026-07-07T10:59:41.879776+00:00'
 - Watch mode with `--watch`
 - Script pre-loading with `--preload`
 
-Bun aims for compatibility with Jest, but not everything is implemented. To track compatibility, see this tracking
-issue.
+Bun aims for compatibility with Jest, but not everything is implemented. To track compatibility, see 
 
-## Run tests
+[this tracking issue](https://github.com/oven-sh/bun/issues/1825).## Run tests
 
 terminal
 
+[Writing tests](/docs/test/writing-tests).
+
 math.test.ts
 
-- `*.test.{js|jsx|ts|tsx}`
-- `*_test.{js|jsx|ts|tsx}`
-- `*.spec.{js|jsx|ts|tsx}`
-- `*_spec.{js|jsx|ts|tsx}`
+- `*.test.{js|jsx|ts|tsx|mjs|cjs|mts|cts}`
+- `*_test.{js|jsx|ts|tsx|mjs|cjs|mts|cts}`
+- `*.spec.{js|jsx|ts|tsx|mjs|cjs|mts|cts}`
+- `*_spec.{js|jsx|ts|tsx|mjs|cjs|mts|cts}`
 
 *test files*to run, pass additional positional arguments to
 
@@ -41,7 +42,8 @@ terminal
 `./` or `/` to distinguish it from a filter name.
 terminal
 
-`--preload` scripts (see Lifecycle), then runs all tests. If a test fails, the test runner exits with a non-zero exit code.
+`--preload` scripts (see [Lifecycle](/docs/test/lifecycle)), then runs all tests. If a test fails, the test runner exits with a non-zero exit code.
+
 ## CI/CD integration
 
 `bun test` supports a variety of CI/CD integrations.
@@ -141,6 +143,8 @@ Bun supports the following lifecycle hooks:| Hook | Description |
 `--preload` flag.
 terminal
 
+[Lifecycle](/docs/test/lifecycle).
+
 ## Mocks
 
 Create mock functions with the`mock` function.
@@ -148,6 +152,8 @@ math.test.ts
 
 `jest.fn()`; it behaves identically.
 math.test.ts
+
+[Mocks](/docs/test/mocks).
 
 ## Snapshot testing
 
@@ -157,9 +163,13 @@ math.test.ts
 `--update-snapshots` flag.
 terminal
 
+[Snapshots](/docs/test/snapshots).
+
 ## UI & DOM testing
 
-Bun is compatible with popular UI testing libraries: See DOM testing.## Performance
+Bun is compatible with popular UI testing libraries: See[DOM testing](/docs/test/dom).
+
+## Performance
 
 Bun’s test runner is fast.## AI Agent Integration
 

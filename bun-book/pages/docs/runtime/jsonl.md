@@ -3,8 +3,10 @@ type: Web Page
 title: JSONL - Bun
 description: Parse newline-delimited JSON (JSONL) with Bun's built-in streaming parser
 resource: https://bun.sh/docs/runtime/jsonl
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
+
+[JSONL](https://jsonlines.org/)(newline-delimited JSON), where each line is a separate JSON value. The parser is implemented in C++ using JavaScriptCore’s optimized JSON parser and supports streaming.
 
 `Bun.JSONL.parse()`
 
@@ -13,7 +15,7 @@ Parse a complete JSONL input and return an array of all parsed values.
 `Uint8Array` input, Bun skips a UTF-8 BOM at the start of the buffer.
 ### Error handling
 
-If the input contains invalid JSON,`Bun.JSONL.parse()` throws a `SyntaxError`:
+If the input contains invalid JSON and no values were successfully parsed,`Bun.JSONL.parse()` throws a `SyntaxError`. If at least one value was parsed before the error, the parsed values are returned without throwing.
 `Bun.JSONL.parseChunk()`
 
 For streaming, `parseChunk` parses as many complete values as it can from the input and reports how far it got, so you know where to resume when data arrives incrementally (for example, from a network stream).

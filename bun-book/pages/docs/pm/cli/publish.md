@@ -3,7 +3,7 @@ type: Web Page
 title: bun publish - Bun
 description: Use bun publish to publish a package to the npm registry
 resource: https://bun.sh/docs/pm/cli/publish
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `bun publish` packs your package into a tarball, strips catalog and workspace protocols from the `package.json` (resolving versions if necessary), and publishes to the registry specified in your configuration files. Both `bunfig.toml` and `.npmrc` files are supported.
@@ -129,7 +129,7 @@ Platform optimizations:
 
 `clonefile` (default), `hardlink`, `symlink`, or `copyfile`Maximum concurrent network requests
 
-Maximum concurrent lifecycle scripts
+Maximum concurrent lifecycle scripts (default: 2x CPU cores)
 
 #### Output Control
 

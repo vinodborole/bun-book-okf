@@ -3,14 +3,16 @@ type: Web Page
 title: Image - Bun
 description: Decode, transform, and encode images with a fast native pipeline
 resource: https://bun.sh/docs/runtime/image
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `Bun.Image` is a chainable image pipeline for decoding, resizing, rotating, and re-encoding JPEG, PNG, WebP, HEIC, and AVIF — built on libjpeg-turbo, spng, libwebp, and SIMD geometry kernels, with zero npm dependencies and no native addon build step.
+[Sharp](https://sharp.pixelplumbing.com/): construct from an input, chain transforms, pick an output format, then
+
 `await` a terminal method. Nothing runs until the terminal is awaited, and the work executes off the JavaScript thread.
 ## Input
 
-The constructor accepts a path, bytes, or a`Blob` — including `Bun.file()` and `Bun.s3()`. `Blob#image()` is shorthand for `new Bun.Image(blob)`:
+The constructor accepts a path, bytes, or a`Blob` — including `Bun.file()` and `Bun.s3.file()`. `Blob#image()` is shorthand for `new Bun.Image(blob)`:
 `Content-Type` are ignored.
 **Path strings are filesystem paths.**Don’t pass user-controlled strings directly to the constructor — that’s an arbitrary-file-read primitive. Read untrusted input into a
 
@@ -48,10 +50,12 @@ Read`width`, `height`, and `format` without decoding pixel data:
 Calling a format method sets the encode target; without one, the source format is reused.`palette: true` quantizes to a ≤256-color palette and emits an indexed (color-type 3) PNG, optionally with Floyd–Steinberg `dither`. This is typically 3–5× smaller than truecolor for screenshots and UI assets.
 ## Terminals
 
-A pipeline does no work until one of these is awaited:`.write()` accepts the same destinations as `Bun.write` — a path string, `Bun.file()`, `Bun.s3()`, or an fd. If you didn’t chain a format method and the destination is a path string, the extension picks one (`.jpg`/`.png`/`.webp`/`.heic`/`.avif`).
+A pipeline does no work until one of these is awaited:`.write()` accepts the same destinations as `Bun.write` — a path string, `Bun.file()`, `Bun.s3.file()`, or an fd. If you didn’t chain a format method and the destination is a path string, the extension picks one (`.jpg`/`.png`/`.webp`/`.heic`/`.avif`).
 ## Placeholders
 
-For a low-quality placeholder to inline in HTML before the real image loads,`.placeholder()` returns a ThumbHash-rendered ≤32px blur as a `data:` URL — ~400–700 bytes, no client-side decoder needed:
+For a low-quality placeholder to inline in HTML before the real image loads,`.placeholder()` returns a [ThumbHash](https://evanw.github.io/thumbhash/)-rendered ≤32px blur as a
+
+`data:` URL — ~400–700 bytes, no client-side decoder needed:
 *itself*, encode a progressive JPEG:
 
 `img.width` and `img.height` reflect the *output*dimensions (they’re

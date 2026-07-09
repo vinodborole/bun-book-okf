@@ -3,7 +3,7 @@ type: Web Page
 title: Cookies - Bun
 description: Use Bun's native APIs for working with HTTP cookies
 resource: https://bun.sh/docs/runtime/cookies
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `Bun.Cookie` and `Bun.CookieMap`. They parse, generate, and manipulate cookies in HTTP requests and responses.
@@ -85,7 +85,8 @@ cookie-properties.ts
 
 `isExpired(): boolean`
 
-Checks if the cookie has expired. When both `maxAge` and `expires` are set, `maxAge` takes precedence, as required by RFC 6265.
+Checks if the cookie has expired. When both `maxAge` and `expires` are set, `maxAge` takes precedence, as required by [RFC 6265](https://datatracker.ietf.org/doc/html/rfc6265#section-5.3).
+
 is-expired.ts
 
 `serialize(): string`

@@ -4,8 +4,10 @@ title: Debugging - Bun
 description: Debug your Bun code with an interactive debugger using WebKit Inspector
   Protocol
 resource: https://bun.sh/docs/runtime/debugger
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
+
+[WebKit Inspector Protocol](https://github.com/oven-sh/bun/blob/main/packages/bun-inspector-protocol/src/protocol/jsc/index.d.ts), so you can debug your code with an interactive debugger. For demonstration purposes, consider the following web server.
 
 ## Debugging JavaScript and TypeScript
 
@@ -30,12 +32,15 @@ Regardless of which flag you use, you can specify a port number, URL prefix, or 
 
 Several debugging tools can connect to this server.`debug.bun.sh`
 
-Bun hosts a web-based debugger at debug.bun.sh. It is a modified version of WebKit’s Web Inspector Interface, which looks familiar to Safari users.
-Open the provided `debug.bun.sh` URL in your browser to start a debugging session. From this interface, you can view the source code of the running file, view and set breakpoints, and execute code with the built-in console.
+Bun hosts a web-based debugger at [debug.bun.sh](https://debug.bun.sh). It is a modified version of WebKit’s
+
+[Web Inspector Interface](https://webkit.org/web-inspector/web-inspector-interface/), which looks familiar to Safari users. Open the provided
+
+`debug.bun.sh` URL in your browser to start a debugging session. From this interface, you can view the source code of the running file, view and set breakpoints, and execute code with the built-in console.
 `3` to set a breakpoint on the `console.log(req.url)` statement.
-`http://localhost:3000` in your web browser. The page never finishes loading because the program has paused at the breakpoint.
-Note how the UI has changed.
-`req` here, to see its properties and methods.
+[in your web browser. The page never finishes loading because the program has paused at the breakpoint. Note how the UI has changed.](http://localhost:3000)
+
+`http://localhost:3000``req` here, to see its properties and methods.
 - *Continue script execution*— run until the next breakpoint or exception.
 - *Step over*— advance to the next line.
 - *Step into*— if the current statement contains a function call, enter the called function.
@@ -43,7 +48,9 @@ Note how the UI has changed.
 
 ### Visual Studio Code Debugger
 
-Visual Studio Code support for debugging Bun scripts is experimental. To use it, install the Bun VSCode extension.## Debugging Network Requests
+Visual Studio Code support for debugging Bun scripts is experimental. To use it, install the[Bun VSCode extension](/docs/guides/runtime/vscode-debugger).
+
+## Debugging Network Requests
 
 Set the`BUN_CONFIG_VERBOSE_FETCH` environment variable to log network requests made with `fetch()` or `node:http`.
 | Value | Description | 
@@ -72,7 +79,9 @@ Bun prints a small source-code preview when an unhandled exception or rejection 
 Bun uses JavaScriptCore as its engine, but much of the Node.js ecosystem and npm expects V8, and JavaScript engines differ in how they format`error.stack`. Because Bun aims to be a drop-in replacement for Node.js, it formats `error.stack` the same way V8 does. This matters most when you use libraries that expect V8 stack traces.
 #### V8 Stack Trace API
 
-Bun implements the V8 Stack Trace API, a set of functions for manipulating stack traces.`Error.prepareStackTrace`
+Bun implements the[V8 Stack Trace API](https://v8.dev/docs/stack-trace-api), a set of functions for manipulating stack traces.
+
+`Error.prepareStackTrace`
 
 Define a global `Error.prepareStackTrace` function to customize the stack trace output. It receives the error object and an array of `CallSite` objects, and its return value becomes `error.stack`.
 `CallSite` object has the following methods:

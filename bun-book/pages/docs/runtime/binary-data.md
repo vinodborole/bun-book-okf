@@ -3,7 +3,7 @@ type: Web Page
 title: Binary Data - Bun
 description: Working with binary data in JavaScript
 resource: https://bun.sh/docs/runtime/binary-data
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 | Class | Description | 
@@ -72,14 +72,22 @@ To fix this, create a typed array over a particular “slice” of the `ArrayBuf
 `ArrayBuffer`: a `byteOffset` of `0` and a `length` of `2`, the number of `Uint32` values the array holds.
 `ArrayBuffer` instance first; pass a length to the typed array constructor instead:
 `push` and `pop` are not available, because they would require resizing the underlying `ArrayBuffer`.
+[MDN documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray)for more on typed array properties and methods.
+
 `Uint8Array`
 
 `Uint8Array` is the most common typed array in JavaScript. It represents a classic “byte array”: a sequence of 8-bit unsigned integers between 0 and 255.
 In Bun, it has methods for converting between byte arrays and their base64 or hex string representations.
-`TextEncoder#encode`, and the input type of `TextDecoder#decode`, two utility classes that translate between strings and various binary encodings, most notably `"utf-8"`.
+[, and the input type of](https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder)
+
+`TextEncoder#encode`[, two utility classes that translate between strings and various binary encodings, most notably](https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder)
+
+`TextDecoder#decode``"utf-8"`.
 `Buffer`
 
 Bun implements `Buffer`, a Node.js API for working with binary data that pre-dates the introduction of typed arrays in the JavaScript spec. It has since been re-implemented as a subclass of `Uint8Array`. It provides a wide range of methods, including several Array-like and `DataView`-like methods.
+[Node.js documentation](https://nodejs.org/api/buffer.html).
+
 `Blob`
 
 `Blob` is a Web API commonly used for representing files. It originated in browsers (unlike `ArrayBuffer`, which is part of JavaScript itself), but Node.js and Bun support it too.
@@ -91,13 +99,23 @@ You rarely create `Blob` instances directly; they usually come from an external 
 `BunFile` is a subclass of `Blob` that represents a lazily-loaded file on disk. Like `File`, it adds a `name` and `lastModified` property. Unlike `File`, it does not require the file to be loaded into memory.
 `File`
 
-`File` is a subclass of `Blob` that adds a `name` and `lastModified` property. It’s commonly used in the browser to represent files uploaded with an `<input type="file">` element. Node.js and Bun implement `File`.
+[is a subclass of](https://developer.mozilla.org/en-US/docs/Web/API/File)
+
+`File``Blob` that adds a `name` and `lastModified` property. It’s commonly used in the browser to represent files uploaded with an `<input type="file">` element. Node.js and Bun implement `File`.
+[MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Blob).
+
 ## Streams
 
-Streams let you work with binary data without loading it all into memory at once. They’re commonly used for reading and writing files, sending and receiving network requests, and processing large amounts of data. Bun implements the Web APIs`ReadableStream` and `WritableStream`.
+Streams let you work with binary data without loading it all into memory at once. They’re commonly used for reading and writing files, sending and receiving network requests, and processing large amounts of data. Bun implements the Web APIs[and](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)
+
+`ReadableStream`[.](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)
+
+`WritableStream`
 To create a readable stream:
 
 `for await`.
+[Streams](/docs/runtime/streams).
+
 ## Conversion
 
 Use this section as a reference for converting one binary format to another.### From `ArrayBuffer`
@@ -220,7 +238,9 @@ As UTF-8:
 
 ### From `ReadableStream`
 
-`Response` is a common intermediate for converting a `ReadableStream` to other formats.
+[is a common intermediate for converting a](https://developer.mozilla.org/en-US/docs/Web/API/Response)
+
+`Response``ReadableStream` to other formats.
 `ReadableStream` to various binary formats.
 #### To `ArrayBuffer`
 

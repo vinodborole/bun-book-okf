@@ -4,7 +4,7 @@ title: Welcome to Bun - Bun
 description: Bun is an all-in-one toolkit for developing modern JavaScript/TypeScript
   applications.
 resource: https://bun.sh/docs
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 ## Bun Runtime
@@ -65,15 +65,17 @@ JavaScript (or, more formally, ECMAScript) is just a*specification*for a program
 Browsers ship with JavaScript runtimes that implement a set of Web-specific APIs, exposed on the global`window` object. Any JavaScript code executed by the browser can use these APIs to add interactive or dynamic behavior to the current webpage.
 ### Node.js
 
-Node.js is a JavaScript runtime for non-browser environments, like servers. JavaScript programs executed by Node.js have access to a set of Node.js-specific globals like`Buffer`, `process`, and `__dirname` in addition to built-in modules for OS-level tasks like reading/writing files (`node:fs`) and networking (`node:net`, `node:http`). Node.js also implements a CommonJS-based module system and resolution algorithm that pre-dates JavaScript’s native module system.
+Node.js is a JavaScript runtime for non-browser environments, like servers. JavaScript programs executed by Node.js have access to a set of Node.js-specific[globals](https://nodejs.org/api/globals.html)like
+
+`Buffer`, `process`, and `__dirname` in addition to built-in modules for OS-level tasks like reading/writing files (`node:fs`) and networking (`node:net`, `node:http`). Node.js also implements a CommonJS-based module system and resolution algorithm that pre-dates JavaScript’s native module system.
 Bun is designed as a faster, leaner, more modern replacement for Node.js.
 ## Design goals
 
-Bun is designed from the ground-up with today’s JavaScript ecosystem in mind.- **Speed**. Bun processes start 4x faster than Node.js.
+Bun is designed from the ground-up with today’s JavaScript ecosystem in mind.- **Speed**. Bun processes start- [4x faster than Node.js](https://twitter.com/jarredsumner/status/1499225725492076544).
 - **TypeScript & JSX support**. You can directly execute- `.jsx`,- `.ts`, and- `.tsx`files; Bun’s transpiler converts these to vanilla JavaScript before execution.
 - **ESM & CommonJS compatibility**. The world is moving towards ES modules (ESM), but millions of packages on npm still require CommonJS. Bun recommends ES modules, but supports CommonJS.
-- **Web-standard APIs**. Bun implements standard Web APIs like- `fetch`,- `WebSocket`, and- `ReadableStream`. Bun is powered by the JavaScriptCore engine, which is developed by Apple for Safari, so some APIs like- `Headers`and- `URL`directly use Safari’s implementation.
-- **Node.js compatibility**. In addition to supporting Node-style module resolution, Bun aims for full compatibility with built-in Node.js globals (- `process`,- `Buffer`) and modules (- `path`,- `fs`,- `http`).- *This is an ongoing effort.*See Node.js compatibility for the current status.
+- **Web-standard APIs**. Bun implements standard Web APIs like- `fetch`,- `WebSocket`, and- `ReadableStream`. Bun is powered by the JavaScriptCore engine, which is developed by Apple for Safari, so some APIs like- `Headers`- `URL`- [Safari’s implementation](https://github.com/oven-sh/bun/blob/HEAD/src/jsc/bindings/webcore/JSFetchHeaders.cpp).
+- **Node.js compatibility**. In addition to supporting Node-style module resolution, Bun aims for full compatibility with built-in Node.js globals (- `process`,- `Buffer`) and modules (- `path`,- `fs`,- `http`).- *This is an ongoing effort.*See- [Node.js compatibility](/docs/runtime/nodejs-compat)for the current status.
 
 # Citations
 

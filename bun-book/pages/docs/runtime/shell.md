@@ -3,7 +3,7 @@ type: Web Page
 title: Shell - Bun
 description: Use Bun's shell scripting API to run shell commands from JavaScript
 resource: https://bun.sh/docs/runtime/shell
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 index.ts
@@ -77,7 +77,7 @@ Like in bash, you can pipe the output of one command to another:
 Command substitution inserts the output of another command into the current script:
 Because Bun internally uses the special Instead of printing:It prints:Use the 
 
-`raw` property on the input template literal, using the backtick syntax for command substitution won’t work:`$(...)` syntax instead.## Environment variables
+[property on the input template literal, using the backtick syntax for command substitution won’t work:](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#raw_strings)`raw``$(...)` syntax instead.## Environment variables
 
 Set environment variables like in bash:### Changing the environment variables
 
@@ -130,13 +130,14 @@ For cross-platform compatibility, Bun Shell implements a set of builtin commands
 
 **Not**implemented yet, but planned:
 
-- See Issue #9716 for the full list.
+- See [Issue #9716](https://github.com/oven-sh/bun/issues/9716)for the full list.
 
 ## Utilities
 
 Bun Shell also implements a set of utilities for working with shells.`$.braces` (brace expansion)
 
-`$.braces` implements brace expansion for shell commands:
+`$.braces` implements [brace expansion](https://www.gnu.org/software/bash/manual/html_node/Brace-Expansion.html)for shell commands:
+
 `$.escape` (escape strings)
 
 Exposes Bun Shell’s escaping logic as a function:
@@ -173,6 +174,14 @@ longer apply to the string interpreted by that new shell.
 ### Argument injection
 
 Bun Shell cannot know how an external command interprets its own command-line arguments. An attacker can supply input that the target program recognizes as one of its own options or flags, leading to unintended behavior.**Recommendation**: Always sanitize user-provided input before passing it as an argument to an external command. Validating arguments is your application’s responsibility.
+
+## Credits
+
+Large parts of this API were inspired by[zx](https://github.com/google/zx),
+
+[dax](https://github.com/dsherret/dax), and
+
+[bnx](https://github.com/wobsoriano/bnx). Thank you to the authors of those projects.
 
 # Citations
 

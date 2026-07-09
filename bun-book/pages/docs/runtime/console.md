@@ -3,13 +3,12 @@ type: Web Page
 title: Console - Bun
 description: The console object in Bun
 resource: https://bun.sh/docs/runtime/console
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
-Bun provides a browser- and Node.js-compatible console
-global. This page only documents Bun-native APIs.
+Bun provides a browser- and Node.js-compatible 
 
-## Object inspection depth
+[console](https://developer.mozilla.org/en-US/docs/Web/API/console)global. This page only documents Bun-native APIs.## Object inspection depth
 
 You can configure how deeply`console.log()` prints nested objects:
 - **CLI flag**: Use- `--console-depth <number>`to set the depth for a single run

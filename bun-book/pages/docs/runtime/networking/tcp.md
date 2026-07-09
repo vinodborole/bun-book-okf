@@ -5,7 +5,7 @@ description: Use Bun's native TCP API to implement performance-sensitive systems
   database clients, game servers, or anything that needs to communicate over TCP (instead
   of HTTP)
 resource: https://bun.sh/docs/runtime/networking/tcp
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 ## Start a server (`Bun.listen()`)
@@ -32,7 +32,7 @@ server.ts
 `BunFile`, `TypedArray`, or `Buffer`.
 server.ts
 
-`Bun.listen` returns a server that conforms to the `TCPSocket` interface.
+`Bun.listen` returns a server that conforms to the `TCPSocketListener` interface.
 server.ts
 
 ## Create a connection (`Bun.connect()`)

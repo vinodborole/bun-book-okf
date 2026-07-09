@@ -3,7 +3,7 @@ type: Web Page
 title: Fetch - Bun
 description: Send HTTP requests with Bun's fetch API
 resource: https://bun.sh/docs/runtime/networking/fetch
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `fetch` standard, with some extensions to meet the needs of server-side JavaScript.
@@ -12,18 +12,22 @@ Bun also implements `node:http`, but `fetch` is generally recommended instead.
 
 To send an HTTP request, use`fetch`:
 `fetch` also works with HTTPS URLs.
-`fetch` a `Request` object.
-### Sending a POST request
+`fetch` a [object.](https://developer.mozilla.org/en-US/docs/Web/API/Request)
+
+`Request`### Sending a POST request
 
 To send a POST request, pass an object with the`method` property set to `"POST"`.
-`body` can be a string, a `FormData` object, an `ArrayBuffer`, a `Blob`, or another of the body types listed in the MDN documentation.
+`body` can be a string, a `FormData` object, an `ArrayBuffer`, a `Blob`, or another of the body types listed in the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#setting_a_body).
+
 ### Proxying requests
 
-To proxy a request, pass an object with the`proxy` property set to a URL string:
+To proxy a request, pass an object with the`proxy` property set to a URL string, a `URL` instance, or to an object whose `url` is a string or a `URL`:
 `headers` are sent directly to the proxy in `CONNECT` requests (for HTTPS targets) or in the proxy request (for HTTP targets). If you provide a `Proxy-Authorization` header, it overrides any credentials in the proxy URL.
 ### Custom headers
 
 To set custom headers, pass an object with the`headers` property set to an object.
+[Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers)object.
+
 ### Response bodies
 
 To read the response body, use one of the following methods:- `response.text(): Promise<string>`: Returns a promise that resolves with the response body as a string.
@@ -62,7 +66,7 @@ To use a client certificate, use the`tls` option:
 #### Custom TLS Validation
 
 To customize TLS validation, use the`checkServerIdentity` option in `tls`:
-`net` module.
+`tls` module.
 #### Disable TLS validation
 
 To disable TLS validation, set`rejectUnauthorized` to `false`:
@@ -73,6 +77,8 @@ In addition to the standard fetch options, Bun provides several extensions:### P
 Beyond HTTP(S), Bun’s fetch supports several additional protocols:#### S3 URLs - `s3://`
 
 Bun supports fetching from S3 buckets directly.
+[S3](/docs/runtime/s3)documentation.
+
 #### File URLs - `file://`
 
 You can fetch local files using the `file:` protocol:
@@ -107,7 +113,8 @@ Use`dns.prefetch` when you know you’ll connect to a host soon and want to avoi
 #### DNS caching
 
 By default, Bun caches and deduplicates DNS queries in-memory for up to 30 seconds.`dns.getCacheStats()` returns the cache stats.
-See DNS caching.
+See [DNS caching](/docs/runtime/networking/dns).
+
 ### Preconnect to a host
 
 `fetch.preconnect` starts the DNS lookup, TCP socket connection, and TLS handshake for a host before you’re ready to send a request to it.

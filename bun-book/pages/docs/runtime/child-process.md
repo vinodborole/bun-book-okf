@@ -3,7 +3,7 @@ type: Web Page
 title: Spawn - Bun
 description: Spawn child processes with Bun.spawn or Bun.spawnSync
 resource: https://bun.sh/docs/runtime/child-process
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 ## Spawn a process (`Bun.spawn()`)
@@ -93,7 +93,7 @@ child.ts
 child.ts
 
 `serialization` option controls the underlying communication format between the two processes:
-- `advanced`: (default) Messages are serialized using the JSC- `serialize`API, which supports cloning everything- `structuredClone`supports. This does not support transferring ownership of objects.
+- `advanced`: (default) Messages are serialized using the JSC- `serialize`API, which supports cloning- [everything](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm). This does not support transferring ownership of objects.- `structuredClone`supports
 - `json`: Messages are serialized using- `JSON.stringify`and- `JSON.parse`, which does not support as many object types as- `advanced`does.
 
 ### IPC between Bun & Node.js
@@ -140,7 +140,7 @@ To run multiple commands in sequence through the same terminal session, create a
 - **ConPTY re-encodes output.**ConPTY renders the child’s output to a virtual screen and emits whatever VT sequences describe the result, so the- `data`callback receives semantically equivalent — but not byte-identical — escape sequences. Colors and text are preserved; cursor-positioning and reset sequences may be reordered or coalesced. ConPTY also emits a short VT init sequence (- `\x1b[?9001h\x1b[?1004h…`) before any child output.
 - **Input**POSIX- `\r`is not translated to- `\n`on Windows.- `ICRNL`maps carriage return to newline on input; ConPTY passes- `\r`through unchanged.
 - `process.on('SIGWINCH')`in the child does not fire under ConPTY- `process.stdout.columns`/- `rows`do update after- `resize()`. This is a libuv limitation that affects any libuv-based child (Node.js included).
-- On Windows before 11 24H2 (build 26100), `terminal.close()`may not terminate a still-running child promptly because`ClosePseudoConsole`blocks until conhost has flushed its output through the pipe on those versions. Kill the attached process first if you need to tear down with a running child.
+- On Windows before 11 24H2 (build 26100), `terminal.close()`may not terminate a still-running child promptly because`ClosePseudoConsole`
 
 ## Blocking API (`Bun.spawnSync()`)
 
@@ -154,14 +154,15 @@ To run multiple commands in sequence through the same terminal session, create a
 
 ⚡️ 
 
-`Bun.spawn` and `Bun.spawnSync` use `posix_spawn(3)`.`spawnSync` spawns processes 60% faster than the Node.js `child_process` module.
+`Bun.spawn` and `Bun.spawnSync` use [.](https://man7.org/linux/man-pages/man3/posix_spawn.3.html)`posix_spawn(3)``spawnSync` spawns processes 60% faster than the Node.js `child_process` module.
 terminal
 
 terminal
 
 ## Reference
 
-The following is a reference of the Spawn API and types. The real types have complex generics to strongly type the`Subprocess` streams with the options passed to `Bun.spawn` and `Bun.spawnSync`. For full details, see bun.d.ts.
+The following is a reference of the Spawn API and types. The real types have complex generics to strongly type the`Subprocess` streams with the options passed to `Bun.spawn` and `Bun.spawnSync`. For full details, see [bun.d.ts](https://github.com/oven-sh/bun/blob/main/packages/bun-types/bun.d.ts).
+
 See Typescript Definitions
 
 # Citations

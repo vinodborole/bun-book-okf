@@ -3,10 +3,11 @@ type: Web Page
 title: CSRF Protection - Bun
 description: Generate and verify CSRF tokens with Bun's built-in API
 resource: https://bun.sh/docs/runtime/csrf
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
-`Bun.CSRF` generates and verifies CSRF (Cross-Site Request Forgery) tokens. Tokens are signed with HMAC and include an expiration timestamp.
+`Bun.CSRF` generates and verifies [CSRF (Cross-Site Request Forgery)](https://owasp.org/www-community/attacks/csrf)tokens. Tokens are signed with HMAC and include an expiration timestamp.
+
 csrf.ts
 
 Always pass a 

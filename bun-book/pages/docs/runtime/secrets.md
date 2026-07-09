@@ -3,7 +3,7 @@ type: Web Page
 title: Secrets - Bun
 description: Use Bun's Secrets API to store and retrieve sensitive credentials securely
 resource: https://bun.sh/docs/runtime/secrets
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 index.ts
@@ -32,14 +32,14 @@ Retrieve a stored credential.
 
 - `Promise<string | null>`- The stored password, or- `null`if not found
 
-`Bun.secrets.set(options, value)`
+`Bun.secrets.set(options)`
 
 Store or update a credential.
 **Parameters:**
 
 - `options.service`(string, required) - The service or application name
 - `options.name`(string, required) - The username or account identifier
-- `value`(string, required) - The password or secret to store
+- `options.value`(string, required) - The password or secret to store
 
 **Notes:**
 

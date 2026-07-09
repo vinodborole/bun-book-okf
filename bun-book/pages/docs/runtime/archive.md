@@ -3,7 +3,7 @@ type: Web Page
 title: Archive - Bun
 description: Create and extract tar archives with Bun's fast native implementation
 resource: https://bun.sh/docs/runtime/archive
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `Bun.Archive` is Bun’s native API for tar archives. It creates archives from in-memory data, extracts archives to disk, and reads archive contents without extraction.
@@ -43,9 +43,7 @@ Use`.extract()` to write all files to a directory:
 `/`, Windows drive letters like `C:\` or `C:/`, and UNC paths like `\\server\share`) and unsafe symlink targets. Path traversal components (`..`) are normalized away to prevent directory escape attacks: `dir/sub/../file` becomes `dir/file`.
 ### Filtering Extracted Files
 
-Use glob patterns to extract only specific files. Patterns are matched against archive entry paths normalized to use forward slashes (`/`). Positive patterns specify what to include, and negative patterns (prefixed with `!`) specify what to exclude. Negative patterns are applied after positive patterns, so **using only negative patterns matches nothing**(you must include a positive pattern like
-
-`**` first):
+Use glob patterns to extract only specific files. Patterns are matched against archive entry paths normalized to use forward slashes (`/`). Positive patterns specify what to include, and negative patterns (prefixed with `!`) specify what to exclude. When only negative patterns are provided, all entries that don’t match them are included:
 ## Reading Archive Contents
 
 ### Get All Files
@@ -70,12 +68,16 @@ Archive operations can fail due to corrupted data, I/O errors, or invalid paths.
 `files()` returns an empty `Map` if no files match:
 ### Filtering with Glob Patterns
 
-Pass a glob pattern to filter which files are returned:- `*`- Match any characters except- `/`
+Pass a glob pattern to filter which files are returned:[Bun.Glob](/docs/docs/api/glob)syntax):
+
+- `*`- Match any characters except- `/`
 - `**`- Match any characters including- `/`
 - `?`- Match single character
 - `[abc]`- Match character set
 - `{a,b}`- Match alternatives
-- `!pattern`- Exclude files matching pattern (negation). Must be combined with positive patterns; using only negative patterns matches nothing.
+- `!pattern`- Exclude files matching pattern (negation). When only negative patterns are provided, all files not matching them are included.
+
+[Bun.Glob](/docs/docs/api/glob)for the full glob syntax including escaping and advanced patterns.
 
 ## Compression
 
@@ -95,7 +97,7 @@ Bun.Archive creates uncompressed tar archives by default. Use`{ compress: "gzip"
 
 ## Reference
 
-Note: The following type signatures are simplified. See`packages/bun-types/bun.d.ts`for the full type definitions.
+Note: The following type signatures are simplified. See[for the full type definitions.](https://github.com/oven-sh/bun/blob/main/packages/bun-types/bun.d.ts)`packages/bun-types/bun.d.ts`
 
 # Citations
 

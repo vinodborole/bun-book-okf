@@ -4,7 +4,7 @@ title: Environment Variables - Bun
 description: Read and configure environment variables in Bun, including automatic
   .env file support
 resource: https://bun.sh/docs/runtime/environment-variables
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `.env` files automatically and provides idiomatic ways to read and write your environment variables programmatically. You can also configure parts of Bun’s runtime behavior with Bun-specific environment variables.
@@ -20,9 +20,9 @@ Cross-platform solution with Windows
 
 Cross-platform solution with Windows
 
-For a cross-platform solution, use Bun Shell, for example through On Windows, 
+For a cross-platform solution, use On Windows, 
 
-`bun exec`.`package.json` scripts called with `bun run` automatically use the **Bun Shell**, so the following is also cross-platform.package.json
+[Bun Shell](/docs/runtime/shell), for example through`bun exec`.`package.json` scripts called with `bun run` automatically use the **Bun Shell**, so the following is also cross-platform.package.json
 
 `process.env`.
 ## Manually specifying `.env` files
@@ -61,6 +61,8 @@ Read the current environment variables from`process.env`.
 ## TypeScript
 
 In TypeScript, all properties of`process.env` are typed as `string | undefined`.
+[interface merging](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces).
+
 `AWESOME` property to `process.env` and `Bun.env`.
 ## Configuring Bun
 
@@ -68,18 +70,18 @@ Bun reads these environment variables to configure aspects of its behavior.| Nam
 |---|---|
 | `NODE_TLS_REJECT_UNAUTHORIZED` | `NODE_TLS_REJECT_UNAUTHORIZED=0`disables SSL certificate validation. Useful for testing and debugging, but be very hesitant to use it in production. Node.js introduced this variable; Bun keeps the name for compatibility. | 
 | `BUN_CONFIG_VERBOSE_FETCH` | If `BUN_CONFIG_VERBOSE_FETCH=curl`, then fetch requests log the URL, method, request headers and response headers to the console. This also works with`node:http`.`BUN_CONFIG_VERBOSE_FETCH=1`is equivalent to`BUN_CONFIG_VERBOSE_FETCH=curl`except without the`curl`output. | 
-| `BUN_RUNTIME_TRANSPILER_CACHE_PATH` | The runtime transpiler caches the transpiled output of source files larger than 50 KB, which makes CLIs using Bun load faster. If `BUN_RUNTIME_TRANSPILER_CACHE_PATH`is set, the cache is written to that directory. If it is set to an empty string or the string`"0"`, caching is disabled. If it is unset, the cache is written to the platform-specific cache directory. | 
+| `BUN_RUNTIME_TRANSPILER_CACHE_PATH` | The runtime transpiler caches the transpiled output of source files larger than 4 KB, which makes CLIs using Bun load faster. If `BUN_RUNTIME_TRANSPILER_CACHE_PATH`is set, the cache is written to that directory. If it is set to an empty string or the string`"0"`, caching is disabled. If it is unset, the cache is written to the platform-specific cache directory. | 
 | `TMPDIR` | Bun occasionally requires a directory to store intermediate assets during bundling or other operations. If unset, defaults to the platform-specific temporary directory: `/tmp`on Linux,`/private/tmp`on macOS. | 
-| `NO_COLOR` | If `NO_COLOR=1`, then ANSI color output is disabled. | 
+| `NO_COLOR` | If `NO_COLOR=1`, then ANSI color output is[disabled](https://no-color.org/). | 
 | `FORCE_COLOR` | If `FORCE_COLOR=1`, then ANSI color output is forced on, even if`NO_COLOR`is set. | 
 | `BUN_CONFIG_MAX_HTTP_REQUESTS` | Sets the maximum number of concurrent HTTP requests sent by fetch and `bun install`. Defaults to`256`. Lower it if you run into rate limits or connection issues. | 
 | `BUN_CONFIG_NO_CLEAR_TERMINAL_ON_RELOAD` | If `BUN_CONFIG_NO_CLEAR_TERMINAL_ON_RELOAD=true`, then`bun --watch`does not clear the console on reload | 
-| `DO_NOT_TRACK` | Disable uploading crash reports to `bun.report`on crash. On macOS & Windows, crash report uploads are enabled by default. Other telemetry is not sent, though we plan to add some. If`DO_NOT_TRACK=1`, then auto-uploading crash reports and telemetry are both disabled. | 
+| `DO_NOT_TRACK` | Disable uploading crash reports to `bun.report`on crash. On macOS & Windows, crash report uploads are enabled by default. Other telemetry is not sent, though we plan to add some. If`DO_NOT_TRACK=1`, then auto-uploading crash reports and telemetry are both[disabled](https://do-not-track.dev/). | 
 | `BUN_OPTIONS` | Prepends command-line arguments to any Bun execution. For example, `BUN_OPTIONS="--hot"`makes`bun run dev`behave like`bun --hot run dev`. | 
 
 ## Runtime transpiler caching
 
-For files larger than 50 KB, Bun caches transpiled output into`$BUN_RUNTIME_TRANSPILER_CACHE_PATH` or the platform-specific cache directory. This makes CLIs using Bun load faster.
+For files larger than 4 KB, Bun caches transpiled output into`$BUN_RUNTIME_TRANSPILER_CACHE_PATH` or the platform-specific cache directory. This makes CLIs using Bun load faster.
 The cache is global and shared across all projects, and it is content-addressable, so it never contains duplicate entries. It is safe to delete at any time, even while a Bun process is running.
 Disable this cache when using ephemeral filesystems like Docker. Bun’s Docker images disable it automatically.
 ### Disable the runtime transpiler cache
@@ -87,7 +89,7 @@ Disable this cache when using ephemeral filesystems like Docker. Bun’s Docker 
 To disable the runtime transpiler cache, set`BUN_RUNTIME_TRANSPILER_CACHE_PATH` to an empty string or the string `"0"`.
 ### What does it cache?
 
-It caches:- The transpiled output of source files larger than 50 KB.
+It caches:- The transpiled output of source files larger than 4 KB.
 - The sourcemap for the transpiled output of the file
 
 `.pile` extension.

@@ -3,7 +3,7 @@ type: Web Page
 title: bunx - Bun
 description: Run packages from npm
 resource: https://bun.sh/docs/pm/bunx
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `bunx` is an alias for `bun x`. The `bunx` CLI is auto-installed when you install `bun`.`bunx` to auto-install and run packages from `npm`. It’s Bun’s equivalent of `npx` or `yarn dlx`.
@@ -11,12 +11,13 @@ terminal
 
 ⚡️ 
 
-**Speed**— With Bun’s fast startup times,`bunx` is roughly 100x
-faster than `npx` for locally installed packages.`"bin"` field of their `package.json`. These are known as *package executables*or
+**Speed**— With Bun’s fast startup times,`bunx` is [roughly 100x faster](https://twitter.com/jarredsumner/status/1606163655527059458)than`npx` for locally installed packages.`"bin"` field of their `package.json`. These are known as *package executables*or
 
 *package binaries*.
 
 package.json
+
+[shebang line](https://en.wikipedia.org/wiki/Shebang_(Unix))naming the program that should run them. The following file runs with
 
 `node`.
 dist/index.js
@@ -24,7 +25,8 @@ dist/index.js
 `bunx`:
 terminal
 
-`npx`, `bunx` checks for a locally installed package first, then falls back to auto-installing it from `npm`. Installed packages are stored in Bun’s global cache for future use.
+`npx`, `bunx` checks for a locally installed package first, then falls back to auto-installing it from `npm`. Installed packages are stored in Bun’s [global cache](/docs/pm/global-cache)for future use.
+
 ## Arguments and flags
 
 To pass additional command-line flags and arguments through to the executable, place them after the executable name.terminal

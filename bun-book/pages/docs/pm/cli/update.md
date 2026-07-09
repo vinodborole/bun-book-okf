@@ -3,12 +3,12 @@ type: Web Page
 title: bun update - Bun
 description: Update dependencies to latest versions
 resource: https://bun.sh/docs/pm/cli/update
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 To upgrade your Bun CLI version, see 
 
-`bun upgrade`.terminal
+[.](/docs/installation#upgrading)`bun upgrade`terminal
 
 terminal
 
@@ -52,9 +52,9 @@ The interface displays packages grouped by dependency type:**Sections:**
 
 ### Visual Indicators
 
-- **☑**Selected packages (will be updated)
+- **■**Selected packages (will be updated)
 - **□**Unselected packages
-- **>**Current cursor position
+- **❯**Current cursor position
 - **Colors**: Red (major), yellow (minor), green (patch) version changes
 - **Underlined**: Currently selected update target
 
@@ -148,7 +148,7 @@ Don’t print a summary
 
 Skip lifecycle scripts in the project’s 
 
-`package.json` (dependency scripts are never run)Maximum number of concurrent jobs for lifecycle scripts (default 5)
+`package.json` (dependency scripts are never run)Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
 ### Installation Controls
 

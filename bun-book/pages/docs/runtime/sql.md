@@ -4,7 +4,7 @@ title: SQL - Bun
 description: Bun provides native bindings for working with SQL databases through a
   unified Promise-based API that supports PostgreSQL, MySQL, and SQLite.
 resource: https://bun.sh/docs/runtime/sql
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 db.ts
@@ -232,12 +232,14 @@ Savepoints create intermediate checkpoints within a transaction, so part of it c
 
 Two-Phase Commit (2PC) is a distributed transaction protocol: in phase 1 the coordinator prepares each node, making sure its data is written and ready to commit, and in phase 2 the nodes commit or roll back based on the coordinator’s decision. In PostgreSQL and MySQL, distributed transactions persist beyond their original session, so privileged users or coordinators can commit or roll them back later. PostgreSQL implements them as prepared transactions; MySQL uses XA Transactions. An uncaught exception during the distributed transaction rolls back all changes. Otherwise, you can commit or roll back the transaction later.## Authentication
 
-Bun supports SCRAM-SHA-256 (SASL), MD5, and Clear Text authentication. SASL is recommended for better security. See Postgres SASL Authentication.### SSL Modes Overview
+Bun supports SCRAM-SHA-256 (SASL), MD5, and Clear Text authentication. SASL is recommended for better security. See[Postgres SASL Authentication](https://www.postgresql.org/docs/current/sasl-authentication.html).
+
+### SSL Modes Overview
 
 PostgreSQL’s SSL/TLS modes control whether a secure connection is required and how much certificate verification is performed.| SSL Mode | Description | 
 |---|---|
-| `disable` | No SSL/TLS used. Connections fail if server requires SSL. | 
-| `prefer` | Tries SSL first, falls back to non-SSL if SSL fails. Default mode if none specified. | 
+| `disable` | No SSL/TLS used. Connections fail if server requires SSL. Default mode if none specified. | 
+| `prefer` | Tries SSL first, falls back to non-SSL if SSL fails. | 
 | `require` | Requires SSL without certificate verification. Fails if SSL cannot be established. | 
 | `verify-ca` | Verifies server certificate is signed by trusted CA. Fails if verification fails. | 
 | `verify-full` | Most secure mode. Verifies certificate and hostname match. Protects against untrusted certificates and MITM attacks. | 
@@ -253,10 +255,11 @@ Bun’s SQL client manages a connection pool: database connections are reused ac
 
 By default, Bun’s SQL client creates named prepared statements for queries it can infer are static, which is faster. To disable this, set`prepare: false` in the connection options:
 `prepare: false` is set:
-Queries still use the “extended” protocol, but run as unnamed prepared statements. An unnamed prepared statement lasts only until the next Parse statement specifying the unnamed statement as destination is issued.
+Queries still use the “extended” protocol, but run as [unnamed prepared statements](https://www.postgresql.org/docs/current/protocol-flow.html#PROTOCOL-FLOW-EXT-QUERY). An unnamed prepared statement lasts only until the next Parse statement specifying the unnamed statement as destination is issued.
+
 - Parameter binding is still safe against SQL injection
 - Each query is parsed and planned from scratch by the server
-- Queries are not pipelined
+- Queries are not [pipelined](https://www.postgresql.org/docs/current/protocol-flow.html#PROTOCOL-FLOW-PIPELINING)
 
 `prepare: false` when:
 - Using PGBouncer in transaction mode (though since PGBouncer 1.21.0, protocol-level named prepared statements are supported when configured properly)
@@ -480,6 +483,12 @@ Yes, you can use any MySQL-specific syntax:
 
 You can use npm packages like postgres.js, pg, and node-postgres in Bun too. They’re great options. Two reasons why:- We think it’s simpler for developers to have a database driver built into Bun. The time you spend library shopping is time you could be building your app.
 - We use some JavaScriptCore engine internals to create objects faster, in ways that would be difficult to implement in a library.
+
+## Credits
+
+Huge thanks to[@porsager](https://github.com/porsager)’s
+
+[postgres.js](https://github.com/porsager/postgres)for the inspiration for the API interface.
 
 # Citations
 

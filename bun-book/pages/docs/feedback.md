@@ -3,12 +3,12 @@ type: Web Page
 title: Feedback - Bun
 description: Share feedback, bug reports, and feature requests
 resource: https://bun.sh/docs/feedback
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
-For general questions, join the Discord.
+For general questions, join the 
 
-## Reporting Issues
+[Discord](https://bun.com/discord).## Reporting Issues
 
 Upgrade Bun
 

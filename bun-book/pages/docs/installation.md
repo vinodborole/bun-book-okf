@@ -3,7 +3,7 @@ type: Web Page
 title: Installation - Bun
 description: Install Bun with npm, Homebrew, Docker, or the official script.
 resource: https://bun.sh/docs/installation
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 ## Overview
@@ -29,7 +29,9 @@ Once installed, the binary can upgrade itself:terminal
 
 ## Canary Builds
 
--> View canary build Bun automatically releases an (untested) canary build on every commit to main. To upgrade to the latest canary build:terminal
+[-> View canary build](https://github.com/oven-sh/bun/releases/tag/canary)Bun automatically releases an (untested) canary build on every commit to main. To upgrade to the latest canary build:
+
+terminal
 
 ## Installing Older Versions
 
@@ -42,7 +44,9 @@ terminal
 
 ## Direct Downloads
 
-To download Bun binaries directly, visit the releases page on GitHub.### Latest Version Downloads
+To download Bun binaries directly, visit the[releases page on GitHub](https://github.com/oven-sh/bun/releases).
+
+### Latest Version Downloads
 
 ## Linux x64
 

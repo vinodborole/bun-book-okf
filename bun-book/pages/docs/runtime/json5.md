@@ -4,7 +4,7 @@ title: JSON5 - Bun
 description: Use Bun's built-in support for JSON5 files through both runtime APIs
   and bundler integration
 resource: https://bun.sh/docs/runtime/json5
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 - Parse and stringify JSON5 with `Bun.JSON5.parse`and`Bun.JSON5.stringify`
@@ -13,7 +13,11 @@ timestamp: '2026-07-07T10:59:41.879776+00:00'
 
 ## Conformance
 
-Bun’s JSON5 parser is written in Rust and passes 100% of the official JSON5 test suite. The translated test suite lists every test case.## Runtime API
+Bun’s JSON5 parser is written in Rust and passes 100% of the[official JSON5 test suite](https://github.com/json5/json5-tests). The
+
+[translated test suite](https://github.com/oven-sh/bun/blob/main/test/js/bun/json5/json5-test-suite.test.ts)lists every test case.
+
+## Runtime API
 
 `Bun.JSON5.parse()`
 

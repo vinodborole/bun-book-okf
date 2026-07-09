@@ -4,8 +4,12 @@ title: Bun Runtime - Bun
 description: Execute JavaScript/TypeScript files, package.json scripts, and executable
   packages with Bun's fast runtime.
 resource: https://bun.sh/docs/runtime
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
+
+[JavaScriptCore engine](https://developer.apple.com/documentation/javascriptcore), developed by Apple for Safari. It usually starts and runs faster than V8, the engine used by Node.js and Chromium-based browsers. Bun’s transpiler and runtime are written in Rust. On Linux, Bun starts
+
+[4x faster](https://twitter.com/jarredsumner/status/1499225725492076544)than Node.js.
 
 | Command | Time | 
 |---|---|
@@ -16,6 +20,8 @@ timestamp: '2026-07-07T10:59:41.879776+00:00'
 
 Use`bun run` to execute a source file.
 terminal
+
+[transpiler](/docs/runtime/transpiler)before running it.
 
 terminal
 
@@ -39,7 +45,8 @@ package.json
 `bun run <script>` to execute these scripts.
 terminal
 
-`bash`, `sh`, `zsh`. On Windows, it uses the Bun Shell to support bash-like syntax and many common commands.
+`bash`, `sh`, `zsh`. On Windows, it uses the [Bun Shell](/docs/runtime/shell)to support bash-like syntax and many common commands.
+
 ⚡️ The startup time for 
 
 `npm run` on Linux is roughly 170ms; with Bun it is `6ms`.`bun <script>`. If a built-in `bun` command has the same name, the built-in command takes precedence; use the explicit `bun run <script>` to run your package script instead.
@@ -51,7 +58,9 @@ terminal
 `bun run clean` runs `preclean` and `postclean`, if defined. If the `pre<script>` fails, Bun does not run the script itself.
 `--bun`
 
-It’s common for `package.json` scripts to reference locally-installed CLIs like `vite` or `next`. These CLIs are often JavaScript files marked with a shebang to indicate that they should be executed with `node`.
+It’s common for `package.json` scripts to reference locally-installed CLIs like `vite` or `next`. These CLIs are often JavaScript files marked with a [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix))to indicate that they should be executed with
+
+`node`.
 cli.js
 
 `node`. The `--bun` flag overrides it: the CLI runs with Bun instead of Node.js.
@@ -65,8 +74,9 @@ For example, if you have subdirectories containing packages named `foo`, `bar` a
 terminal
 
 `<script>` in both `bar` and `baz`, but not in `foo`.
-See `--filter`.
-`bun run -` to pipe code from stdin
+See [.](/docs/pm/filter#running-scripts-with-filter)
+
+`--filter``bun run -` to pipe code from stdin
 
 `bun run -` reads JavaScript, TypeScript, TSX, or JSX from stdin and executes it without writing to a temporary file first.
 terminal

@@ -3,15 +3,19 @@ type: Web Page
 title: Contributing - Bun
 description: Contributing to Bun
 resource: https://bun.sh/docs/project/contributing
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
+
+[Building Windows](/docs/project/building-windows).
 
 ## Using Nix (Alternative)
 
 The repository includes a Nix flake as an alternative to installing dependencies manually:`nix develop` provides all dependencies in an isolated, reproducible environment without requiring sudo.
 ## Install Dependencies (Manual)
 
-Using your system’s package manager, install Bun’s dependencies:`rust-toolchain.toml`). Install Rust with rustup rather than your distro’s `rust`/`cargo` packages — the build scripts use rustup to automatically install and update the pinned nightly:
+Using your system’s package manager, install Bun’s dependencies:`rust-toolchain.toml`). Install Rust with [rustup](https://rustup.rs)rather than your distro’s
+
+`rust`/`cargo` packages — the build scripts use rustup to automatically install and update the pinned nightly:
 ### Optional: Install `ccache`
 
 `ccache` caches compilation artifacts, which speeds up rebuilds:
@@ -19,9 +23,11 @@ Using your system’s package manager, install Bun’s dependencies:`rust-toolch
 ## Install LLVM
 
 Bun requires LLVM 21.1.8 (`clang` is part of LLVM). The build system enforces this version: a mismatched version causes memory allocation failures at runtime. In most cases, you can install LLVM through your system package manager:
+[manually](https://github.com/llvm/llvm-project/releases/tag/llvmorg-21.1.8). Make sure Clang/LLVM 21 is in your path:
+
 ## Building Bun
 
-After cloning the repository, run the following command to build. This can take a while: it clones submodules and builds dependencies.`./build/debug/bun-debug`. It is recommended to add this to your `$PATH`. To verify the build worked, print its version:
+After cloning the repository, run the following command to build. This can take a while: it downloads and builds dependencies.`./build/debug/bun-debug`. It is recommended to add this to your `$PATH`. To verify the build worked, print its version:
 ## VSCode
 
 VSCode is the recommended IDE for working on Bun; the repository includes configuration for it. After opening the repository, run`Extensions: Show Recommended Extensions` to install the recommended extensions for Rust and C++. rust-analyzer picks up the workspace `Cargo.toml` automatically and uses the pinned toolchain in `rust-toolchain.toml` for analysis, so diagnostics match the build.
@@ -58,11 +64,17 @@ You can run the release build from a pull request without building it locally, w
 `gh` CLI installed to authenticate with GitHub.
 ### Viewing CI failures from the terminal
 
-Bun’s CI runs on BuildKite. Install the BuildKite CLI (`brew install buildkite/buildkite/bk`) and set `BUILDKITE_API_TOKEN` to a read-scoped API token. The repo includes a `.bk.yaml` so `bk` commands default to the `bun` pipeline.
+Bun’s CI runs on BuildKite. Install the[BuildKite CLI](https://github.com/buildkite/cli)(
+
+`brew install buildkite/buildkite/bk`) and set `BUILDKITE_API_TOKEN` to a read-scoped [API token](https://buildkite.com/user/api-access-tokens). The repo includes a
+
+`.bk.yaml` so `bk` commands default to the `bun` pipeline.
 `#1234` (PR number), a PR URL, a branch name, or a build number. Without one they use the current git branch.
 ## AddressSanitizer
 
-AddressSanitizer helps find memory issues, and is enabled by default in debug builds of Bun on Linux and macOS. This covers the Rust code, the C++ bindings, and all dependencies. It makes the build take about 2x longer; if that’s stopping you from being productive you can disable it with`bun run build:debug:noasan` (or pass `--asan=off` to `scripts/build.ts`), but generally we recommend batching your changes up between builds.
+[AddressSanitizer](https://en.wikipedia.org/wiki/AddressSanitizer)helps find memory issues, and is enabled by default in debug builds of Bun on Linux and macOS. This covers the Rust code, the C++ bindings, and all dependencies. It makes the build take about 2x longer; if that’s stopping you from being productive you can disable it with
+
+`bun run build:debug:noasan` (or pass `--asan=off` to `scripts/build.ts`), but generally we recommend batching your changes up between builds.
 To build a release build with AddressSanitizer, run:
 ## Building WebKit locally + Debug mode of JSC
 
@@ -73,14 +85,16 @@ The build output goes to `./build/debug-local` (instead of `./build/debug`), so 
 - In `.vscode/launch.json`, many configurations use`./build/debug/`, change them as you see fit
 
 `C/C++: Select a Configuration` command so IntelliSense finds the debug headers.
-If you make changes to Bun’s WebKit fork, you also have to change `WEBKIT_VERSION` in `scripts/build/deps/webkit.ts` to point to your commit hash.
+If you make changes to Bun’s [WebKit fork](https://github.com/oven-sh/WebKit), you also have to change
+
+`WEBKIT_VERSION` in `scripts/build/deps/webkit.ts` to point to your commit hash.
 ## Troubleshooting
 
 ### ’span’ file not found on Ubuntu
 
 Clang uses`libstdc++`, the C++ standard library implementation provided by the GNU Compiler Collection (GCC), by default. Clang can link against `libc++` instead, but that requires explicitly passing the `-stdlib` flag.
-Bun relies on C++20 features like `std::span`, which are not available in GCC versions lower than 11. As a result, running `make setup` may fail with the following error:
-`bun setup`, with Clang unable to compile a simple program:
+Bun relies on C++20 features like `std::span`, which are not available in GCC versions lower than 11. As a result, running `bun run build` may fail with the following error:
+`bun run build`, with Clang unable to compile a simple program:
 ### libarchive
 
 If you see an error on macOS when compiling`libarchive`, run:

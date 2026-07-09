@@ -3,14 +3,15 @@ type: Web Page
 title: File Types - Bun
 description: File types and loaders supported by Bun's bundler and runtime
 resource: https://bun.sh/docs/runtime/file-types
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `.js` `.cjs` `.mjs` `.mts` `.cts` `.ts` `.tsx` `.jsx` `.css` `.json` `.jsonc` `.json5` `.toml` `.yaml` `.yml` `.txt` `.wasm` `.node` `.html` `.sh`
 Bun uses the file extension to pick the built-in *loader*that parses the file. Every loader has a name, such as
 
-`js`, `tsx`, or `json`. These names are used when building plugins that extend Bun with custom loaders.
-To specify a loader explicitly, use the `type` import attribute.
+`js`, `tsx`, or `json`. These names are used when building [plugins](/docs/bundler/plugins)that extend Bun with custom loaders. To specify a loader explicitly, use the
+
+`type` import attribute.
 ## Built-in loaders
 
 `js`
@@ -24,7 +25,8 @@ Parses the code and applies a set of default transforms like dead-code eliminati
 **JavaScript + JSX**. Default for
 
 `.js` and `.jsx`.
-Same as the `js` loader, but JSX syntax is supported. By default, JSX is down-converted to plain JavaScript; the details depend on the `jsx*` compiler options in your `tsconfig.json`. Refer to the TypeScript documentation on JSX.
+Same as the `js` loader, but JSX syntax is supported. By default, JSX is down-converted to plain JavaScript; the details depend on the `jsx*` compiler options in your `tsconfig.json`. Refer to the TypeScript documentation [on JSX](https://www.typescriptlang.org/docs/handbook/jsx.html).
+
 `ts`
 
 **TypeScript loader**. Default for
@@ -86,16 +88,20 @@ Text files can be directly imported. The file is read and returned as a string.
 
 `.node`.
 In the runtime, native addons can be directly imported.
-`.node` files are handled using the `file` loader.
-`sqlite`
+`.node` files are handled using the [loader.](#file)
+
+`file``sqlite`
 
 **SQLite loader**.
 
 `with { "type": "sqlite" }` import attribute
-In the runtime and bundler, SQLite databases can be directly imported. The database is loaded with `bun:sqlite`.
-`target` is `bun`.
+In the runtime and bundler, SQLite databases can be directly imported. The database is loaded with [.](/docs/runtime/sqlite)
+
+`bun:sqlite``target` is `bun`.
 By default, the database is external to the bundle: the on-disk database file isn’t bundled into the final output, so you can use a database loaded elsewhere.
 You can change this behavior with the `"embed"` attribute:
+[standalone executable](/docs/bundler/executables), the database is embedded into the single-file executable. Otherwise, the database to embed is copied into the
+
 `outdir` with a hashed filename.
 `html`
 
@@ -105,13 +111,11 @@ The `html` loader processes HTML files and bundles any referenced assets. It:
 - Hashes referenced images (`<img src="...">`)
 - Preserves external URLs (by default, anything starting with `http://`or`https://`)
 
-`lol-html` to extract script and link tags as entrypoints, and other assets as external.
-The list of selectors is:
-- `audio[src]`
-- `iframe[src]`
+[to extract script and link tags as entrypoints, and other assets as external. The list of selectors is:](https://github.com/cloudflare/lol-html)
+
+`lol-html`- `audio[src]`
 - `img[src]`
 - `img[srcset]`
-- `link:not([rel~='stylesheet']):not([rel~='modulepreload']):not([rel~='manifest']):not([rel~='icon']):not([rel~='apple-touch-icon'])[href]`
 - `link[as='font'][href], link[type^='font/'][href]`
 - `link[as='image'][href]`
 - `link[as='style'][href]`
@@ -140,13 +144,15 @@ The list of selectors is:
 **CSS loader**. Default for
 
 `.css`.
-CSS files can be directly imported. This is primarily useful for full-stack applications where CSS is bundled alongside HTML.
+CSS files can be directly imported. This is primarily useful for [full-stack applications](/docs/bundler/html-static)where CSS is bundled alongside HTML.
+
 `sh` loader
 
 **Bun Shell loader**. Default for
 
 `.sh` files
-This loader parses Bun Shell scripts. It’s only supported when starting Bun itself, so it’s not available in the bundler or in the runtime.
+This loader parses [Bun Shell](/docs/runtime/shell)scripts. It’s only supported when starting Bun itself, so it’s not available in the bundler or in the runtime.
+
 `file`
 
 **File loader**. Default for all unrecognized file types. The file loader resolves the import as a
@@ -166,13 +172,13 @@ Output
 `publicPath` is set, the import uses its value as a prefix to construct an absolute path/URL.
 | Public path | Resolved import | 
 |---|---|
-| `""`(default) | `/logo.svg` | 
-| `"/assets"` | `/assets/logo.svg` | 
+| `""`(default) | `./logo.svg` | 
+| `"/assets/"` | `/assets/logo.svg` | 
 | `"https://cdn.example.com/"` | `https://cdn.example.com/logo.svg` | 
 
 The location and file name of the copied file is determined by the value of 
 
-`naming.asset`.Fixing TypeScript import errors
+[.](/docs/bundler#naming)`naming.asset`Fixing TypeScript import errors
 
 Fixing TypeScript import errors
 

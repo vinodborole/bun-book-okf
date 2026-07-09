@@ -4,7 +4,7 @@ title: Bun APIs - Bun
 description: Overview of Bun's native APIs available on the Bun global object and
   built-in modules
 resource: https://bun.sh/docs/runtime/bun-apis
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `Bun` global object and through several built-in modules. These APIs are heavily optimized and are the canonical “Bun-native” way to implement common functionality.
@@ -16,41 +16,41 @@ server.ts
 | HTTP Server | `Bun.serve` | 
 | Shell | `$` | 
 | Bundler | `Bun.build` | 
-| File I/O | `Bun.file`,`Bun.write`,`Bun.stdin`,`Bun.stdout`,`Bun.stderr` | 
-| Child Processes | `Bun.spawn`,`Bun.spawnSync` | 
-| TCP Sockets | `Bun.listen`,`Bun.connect` | 
+| File I/O | ,`Bun.file`,`Bun.write``Bun.stdin`,`Bun.stdout`,`Bun.stderr` | 
+| Child Processes | ,`Bun.spawn``Bun.spawnSync` | 
+| TCP Sockets | ,`Bun.listen``Bun.connect` | 
 | UDP Sockets | `Bun.udpSocket` | 
-| WebSockets | `new WebSocket()`(client),`Bun.serve`(server) | 
+| WebSockets | `new WebSocket()`(client),(server)`Bun.serve` | 
 | Transpiler | `Bun.Transpiler` | 
 | Routing | `Bun.FileSystemRouter` | 
 | Streaming HTML | `HTMLRewriter` | 
 | Headless Browser | `Bun.WebView` | 
-| Hashing | `Bun.password`,`Bun.hash`,`Bun.CryptoHasher`,`Bun.sha` | 
-| CSRF Protection | `Bun.CSRF.generate`,`Bun.CSRF.verify` | 
+| Hashing | ,`Bun.password`,`Bun.hash`,`Bun.CryptoHasher``Bun.sha` | 
+| CSRF Protection | ,`Bun.CSRF.generate``Bun.CSRF.verify` | 
 | SQLite | `bun:sqlite` | 
-| PostgreSQL Client | `Bun.SQL`,`Bun.sql` | 
-| Redis (Valkey) Client | `Bun.RedisClient`,`Bun.redis` | 
+| SQL Client | ,`Bun.SQL``Bun.sql` | 
+| Redis (Valkey) Client | ,`Bun.RedisClient``Bun.redis` | 
 | FFI (Foreign Function Interface) | `bun:ffi` | 
-| DNS | `Bun.dns.lookup`,`Bun.dns.prefetch`,`Bun.dns.getCacheStats` | 
+| DNS | ,`Bun.dns.lookup``Bun.dns.prefetch`,`Bun.dns.getCacheStats` | 
 | Testing | `bun:test` | 
 | Workers | `new Worker()` | 
 | Module Loaders | `Bun.plugin` | 
 | Glob | `Bun.Glob` | 
-| Cookies | `Bun.Cookie`,`Bun.CookieMap` | 
+| Cookies | ,`Bun.Cookie``Bun.CookieMap` | 
 | Node-API | `Node-API` | 
 | `import.meta` | `import.meta` | 
-| Utilities | `Bun.version`,`Bun.revision`,`Bun.env`,`Bun.main` | 
-| Sleep & Timing | `Bun.sleep()`,`Bun.sleepSync()`,`Bun.nanoseconds()` | 
+| Utilities | ,`Bun.version`,`Bun.revision`,`Bun.env``Bun.main` | 
+| Sleep & Timing | ,`Bun.sleep()`,`Bun.sleepSync()``Bun.nanoseconds()` | 
 | Random & UUID | `Bun.randomUUIDv7()` | 
 | System & Environment | `Bun.which()` | 
-| Comparison & Inspection | `Bun.peek()`,`Bun.deepEquals()`,`Bun.deepMatch`,`Bun.inspect()` | 
-| String & Text Processing | `Bun.escapeHTML()`,`Bun.stringWidth()`,`Bun.indexOfLine` | 
-| URL & Path Utilities | `Bun.fileURLToPath()`,`Bun.pathToFileURL()` | 
-| Compression | `Bun.gzipSync()`,`Bun.gunzipSync()`,`Bun.deflateSync()`,`Bun.inflateSync()`,`Bun.zstdCompressSync()`,`Bun.zstdDecompressSync()`,`Bun.zstdCompress()`,`Bun.zstdDecompress()` | 
-| Stream Processing | `Bun.readableStreamTo*()`,`Bun.readableStreamToBytes()`,`Bun.readableStreamToBlob()`,`Bun.readableStreamToFormData()`,`Bun.readableStreamToJSON()`,`Bun.readableStreamToArray()` | 
+| Comparison & Inspection | ,`Bun.peek()`,`Bun.deepEquals()``Bun.deepMatch`,`Bun.inspect()` | 
+| String & Text Processing | ,`Bun.escapeHTML()`,`Bun.stringWidth()``Bun.indexOfLine` | 
+| URL & Path Utilities | ,`Bun.fileURLToPath()``Bun.pathToFileURL()` | 
+| Compression | ,`Bun.gzipSync()`,`Bun.gunzipSync()`,`Bun.deflateSync()`,`Bun.inflateSync()``Bun.zstdCompressSync()`,`Bun.zstdDecompressSync()`,`Bun.zstdCompress()`,`Bun.zstdDecompress()` | 
+| Stream Processing | ,`Bun.readableStreamTo*()``Bun.readableStreamToBytes()`,`Bun.readableStreamToBlob()`,`Bun.readableStreamToFormData()`,`Bun.readableStreamToJSON()`,`Bun.readableStreamToArray()` | 
 | Memory & Buffer Management | `Bun.ArrayBufferSink`,`Bun.allocUnsafe`,`Bun.concatArrayBuffers` | 
 | Module Resolution | `Bun.resolveSync()` | 
-| Parsing & Formatting | `Bun.semver`,`Bun.TOML.parse`,`Bun.markdown`,`Bun.color`,`Bun.Image` | 
+| Parsing & Formatting | ,`Bun.semver`,`Bun.TOML.parse`,`Bun.markdown`,`Bun.color``Bun.Image` | 
 | Low-level / Internals | `Bun.mmap`,`Bun.gc`,`Bun.generateHeapSnapshot`,`bun:jsc` |
 
 # Citations

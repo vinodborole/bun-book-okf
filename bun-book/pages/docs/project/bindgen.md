@@ -3,7 +3,7 @@ type: Web Page
 title: Bindgen - Bun
 description: Bindgen for Bun
 resource: https://bun.sh/docs/project/bindgen
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 This document is for maintainers and contributors to Bun, and describes internal implementation details.
@@ -36,7 +36,13 @@ callback constructor follows the same convention
 (`create_required_and_optional_arg_callback`).
 ## Strings
 
-To receive a string, use`t.DOMString`, `t.ByteString`, or `t.USVString`. These map directly to their WebIDL counterparts and have slightly different conversion logic. Bindgen passes `bun_core::String` to native code in all cases.
+To receive a string, use[,](https://webidl.spec.whatwg.org/#idl-DOMString)
+
+`t.DOMString`[, or](https://webidl.spec.whatwg.org/#idl-ByteString)
+
+`t.ByteString`[. These map directly to their WebIDL counterparts and have slightly different conversion logic. Bindgen passes](https://webidl.spec.whatwg.org/#idl-USVString)
+
+`t.USVString``bun_core::String` to native code in all cases.
 When in doubt, use DOMString.
 `t.UTF8String` works in place of `t.DOMString`, but eagerly converts to UTF-8.
 The native callback receives a `&[u8]` slice (WTF-8 data) that is
@@ -54,8 +60,9 @@ The`variants` key declares multiple variants (also known as overloads) of a func
 A `dictionary` describes a JavaScript object, typically a function input. For function outputs, prefer a class type so you can add methods and support destructuring.
 ## Enumerations
 
-`t.stringEnum` creates a WebIDL enumeration and generates a new enum type for it.
-An example of `stringEnum` from `fmt_jsc.bind.ts` / `bun:internal-for-testing`:
+`t.stringEnum` creates a [WebIDL enumeration](https://webidl.spec.whatwg.org/#idl-enums)and generates a new enum type for it. An example of
+
+`stringEnum` from `fmt_jsc.bind.ts` / `bun:internal-for-testing`:
 `#[repr(u8)]` enum. Bindgen
 **sorts**before emitting the C++
 

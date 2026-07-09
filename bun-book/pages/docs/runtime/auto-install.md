@@ -3,13 +3,16 @@ type: Web Page
 title: Auto-install - Bun
 description: Bun's automatic package installation feature for standalone script execution
 resource: https://bun.sh/docs/runtime/auto-install
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
-`node_modules` directory in the working directory or higher, it abandons Node.js-style module resolution in favor of the **Bun module resolution algorithm**. Under Bun-style module resolution, Bun auto-installs every imported package on the fly into a global module cache during execution (the same cache used by
+`node_modules` directory in the working directory or higher, it abandons Node.js-style module resolution in favor of the **Bun module resolution algorithm**. Under Bun-style module resolution, Bun auto-installs every imported package on the fly into a
 
-`bun install`).
-index.ts
+[global module cache](/docs/pm/global-cache)during execution (the same cache used by
+
+[).](/docs/pm/cli/install)
+
+`bun install`index.ts
 
 `"foo"` and caches it. Later runs use the cached version.
 ## Version resolution
@@ -41,7 +44,7 @@ To bypass version resolution entirely, specify a version or version range direct
 ## Limitations
 
 - No Intellisense. TypeScript auto-completion in IDEs relies on type declaration files inside `node_modules`. We are investigating solutions to this.
-- No patch-package support
+- No [patch-package](https://github.com/ds300/patch-package)support
 
 ## FAQ
 
@@ -57,7 +60,7 @@ How is this different from Yarn Plug'N'Play does?
 
 With Yarn, you must run 
 
-`yarn install` before you run a script. By contrast, Bun resolves dependencies on the fly when you run a file; there’s no need to run any `install` command ahead of time.Yarn Plug’N’Play also uses zip files to store dependencies. This makes dependency loading slower at runtime, as random access reads on zip files tend to be slower than the equivalent disk lookup.How is this different from what Deno does?
+`yarn install` before you run a script. By contrast, Bun resolves dependencies on the fly when you run a file; there’s no need to run any `install` command ahead of time.Yarn Plug’N’Play also uses zip files to store dependencies. This makes dependency loading [slower at runtime](https://twitter.com/jarredsumner/status/1458207919636287490), as random access reads on zip files tend to be slower than the equivalent disk lookup.How is this different from what Deno does?
 
 How is this different from what Deno does?
 

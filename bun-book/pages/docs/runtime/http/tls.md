@@ -3,8 +3,10 @@ type: Web Page
 title: TLS - Bun
 description: Enable TLS in Bun.serve
 resource: https://bun.sh/docs/runtime/http/tls
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
+
+[BoringSSL](https://boringssl.googlesource.com/boringssl). To enable TLS, pass both
 
 `key` and `cert`.
 `key` and `cert` fields expect the *contents*of your TLS key and certificate,

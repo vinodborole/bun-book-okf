@@ -3,7 +3,7 @@ type: Web Page
 title: bun link - Bun
 description: Link local packages for development
 resource: https://bun.sh/docs/pm/cli/link
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `bun link` in a local directory to register the current package as a “linkable” package.
@@ -76,7 +76,7 @@ variablesMaximum number of concurrent network requests
 
 ### Performance & Resource
 
-Maximum number of concurrent jobs for lifecycle scripts
+Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
 ### Caching
 

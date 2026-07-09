@@ -3,7 +3,7 @@ type: Web Page
 title: Quickstart - Bun
 description: Build your first app with Bun
 resource: https://bun.sh/docs/quickstart
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 ## Overview
@@ -11,7 +11,7 @@ timestamp: '2026-07-07T10:59:41.879776+00:00'
 Build a minimal HTTP server with`Bun.serve`, run it locally, then evolve it by installing a package.
 Prerequisites: Bun installed and available on your 
 
-`PATH`. See installation for setup.Step 1
+`PATH`. See [installation](/docs/installation)for setup.Step 1
 
 Initialize a new project with The new 
 
@@ -29,7 +29,7 @@ Then add the following to your
 
 `index.ts` again.terminal
 
-`http://localhost:3000` to test the server. You should see a page that says `"Bun!"`.Seeing TypeScript errors on Bun?
+[to test the server. You should see a page that says](http://localhost:3000)`http://localhost:3000``"Bun!"`.Seeing TypeScript errors on Bun?
 
 Seeing TypeScript errors on Bun?
 
@@ -47,7 +47,7 @@ Install the Update Run Visit
 
 `index.ts` again.terminal
 
-`http://localhost:3000/figlet` to test the server. You should see a page that says `"Bun!"` in ASCII art.Step 5
+[to test the server. You should see a page that says](http://localhost:3000/figlet)`http://localhost:3000/figlet``"Bun!"` in ASCII art.Step 5
 
 Now add some HTML. Create a new file called Then, import this file in Run Visit 
 
@@ -57,7 +57,7 @@ Now add some HTML. Create a new file called Then, import this file in Run Visit
 
 `index.ts` again.terminal
 
-`http://localhost:3000` to test the server. You should see the static HTML page.## Run a script
+[to test the server. You should see the static HTML page.](http://localhost:3000)`http://localhost:3000`## Run a script
 
 Bun can also execute`"scripts"` from your `package.json`. Add the following script:
 package.json

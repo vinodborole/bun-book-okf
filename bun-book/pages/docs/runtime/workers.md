@@ -5,15 +5,19 @@ description: Use Bun's Workers API to create and communicate with a new JavaScri
   instance running on a separate thread while sharing I/O resources with the main
   thread
 resource: https://bun.sh/docs/runtime/workers
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
-`Worker`, you start and communicate with a new JavaScript instance running on a separate thread while sharing I/O resources with the main thread.
-Bun implements a minimal version of the Web Workers API with extensions that make it work better for server-side use cases. Like the rest of Bun, `Worker` supports CommonJS, ES modules, TypeScript, JSX, and TSX with no extra build step.
+[, you start and communicate with a new JavaScript instance running on a separate thread while sharing I/O resources with the main thread. Bun implements a minimal version of the](https://developer.mozilla.org/en-US/docs/Web/API/Worker)
+
+`Worker`[Web Workers API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)with extensions that make it work better for server-side use cases. Like the rest of Bun,
+
+`Worker` supports CommonJS, ES modules, TypeScript, JSX, and TSX with no extra build step.
 ## Creating a `Worker`
 
-Like in browsers, `Worker` is a global. Use it to create a new worker thread.
-### From the main thread
+Like in browsers, [is a global. Use it to create a new worker thread.](https://developer.mozilla.org/en-US/docs/Web/API/Worker)
+
+`Worker`### From the main thread
 
 index.ts
 
@@ -23,7 +27,7 @@ worker.ts
 
 `self`, add this line to the top of your worker file.
 `import` and `export` syntax in your worker code. Unlike in browsers, you don’t need to pass `{type: "module"}` to use ES modules.
-To simplify error handling, Bun resolves the worker’s script when `new Worker(url)` is called.
+If the worker’s script fails to resolve, an `"error"` event is emitted on the `Worker` object.
 `Worker` is resolved relative to the project root (like typing `bun ./path/to/file.js`).
 `preload` - load modules before the worker starts
 
@@ -45,7 +49,12 @@ index.ts
 `"open"` event before sending.
 ## Messages with `postMessage`
 
-To send messages, use `worker.postMessage` and `self.postMessage`. Messages are serialized with the HTML Structured Clone Algorithm.
+To send messages, use [and](https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage)
+
+`worker.postMessage`[. Messages are serialized with the](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
+
+`self.postMessage`[HTML Structured Clone Algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm).
+
 ### Performance optimizations
 
 Bun has fast paths for`postMessage` with common data types:
@@ -64,8 +73,9 @@ Bun has fast paths for`postMessage` with common data types:
 
 **Node.js v24.6.0 (for comparison):**
 
-`message` event handler on the worker and main thread.
-## Terminating a worker
+[on the worker and main thread.](https://developer.mozilla.org/en-US/docs/Web/API/Worker/message_event)
+
+`message` event handler## Terminating a worker
 
 A`Worker` instance terminates automatically once its event loop has no work left to do. Attaching a `"message"` listener on the global or any `MessagePort`s keeps the event loop alive. To forcefully terminate a `Worker`, call `worker.terminate()`.
 index.ts
@@ -115,7 +125,7 @@ index.ts
 
 ## Worker Events
 
-Listen for worker creation events using`process.emit()`:
+Listen for worker creation events using`process.on()`:
 index.ts
 
 `Bun.isMainThread`

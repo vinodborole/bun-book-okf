@@ -3,11 +3,15 @@ type: Web Page
 title: SQLite - Bun
 description: Bun natively implements a high-performance SQLite3 driver.
 resource: https://bun.sh/docs/runtime/sqlite
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
+
+[SQLite3](https://www.sqlite.org/)driver. To use it, import from the built-in
 
 `bun:sqlite` module.
 db.ts
+
+[better-sqlite3](https://github.com/JoshuaWise/better-sqlite3)and its contributors for inspiring the API of
 
 `bun:sqlite`.
 Features include:
@@ -20,7 +24,10 @@ Features include:
 - `bigint`support
 - Multi-query statements (for example `SELECT 1; SELECT 2;`) in a single call to`database.run(query)`
 
-`bun:sqlite` module is roughly 3-6x faster than `better-sqlite3` and 8-9x faster than `deno.land/x/sqlite` for read queries. Each driver was benchmarked against the Northwind Traders dataset. View and run the benchmark source.
+`bun:sqlite` module is roughly 3-6x faster than `better-sqlite3` and 8-9x faster than `deno.land/x/sqlite` for read queries. Each driver was benchmarked against the [Northwind Traders](https://github.com/jpwhite3/northwind-SQLite3/blob/46d5f8a64f396f87cd374d1600dbf521523980e8/Northwind_large.sqlite.zip)dataset. View and run the
+
+[benchmark source](https://github.com/oven-sh/bun/tree/main/bench/sqlite).
+
 ## Database
 
 To open or create a SQLite3 database:db.ts
@@ -60,13 +67,19 @@ db.ts
 
 `.serialize()`
 
-`bun:sqlite` supports SQLite’s built-in mechanism for serializing and deserializing databases to and from memory.
+`bun:sqlite` supports SQLite’s built-in mechanism for [serializing](https://www.sqlite.org/c3ref/serialize.html)and
+
+[deserializing](https://www.sqlite.org/c3ref/deserialize.html)databases to and from memory.
+
 db.ts
 
-`.serialize()` calls `sqlite3_serialize`.
-`.query()`
+`.serialize()` calls [.](https://www.sqlite.org/c3ref/serialize.html)
 
-Use the `db.query()` method on your `Database` instance to prepare a SQL query. The result is a `Statement` instance that is cached on the `Database` instance. *The query is not executed.*
+`sqlite3_serialize``.query()`
+
+Use the `db.query()` method on your `Database` instance to [prepare](https://www.sqlite.org/c3ref/prepare.html)a SQL query. The result is a
+
+`Statement` instance that is cached on the `Database` instance. *The query is not executed.*
 
 db.ts
 
@@ -76,7 +89,9 @@ db.ts
 
 `db.query()` with the same SQL string multiple times, Bun returns the same cached `Statement` object instead of recompiling the SQL.It is safe to reuse a cached statement with different parameter values:`.prepare()` instead of `.query()` when you want a fresh `Statement` instance that isn’t cached, for example if you’re dynamically generating SQL and don’t want to fill the cache with one-off queries.## WAL mode
 
-SQLite supports write-ahead log mode (WAL), which dramatically improves performance, especially with many concurrent readers and a single writer. Enabling WAL mode is recommended for most applications. To enable WAL mode, run this pragma query at the beginning of your application:db.ts
+SQLite supports[write-ahead log mode](https://www.sqlite.org/wal.html)(WAL), which dramatically improves performance, especially with many concurrent readers and a single writer. Enabling WAL mode is recommended for most applications. To enable WAL mode, run this pragma query at the beginning of your application:
+
+db.ts
 
 What is WAL mode?
 
@@ -86,8 +101,7 @@ In WAL mode, writes to the database are written directly to a separate file call
 
 `-wal`). A
 shared-memory index file (`-shm`) is also created for read coordination. The WAL file is later integrated into the
-main database file. Think of it as a buffer for pending writes. Refer to the SQLite
-docs for a more detailed overview.### WAL sidecar file cleanup
+main database file. Think of it as a buffer for pending writes. Refer to the [SQLite docs](https://www.sqlite.org/wal.html)for a more detailed overview.### WAL sidecar file cleanup
 
 When using WAL mode with a file-based database, SQLite creates two sidecar files alongside your database: a write-ahead log (`-wal`) and a shared-memory index (`-shm`). Whether these files are automatically removed after `.close()` depends on your platform:
 - **macOS**: Bun uses the system-provided SQLite, which Apple builds with persistent WAL enabled. The- `-wal`and- `-shm`files- **persist**after close. This is not a bug — it is how Apple configured the system SQLite.
@@ -125,20 +139,31 @@ db.ts
 Use `.all()` to run a query and get back the results as an array of objects.
 db.ts
 
-`sqlite3_reset` and repeatedly calls `sqlite3_step` until it returns `SQLITE_DONE`.
+[and repeatedly calls](https://www.sqlite.org/capi3ref.html#sqlite3_reset)
+
+`sqlite3_reset`[until it returns](https://www.sqlite.org/capi3ref.html#sqlite3_step)
+
+`sqlite3_step``SQLITE_DONE`.
 `.get()`
 
 Use `.get()` to run a query and get back the first result as an object.
 db.ts
 
-`sqlite3_reset` followed by `sqlite3_step` until it no longer returns `SQLITE_ROW`. If the query returns no rows, `undefined` is returned.
+[followed by](https://www.sqlite.org/capi3ref.html#sqlite3_reset)
+
+`sqlite3_reset`[until it no longer returns](https://www.sqlite.org/capi3ref.html#sqlite3_step)
+
+`sqlite3_step``SQLITE_ROW`. If the query returns no rows, `null` is returned.
 `.run()`
 
 Use `.run()` to run a query and get back an object with execution metadata. This is useful for schema-modifying queries (such as `CREATE TABLE`) or bulk write operations.
 db.ts
 
-`sqlite3_reset` and calls `sqlite3_step` once. Stepping through all the rows is not necessary when you don’t care about the results.
-The `lastInsertRowid` property is the ID of the last row inserted into the database. The `changes` property is the number of rows affected by the query.
+[and calls](https://www.sqlite.org/capi3ref.html#sqlite3_reset)
+
+`sqlite3_reset`[once. Stepping through all the rows is not necessary when you don’t care about the results. The](https://www.sqlite.org/capi3ref.html#sqlite3_step)
+
+`sqlite3_step``lastInsertRowid` property is the ID of the last row inserted into the database. The `changes` property is the number of rows affected by the query.
 `.as(Class)` - Map query results to a class
 
 Use `.as(Class)` to run a query and get back the results as instances of a class. The class’s methods, getters, and setters are available on each row.
@@ -159,7 +184,11 @@ db.ts
 Use `values()` to run a query and get back all results as an array of arrays.
 db.ts
 
-`sqlite3_reset` and repeatedly calls `sqlite3_step` until it returns `SQLITE_DONE`.
+[and repeatedly calls](https://www.sqlite.org/capi3ref.html#sqlite3_reset)
+
+`sqlite3_reset`[until it returns](https://www.sqlite.org/capi3ref.html#sqlite3_step)
+
+`sqlite3_step``SQLITE_DONE`.
 `.finalize()`
 
 Use `.finalize()` to destroy a `Statement` and free any resources associated with it. Once finalized, a `Statement` cannot be executed again. Typically, the garbage collector does this for you, but explicit finalization may be useful in performance-sensitive applications.
@@ -170,8 +199,9 @@ db.ts
 Calling `toString()` on a `Statement` instance prints the expanded SQL query. This is useful for debugging.
 db.ts
 
-`sqlite3_expanded_sql`. The parameters are expanded using the most recently bound values.
-## Parameters
+[. The parameters are expanded using the most recently bound values.](https://www.sqlite.org/capi3ref.html#sqlite3_expanded_sql)
+
+`sqlite3_expanded_sql`## Parameters
 
 Queries can contain parameters. These can be numerical (`?1`) or named (`$param` or `:param` or `@param`). Bind values to these parameters when executing the query:
 query.ts
@@ -207,8 +237,12 @@ db.ts
 `this` context as defined where the transaction is executed.
 db.ts
 
+[begins](https://www.sqlite.org/lang_transaction.html)a transaction when
+
 `insertCats` is called and commits it when the wrapped function returns. If an exception is thrown, the transaction is rolled back. The exception propagates as usual; it is not caught.
-**Nested transactions**— Transaction functions can be called from inside other transaction functions. When doing so, the inner transaction becomes a savepoint.
+**Nested transactions**— Transaction functions can be called from inside other transaction functions. When doing so, the inner transaction becomes a
+
+[savepoint](https://www.sqlite.org/lang_savepoint.html).
 
 View nested transaction example
 
@@ -219,7 +253,9 @@ db.ts
 `deferred`, `immediate`, and `exclusive` versions.
 `.loadExtension()`
 
-To load a SQLite extension, call `.loadExtension(name)` on your `Database` instance:
+To load a [SQLite extension](https://www.sqlite.org/loadext.html), call
+
+`.loadExtension(name)` on your `Database` instance:
 db.ts
 
 **macOS users**By default, macOS ships with Apple’s proprietary build of SQLite, which doesn’t support extensions. To use extensions, install a vanilla build of SQLite.
@@ -232,7 +268,8 @@ terminal
 
 `.fileControl(cmd: number, value: any)`
 
-To use the advanced `sqlite3_file_control` API, call `.fileControl(cmd, value)` on your `Database` instance. See WAL sidecar file cleanup for a practical example.
+To use the advanced `sqlite3_file_control` API, call `.fileControl(cmd, value)` on your `Database` instance. See [WAL sidecar file cleanup](#wal-sidecar-file-cleanup)for a practical example.
+
 db.ts
 
 `value` can be:

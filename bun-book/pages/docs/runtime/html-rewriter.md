@@ -3,13 +3,16 @@ type: Web Page
 title: HTMLRewriter - Bun
 description: Use Bun's HTMLRewriter to transform HTML documents with CSS selectors
 resource: https://bun.sh/docs/runtime/html-rewriter
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
-`Request`, `Response`, and `string` inputs. Bun’s implementation is based on Cloudflare’s lol-html.
+`Response`, `string`, and `ArrayBuffer` inputs. Bun’s implementation is based on Cloudflare’s [lol-html](https://github.com/cloudflare/lol-html).
+
 ## Usage
 
 A common use case is rewriting URLs in HTML content:`<img>` in a link, producing a diff like this:
+[a very famous video](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+
 ### Input types
 
 HTMLRewriter can transform HTML from several input types:`Response` objects.
@@ -44,6 +47,10 @@ HTMLRewriter operations can throw errors in several cases:- Invalid selector syn
 - Memory allocation failures
 - Invalid input types (for example, passing a Symbol)
 - Body already used errors
+
+## See also
+
+You can also read the[Cloudflare documentation](https://developers.cloudflare.com/workers/runtime-apis/html-rewriter/), which this API is intended to be compatible with.
 
 # Citations
 

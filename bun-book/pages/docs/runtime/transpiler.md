@@ -3,7 +3,7 @@ type: Web Page
 title: Transpiler - Bun
 description: Use Bun's transpiler to transpile JavaScript and TypeScript code
 resource: https://bun.sh/docs/runtime/transpiler
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `Bun.Transpiler` class. To create an instance:
@@ -15,7 +15,9 @@ Nitty gritty
 
 Nitty gritty
 
-`.transformSync` runs the transpiler in the same thread as the calling code.Macros run in the same thread as the transpiler, but in a separate event loop from the rest of your application. Macros and regular code share globals, so it is possible (but not recommended) to share state between them. Using AST nodes outside of a macro is undefined behavior.`.transform()`
+`.transformSync` runs the transpiler in the same thread as the calling code.[Macros](/docs/bundler/macros)run in the same thread as the transpiler, but in a separate event loop from the rest of your application. Macros and regular code share globals, so it is possible (but not recommended) to share state between them. Using AST nodes outside of a macro is undefined behavior.
+
+`.transform()`
 
 The `transform()` method is an async version of `.transformSync()` that returns a `Promise<string>`.
 *many*large files, use
@@ -29,7 +31,8 @@ The
 
 `.transform()` method runs the transpiler in Bun’s worker threadpool, so running it 100 times spreads the work across `Math.floor($cpu_count * 0.8)` threads without blocking the main JavaScript thread.If your code uses a macro, it may spawn a new copy of Bun’s JavaScript runtime environment in that new thread.`.scan()`
 
-The `.scan()` method scans source code and returns a list of its imports and exports, plus metadata about each one. Type-only imports and exports are ignored.
+The `.scan()` method scans source code and returns a list of its imports and exports, plus metadata about each one. [Type-only](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export)imports and exports are ignored.
+
 `imports` array has a `path` and `kind`. Bun categorizes imports into the following kinds:
 - `import-statement`:- `import React from 'react'`
 - `require-call`:- `const val = require('./cjs.js')`

@@ -3,7 +3,7 @@ type: Web Page
 title: bunfig.toml - Bun
 description: Configure Bun's behavior using its configuration file bunfig.toml
 resource: https://bun.sh/docs/runtime/bunfig
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `bunfig.toml` is Bun’s configuration file.
@@ -46,7 +46,8 @@ bunfig.toml
 
 `loader`
 
-Configure how Bun maps file extensions to loaders. Use this to load file types Bun doesn’t support natively.
+Configure how Bun maps file extensions to [loaders](/docs/bundler/loaders). Use this to load file types Bun doesn’t support natively.
+
 bunfig.toml
 
 - `jsx`
@@ -243,7 +244,8 @@ bunfig.toml
 `install.ignoreScripts`
 
 Whether to skip lifecycle scripts during install. Default `false`. Equivalent to the `--ignore-scripts` flag.
-When `true`, Bun does not run any `preinstall` / `install` / `postinstall` / `prepare` scripts, both for your project and for packages in `trustedDependencies`. See Lifecycle scripts.
+When `true`, Bun does not run any `preinstall` / `install` / `postinstall` / `prepare` scripts, both for your project and for packages in `trustedDependencies`. See [Lifecycle scripts](/docs/pm/lifecycle).
+
 bunfig.toml
 
 `install.concurrentScripts`
@@ -259,7 +261,9 @@ bunfig.toml
 
 `install.auto`
 
-Configure Bun’s auto-install behavior. Default `"auto"` — when no `node_modules` folder is found, Bun installs dependencies on the fly during execution.
+Configure Bun’s [auto-install](/docs/runtime/auto-install)behavior. Default
+
+`"auto"` — when no `node_modules` folder is found, Bun installs dependencies on the fly during execution.
 bunfig.toml
 
 | Value | Description | 
@@ -338,7 +342,8 @@ bunfig.toml
 `install.linker`
 
 Configure the linker strategy: how `bun install` lays out dependencies in `node_modules`. Defaults to `"isolated"` for new workspaces, `"hoisted"` for new single-package projects and existing projects (made pre-v1.3.2).
-See Isolated installs.
+See [Isolated installs](/docs/pm/isolated-installs).
+
 bunfig.toml
 
 | Value | Description | 
@@ -349,7 +354,8 @@ bunfig.toml
 `install.globalStore`
 
 When using the `"isolated"` linker, share package installations across projects in a global virtual store at `<cache>/links/` and link `node_modules/.bun/<pkg>@<ver>` into it instead of materializing each package into the project. Makes warm installs after `rm -rf node_modules` an order of magnitude faster. Default `false`. Can also be set with the `BUN_INSTALL_GLOBAL_STORE` environment variable.
-See Global virtual store.
+See [Global virtual store](/docs/pm/global-store).
+
 bunfig.toml
 
 `install.publicHoistPattern`
@@ -383,10 +389,14 @@ bunfig.toml
 - Installation is cancelled if fatal issues are found
 - Security warnings are displayed during installation
 
+[using and writing security scanners](/docs/pm/security-scanner-api).
+
 `install.minimumReleaseAge`
 
 Configure a minimum age (in seconds) for npm package versions. Package versions published more recently than this threshold are filtered out during installation. Default `null` (disabled).
 bunfig.toml
+
+[Minimum release age](/docs/pm/cli/install#minimum-release-age).
 
 `install.minimumReleaseAgeExcludes`
 

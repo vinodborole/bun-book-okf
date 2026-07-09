@@ -4,7 +4,7 @@ title: WebView - Bun
 description: Control a headless browser from Bun for automation, testing, and scraping
   — zero dependencies on macOS, Chrome DevTools Protocol everywhere else
 resource: https://bun.sh/docs/runtime/webview
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `Bun.WebView` is a headless browser built into the runtime. Use it to load pages, run JavaScript inside them, simulate real user input, and capture screenshots — without Puppeteer, Playwright, or a separate browser download.
@@ -47,8 +47,9 @@ Bun either**connects**to an already-running Chrome over a WebSocket, or
 
 **spawns**a headless Chrome subprocess and talks to it over a pipe (
 
-`--remote-debugging-pipe`). Either way, communication uses the Chrome DevTools Protocol.
-Chrome is spawned (or connected) once per Bun process. Each `new Bun.WebView({ backend: "chrome" })` creates a new tab with `Target.createTarget` in that single Chrome instance.
+`--remote-debugging-pipe`). Either way, communication uses the [Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/). Chrome is spawned (or connected) once per Bun process. Each
+
+`new Bun.WebView({ backend: "chrome" })` creates a new tab with `Target.createTarget` in that single Chrome instance.
 #### Finding the Chrome executable
 
 When Bun needs to spawn Chrome, it searches in this order:- The `path`you passed in`backend: { type: "chrome", path: "..." }`
@@ -116,7 +117,9 @@ The`encoding` option controls how the image bytes are handed back:
 
 #### Shared memory for terminal graphics
 
-`encoding: "shmem"` is designed for Kitty’s terminal graphics protocol `t=s` transmission mode — Bun writes the image to a POSIX shared-memory segment and returns its name; the terminal reads it directly and unlinks it when done. No copying through the pipe.
+`encoding: "shmem"` is designed for Kitty’s [terminal graphics protocol](https://sw.kovidgoyal.net/kitty/graphics-protocol/)
+
+`t=s` transmission mode — Bun writes the image to a POSIX shared-memory segment and returns its name; the terminal reads it directly and unlinks it when done. No copying through the pipe.
 `/bun-webview-<pid>-<seq>`; on Chrome, `/bun-chrome-<pid>-<seq>`. If you request `"shmem"` and don’t hand the name to something that will `shm_unlink` it, the segment leaks until your process exits.
 ## Input simulation
 
@@ -168,7 +171,7 @@ Pass`globalThis.console` (the actual object, by reference) and page-side `consol
 ### Custom handler
 
 Pass a function to receive each call yourself:`null`, `undefined`) unwrap to their raw values. Object arguments arrive as a serialized descriptor:
-- **Chrome backend**: the raw CDP- `RemoteObject`— an object with- `type`,- `className`,- `description`, and (when available) a- `preview.properties`array.
+- **Chrome backend**: the raw CDP- `RemoteObject`- `type`,- `className`,- `description`, and (when available) a- `preview.properties`array.
 - **WebKit backend**: the- `JSON.stringify`round-trip of the object. Functions, circular references, and other non-serializable values fall back to their- `String(...)`coercion.
 
 `console`, page-side console output is dropped.
@@ -176,7 +179,8 @@ Ordering guarantee: a
 
 `console.log(...)` inside a script you pass to `evaluate()` reaches your handler **before**that`evaluate()` resolves. Both travel over the same IPC connection.## Raw Chrome DevTools Protocol
 
-When using`backend: "chrome"`, you can drop down to raw CDP commands for anything the high-level API doesn’t cover.
+When using`backend: "chrome"`, you can drop down to raw [CDP](https://chromedevtools.github.io/devtools-protocol/)commands for anything the high-level API doesn’t cover.
+
 ### Sending commands
 
 `cdp(method, params?)` returns the `result` object from the CDP response. If Chrome returns an error (unknown method, bad params), the promise rejects with its `error.message`.
@@ -228,9 +232,9 @@ Operations on **different views**are fully independent and run in parallel — e
 | `height` | `number` | `600` | Viewport height in CSS pixels. Range 1-16384. | 
 | `url` | `string` | — | Begin navigating to this URL immediately. | 
 | `headless` | `boolean` | `true` | Only `true`is implemented;`false`throws. | 
-| `backend` | `"webkit"`|`"chrome"`| object | `"webkit"`on macOS,`"chrome"`elsewhere | Rendering engine. | 
-| `console` | `typeof console`|`(type, ...args) => void` | — | Capture page-side `console.*`calls. See Console capture. | 
-| `dataStore` | `"ephemeral"`|`{ directory: string }` | `"ephemeral"` | Storage for cookies / localStorage / IndexedDB. See Persistent storage. | 
+| `backend` | `"webkit"`|`"chrome"`|[object](#backends) | `"webkit"`on macOS,`"chrome"`elsewhere | Rendering engine. | 
+| `console` | `typeof console`|`(type, ...args) => void` | — | Capture page-side `console.*`calls. See[Console capture](#console-capture). | 
+| `dataStore` | `"ephemeral"`|`{ directory: string }` | `"ephemeral"` | Storage for cookies / localStorage / IndexedDB. See [Persistent storage](#persistent-storage). | 
 
 `backend` object form
 
@@ -239,7 +243,7 @@ Operations on **different views**are fully independent and run in parallel — e
 | `type` | `"chrome"`|`"webkit"` | Required.Which engine to use. | 
 | `path` | `string` | ( `chrome`only) Path to the Chrome/Chromium executable. Forces spawn mode. | 
 | `argv` | `string[]` | ( `chrome`only) Extra launch flags, appended after the defaults. Forces spawn mode. | 
-| `url` | `string`|`false` | ( `chrome`only)`ws://`URL of an existing Chrome’s DevTools endpoint, or`false`to skip auto-detect and always spawn. See above. | 
+| `url` | `string`|`false` | ( `chrome`only)`ws://`URL of an existing Chrome’s DevTools endpoint, or`false`to skip auto-detect and always spawn. See[above](#existing-chrome). | 
 | `stdout` | `"inherit"`|`"ignore"` | Route the subprocess’s stdout to Bun’s. Default `"ignore"`. | 
 | `stderr` | `"inherit"`|`"ignore"` | Route the subprocess’s stderr to Bun’s. Default `"ignore"`. | 
 
@@ -259,7 +263,7 @@ Operations on **different views**are fully independent and run in parallel — e
 |---|---|---|
 | `navigate(url)` | `Promise<void>` | Load a URL. Resolves on the main frame’s `load`event. | 
 | `evaluate(script)` | `Promise<unknown>` | Run a JS expression in the page and return its JSON-serialized result. | 
-| `screenshot(options?)` | `Promise<Blob | Buffer | string | {name, size}>` | Capture the viewport. See Screenshots. | 
+| `screenshot(options?)` | `Promise<Blob | Buffer | string | {name, size}>` | Capture the viewport. See [Screenshots](#screenshots). | 
 | `click(x, y, options?)` | `Promise<void>` | Native click at viewport coordinates. | 
 | `click(selector, options?)` | `Promise<void>` | Wait for the element to be actionable, then click its center. | 
 | `type(text)` | `Promise<void>` | Insert text into the focused element with the `InsertText`editing command. | 
@@ -270,7 +274,7 @@ Operations on **different views**are fully independent and run in parallel — e
 | `goBack()` | `Promise<void>` | Navigate back in session history. No-op at the start. | 
 | `goForward()` | `Promise<void>` | Navigate forward in session history. No-op at the end. | 
 | `reload()` | `Promise<void>` | Reload the current page. | 
-| `cdp(method, params?)` | `Promise<unknown>` | (Chrome only) Send a raw CDP command scoped to this tab. See Raw CDP. | 
+| `cdp(method, params?)` | `Promise<unknown>` | (Chrome only) Send a raw CDP command scoped to this tab. See [Raw CDP](#cdp). | 
 | `addEventListener(type, fn)` | `void` | Inherited from `EventTarget`. With Chrome,`type`may be a CDP event name;`event.data`is the parsed`params`. | 
 | `close()` | `void` | Destroy the page. Rejects pending promises. Idempotent. | 
 

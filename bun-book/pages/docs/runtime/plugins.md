@@ -3,7 +3,7 @@ type: Web Page
 title: Plugins - Bun
 description: Universal plugin API for extending Bun's runtime and bundler
 resource: https://bun.sh/docs/runtime/plugins
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 *runtime*and the
@@ -13,10 +13,10 @@ timestamp: '2026-07-07T10:59:41.879776+00:00'
 `.scss` or `.yaml`. In Bun’s bundler, plugins can implement framework-level features like CSS extraction, macros, and client-server code co-location.
 ## Lifecycle hooks
 
-Plugins register callbacks that run at various points in the lifecycle of a bundle:- `onStart()`: Run once the bundler has started a bundle
-- `onResolve()`: Run before a module is resolved
-- `onLoad()`: Run before a module is loaded
-- `onBeforeParse()`: Run zero-copy native addons in the parser thread before a file is parsed
+Plugins register callbacks that run at various points in the lifecycle of a bundle:- `onStart()`
+- `onResolve()`
+- `onLoad()`
+- `onBeforeParse()`
 
 ### Reference
 
@@ -54,8 +54,9 @@ index.ts
 `onResolve`
 
 `onResolve()` lifecycle callback customizes how a module is resolved.
-The first argument to `onResolve()` is an object with a `filter` and `namespace` property. The filter is a regular expression run on the import string. Together they determine which modules your custom resolution logic applies to.
-The second argument to `onResolve()` is a callback that runs for each module import Bun finds that matches the `filter` and `namespace` defined in the first argument.
+The first argument to `onResolve()` is an object with a `filter` and [property. The filter is a regular expression run on the import string. Together they determine which modules your custom resolution logic applies to. The second argument to](#what-is-a-namespace)
+
+`namespace``onResolve()` is a callback that runs for each module import Bun finds that matches the `filter` and `namespace` defined in the first argument.
 The callback receives the *path*to the matching module and can return a
 
 *new path*for it. Bun reads the contents of the
@@ -74,11 +75,11 @@ The second argument to `onLoad()` is a callback that runs for each matching modu
 
 *path*, its
 
-*importer*(the module that imported it), its
+*namespace*, the default
 
-*namespace*, and its
+*loader*for that file, and a
 
-*kind*. The callback can return a new
+*defer*function. The callback can return a new
 
 `contents` string for the module as well as a new `loader`.
 For example:
@@ -96,7 +97,9 @@ index.ts
 `.defer()` function can only be called once per `onLoad` callback.
 ## Native plugins
 
-Bun’s bundler is fast partly because it is written in native code and uses multiple threads to load and parse modules in parallel. Plugins written in JavaScript cannot take advantage of this, because JavaScript itself is single-threaded. Native plugins are written as NAPI modules and can run on multiple threads, so they run much faster than JavaScript plugins. They can also skip unnecessary work such as the UTF-8 -> UTF-16 conversion needed to pass strings to JavaScript. The following lifecycle hooks are available to native plugins:- `onBeforeParse()`: Called on any thread before a file is parsed by Bun’s bundler.
+Bun’s bundler is fast partly because it is written in native code and uses multiple threads to load and parse modules in parallel. Plugins written in JavaScript cannot take advantage of this, because JavaScript itself is single-threaded. Native plugins are written as[NAPI](/docs/runtime/node-api)modules and can run on multiple threads, so they run much faster than JavaScript plugins. They can also skip unnecessary work such as the UTF-8 -> UTF-16 conversion needed to pass strings to JavaScript. The following lifecycle hooks are available to native plugins:
+
+- `onBeforeParse()`
 
 ### Creating a native plugin in Rust
 

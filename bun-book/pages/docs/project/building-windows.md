@@ -3,17 +3,22 @@ type: Web Page
 title: Building Windows - Bun
 description: Building Bun on Windows
 resource: https://bun.sh/docs/project/building-windows
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
-`pwsh.exe`) instead of the default `powershell.exe`. If you run into problems, ask in the #contributing channel on our Discord.
+[PowerShell 7 (](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4)instead of the default
+
+`pwsh.exe`)`powershell.exe`. If you run into problems, ask in the [#contributing channel on our Discord](http://bun.com/discord).
+
 ## Prerequisites
 
 ### Enable Scripts
 
 By default, running unverified scripts is blocked.### System Dependencies
 
-Bun v1.1 or later. The build uses Bun to run its own code generators.- LLVM 21.1.8
+Bun v1.1 or later. The build uses Bun to run its own code generators.[Visual Studio](https://visualstudio.microsoft.com)with the “Desktop Development with C++” workload. While installing, also install Git if Git for Windows is not already installed. Install Visual Studio with the graphical wizard or through WinGet:
+
+- LLVM 21.1.8
 - Go
 - Rust (via rustup)
 - NASM
@@ -23,7 +28,9 @@ Bun v1.1 or later. The build uses Bun to run its own code generators.- LLVM 21.1
 
 rustup installs the Rust nightly toolchain pinned in 
 
-`rust-toolchain.toml` on the first build.Scoop (x64)
+`rust-toolchain.toml` on the first build.[Scoop](https://scoop.sh)to install these remaining tools.
+
+Scoop (x64)
 
 ARM64
 
@@ -68,7 +75,7 @@ You can also build Windows binaries (both x64 and arm64) on a Linux host. The bu
 - The same LLVM version a native build uses (see `scripts/bootstrap.sh``llvm_version_exact`), installed so that`clang-cl`,`lld-link`,`llvm-lib`and`llvm-rc`are available. On Debian/Ubuntu,`apt.llvm.org`packages provide all of them.
 - `nasm`(only needed for Windows x64; BoringSSL’s x64 assembly is NASM syntax).
 - Rust std for the Windows targets (`rust-toolchain.toml`lists them;`rustup target add x86_64-pc-windows-msvc aarch64-pc-windows-msvc`if missing).
-- A Windows sysroot: an xwin splat of the MSVC CRT, Windows SDK, and ATL laid out like a Visual Studio install. Downloading these components means accepting Microsoft’s license terms for them.
+- A Windows sysroot: an [xwin](https://github.com/Jake-Shadle/xwin)splat of the MSVC CRT, Windows SDK, and ATL laid out like a Visual Studio install. Downloading these components means accepting Microsoft’s license terms for them.
 
 `/opt/winsysroot` (or `/opt/xwin`) automatically; elsewhere, set `WINDOWS_SYSROOT=<path>` or pass `--winsysroot=<path>` (a user-writable path also lets configure manage the aliases for you). Configure validates the splat at the start of every cross build. CI agents bake the same splat into their images (`.buildkite/Dockerfile`, `scripts/bootstrap.sh`); when an agent doesn’t have one, the build fetches it into its cache dir at configure time.
 ### Building
@@ -77,7 +84,7 @@ You can also build Windows binaries (both x64 and arm64) on a Linux host. The bu
 Cross-compiled executables are not run on the host (the `--revision` smoke test is skipped), so test them on a Windows machine or under Wine.
 ### LTO
 
-x64 release cross builds support ThinLTO with cross-language (Rust↔C++) LTO, and CI’s windows x64 cross lane builds with it by default. Locally it’s opt-in:`--lto=on` compiles Bun’s C/C++ with `-flto=thin`, makes rustc emit LLVM bitcode (`-Clinker-plugin-lto`), pulls the `bun-webkit-windows-amd64-lto` ThinLTO prebuilt, and links everything with rustc’s bundled `lld-link` (its LLVM is new enough to read both compilers’ bitcode). There is no LTO for arm64 (no `-lto` WebKit prebuilt: LLVM’s CodeView emitter can’t handle ARM64 NEON tuple registers during LTO codegen) or for `--baseline`.
+x64 release cross builds support ThinLTO with cross-language (Rust↔C++) LTO. It’s opt-in:`--lto=on` compiles Bun’s C/C++ with `-flto=thin`, makes rustc emit LLVM bitcode (`-Clinker-plugin-lto`), pulls the `bun-webkit-windows-amd64-lto` ThinLTO prebuilt, and links everything with rustc’s bundled `lld-link` (its LLVM is new enough to read both compilers’ bitcode). There is no LTO for arm64 (no `-lto` WebKit prebuilt: LLVM’s CodeView emitter can’t handle ARM64 NEON tuple registers during LTO codegen) or for `--baseline`.
 
 # Citations
 

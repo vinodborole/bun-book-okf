@@ -4,7 +4,7 @@ title: TOML - Bun
 description: Use Bun's built-in support for TOML files through both runtime APIs and
   bundler integration
 resource: https://bun.sh/docs/runtime/toml
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 - Parse TOML strings with `Bun.TOML.parse`
@@ -18,9 +18,11 @@ timestamp: '2026-07-07T10:59:41.879776+00:00'
 Parse a TOML string into a JavaScript object.
 #### Supported TOML Features
 
-Bun’s TOML parser supports the TOML v1.0 specification, including:- **Strings**: basic (- `"..."`) and literal (- `'...'`), including multi-line
+Bun’s TOML parser supports the[TOML v1.0 specification](https://toml.io/en/v1.0.0), including:
+
+- **Strings**: basic (- `"..."`) and literal (- `'...'`), including multi-line
 - **Integers**: decimal, hex (- `0x`), octal (- `0o`), and binary (- `0b`)
-- **Floats**: including- `inf`and- `nan`
+- **Floats**
 - **Booleans**:- `true`and- `false`
 - **Arrays**: including mixed types and nested arrays
 - **Tables**: standard (- `[table]`) and inline (- `{ key = "value" }`)

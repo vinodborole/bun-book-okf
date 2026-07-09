@@ -3,7 +3,7 @@ type: Web Page
 title: bun remove - Bun
 description: Remove dependencies from your project
 resource: https://bun.sh/docs/pm/cli/remove
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 ## Basic Usage
@@ -82,7 +82,7 @@ Ignore manifest cache entirely
 
 Skip lifecycle scripts in the project’s 
 
-`package.json` (dependency scripts are never run)Maximum number of concurrent jobs for lifecycle scripts (default 5)
+`package.json` (dependency scripts are never run)Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
 ### Scope & Path
 

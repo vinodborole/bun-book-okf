@@ -3,20 +3,21 @@ type: Web Page
 title: Benchmarking - Bun
 description: How to benchmark Bun
 resource: https://bun.sh/docs/project/benchmarking
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
-`/bench` directory of the Bun repo.
-## Measuring time
+[directory of the Bun repo.](https://github.com/oven-sh/bun/tree/main/bench)
 
-To measure time precisely, Bun offers two runtime APIs:- The Web-standard `performance.now()`function
+`/bench`## Measuring time
+
+To measure time precisely, Bun offers two runtime APIs:- The Web-standard `performance.now()`
 - `Bun.nanoseconds()`, which is like- `performance.now()`except it returns the time since the application started in nanoseconds. Use- `performance.timeOrigin`to convert this to a Unix timestamp.
 
 ## Benchmarking tools
 
-- For microbenchmarks, we recommend `mitata`.
-- For load testing, you *must use*an HTTP benchmarking tool that is at least as fast as`Bun.serve()`, or your results will be skewed. Some popular Node.js-based benchmarking tools like`autocannon`are not fast enough. We recommend one of the following:
-- For benchmarking scripts or CLI commands, we recommend `hyperfine`.
+- For microbenchmarks, we recommend `mitata`
+- For load testing, you *must use*an HTTP benchmarking tool that is at least as fast as`Bun.serve()`, or your results will be skewed. Some popular Node.js-based benchmarking tools like`autocannon`
+- For benchmarking scripts or CLI commands, we recommend `hyperfine`
 
 ## Measuring memory usage
 
@@ -27,20 +28,18 @@ View example statistics
 
 View example statistics
 
-`bun:jsc` module to take a heap snapshot, then view it with Safari or WebKit GTK developer tools. To generate a heap snapshot:
+`Bun.generateHeapSnapshot()` to take a heap snapshot, then view it with Safari or WebKit GTK developer tools. To generate a heap snapshot:
 `heap.json` file in Safari’s Developer Tools (or WebKit GTK):
 - Open the Developer Tools
 - Click “Timeline”
 - Click “JavaScript Allocations” in the menu on the left. It might not be visible until you click the pencil icon to show all the timelines
 - Click “Import” and select your heap snapshot JSON
 
-The web debugger timeline also tracks the memory usage of the running debug session.
+The[web debugger](/docs/runtime/debugger#inspect)timeline also tracks the memory usage of the running debug session.
 
 ### Native heap stats
 
-Bun uses mimalloc for the other heap. To print a summary of non-JavaScript memory usage on exit, set the`MIMALLOC_SHOW_STATS=1` environment variable.
-terminal
-
+Bun uses mimalloc for the other heap. To print a summary of non-JavaScript memory usage, call`Bun.unsafe.mimallocDump()`.
 ## CPU profiling
 
 Profile JavaScript execution to identify performance bottlenecks with the`--cpu-prof` flag.

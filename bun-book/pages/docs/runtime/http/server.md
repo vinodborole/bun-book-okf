@@ -3,7 +3,7 @@ type: Web Page
 title: Server - Bun
 description: Use Bun.serve to start a high-performance HTTP server in Bun
 resource: https://bun.sh/docs/runtime/http/server
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 ## Basic Setup
@@ -17,6 +17,10 @@ Import HTML files directly into your server code to build full-stack application
 `bun --hot`):**Production (**When you build with
 
 `bun build`):`bun build --target=bun`, the `import index from "./index.html"` statement resolves to a pre-built manifest object containing all bundled client assets. `Bun.serve` serves the assets from this manifest with no bundling at runtime.
+[bundler](/docs/bundler), JavaScript transpiler, and CSS parser, so you can build frontends with React, TypeScript, and Tailwind CSS. For a complete guide to building full-stack applications with HTML imports, see
+
+[fullstack dev server](/docs/bundler/fullstack).
+
 ## Configuration
 
 ### Changing the `port` and `hostname`
@@ -41,7 +45,9 @@ terminal
 
 ## Unix domain sockets
 
-To listen on a unix domain socket, pass the`unix` option with the path to the socket.
+To listen on a[unix domain socket](https://en.wikipedia.org/wiki/Unix_domain_socket), pass the
+
+`unix` option with the path to the socket.
 ### Abstract namespace sockets
 
 On Linux, Bun also supports abstract namespace sockets: prefix the`unix` path with a null byte.
@@ -49,8 +55,9 @@ On Linux, Bun also supports abstract namespace sockets: prefix the`unix` path wi
 
 HTTP/3 support in 
 
-`Bun.serve` is **experimental**and may change in future releases.`Bun.serve` can also listen for HTTP/3 over QUIC. Set `http3: true` together with `tls`; HTTP/3 requires TLS.
-`http3` is enabled, the server listens on the same port over both TCP (HTTP/1.1) and UDP (HTTP/3). HTTP/1.1 responses include an `Alt-Svc` header advertising the HTTP/3 endpoint so capable clients can upgrade automatically.
+`Bun.serve` is **experimental**and may change in future releases.`Bun.serve` can also listen for HTTP/3 over QUIC. Set `http3: true` together with [; HTTP/3 requires TLS.](/docs/runtime/http/tls)
+
+`tls``http3` is enabled, the server listens on the same port over both TCP (HTTP/1.1) and UDP (HTTP/3). HTTP/1.1 responses include an `Alt-Svc` header advertising the HTTP/3 endpoint so capable clients can upgrade automatically.
 To serve HTTP/3 only — no TCP listener at all — set `http1: false`:
 `http3` is not supported with unix domain sockets — QUIC requires a UDP port. `http1: false` requires `http3: true`.## idleTimeout
 
@@ -61,7 +68,9 @@ To configure this, set the `idleTimeout` field (in seconds). The maximum value i
 **Streaming & Server-Sent Events**— The idle timer applies while a response is being streamed. If your stream goes quiet for longer than
 
 `idleTimeout`, Bun closes the connection mid-response. For long-lived streams, disable the
-timeout for that request with `server.timeout(req, 0)`.## export default syntax
+timeout for that request with [.](#server-timeout-request-seconds)
+
+`server.timeout(req, 0)`## export default syntax
 
 Instead of passing the server options into`Bun.serve`, you can `export default` them.
 server.ts
@@ -83,7 +92,7 @@ Control whether the server keeps the Bun process alive:
 `server.reload()`
 
 Update the server’s handlers without restarting:
-`fetch`, `error`, and `routes` can be updated.
+`fetch`, `error`, `routes`, and `websocket` can be updated.
 ## Per-Request Controls
 
 `server.timeout(Request, seconds)`

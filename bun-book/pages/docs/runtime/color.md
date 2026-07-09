@@ -3,7 +3,7 @@ type: Web Page
 title: Color - Bun
 description: Format colors as CSS, ANSI, numbers, hex strings, and more
 resource: https://bun.sh/docs/runtime/color
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `Bun.color(input, outputFormat?)` uses Bun’s CSS parser to parse, normalize, and convert colors from user input to any of these output formats:
@@ -31,8 +31,11 @@ timestamp: '2026-07-07T10:59:41.879776+00:00'
 - Format colors for use in CSS injected into HTML
 - Get the `r`,`g`,`b`, and`a`color components as JavaScript objects or numbers from a CSS color string
 
-`color` and `tinycolor2`, with full support for parsing CSS color strings and zero dependencies.
-### Flexible input
+[and](https://github.com/Qix-/color)
+
+`color`[, with full support for parsing CSS color strings and zero dependencies.](https://github.com/bgrins/TinyColor)
+
+`tinycolor2`### Flexible input
 
 `Bun.color` accepts any of the following:
 - Standard CSS color names like `"red"`
@@ -46,7 +49,7 @@ timestamp: '2026-07-07T10:59:41.879776+00:00'
 - RGBA objects like `{ r: 255, g: 0, b: 0, a: 1 }`
 - RGB arrays like `[255, 0, 0]`
 - RGBA arrays like `[255, 0, 0, 255]`
-- LAB strings like `"lab(50% 50% 50%)"`
+- LAB strings like `"lab(50% 50 50)"`
 - … anything else that CSS can parse as a single color value
 
 ### Format colors as CSS
@@ -64,8 +67,9 @@ It converts the input color to RGBA, then outputs that as an ANSI color.
 #### 256 ANSI colors (`ansi-256`)
 
 The `"ansi-256"` format approximates the input color to the nearest of the 256 ANSI colors supported by some terminals.
-`tmux` uses.
-#### 16 ANSI colors (`ansi-16`)
+[.](https://github.com/tmux/tmux/blob/dae2868d1227b95fd076fb4a5efa6256c7245943/colour.c#L44-L55)
+
+`tmux` uses#### 16 ANSI colors (`ansi-16`)
 
 The `"ansi-16"` format approximates the input color to the nearest of the 16 ANSI colors supported by most terminals.
 `ansi-256`, then to the nearest of the 16 ANSI colors.
@@ -91,7 +95,8 @@ The`"hex"` format outputs a lowercase hex string.
 `"HEX"` format is the same, but uppercase.
 ### Bundle-time client-side color formatting
 
-Like many of Bun’s APIs, you can invoke`Bun.color` at bundle time with a macro for use in client-side JavaScript builds:
+Like many of Bun’s APIs, you can invoke`Bun.color` at bundle time with a [macro](/docs/bundler/macros)for use in client-side JavaScript builds:
+
 client-side.ts
 
 `bun build` writes the following to `client-side.js`:

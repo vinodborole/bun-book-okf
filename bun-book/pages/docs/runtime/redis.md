@@ -3,7 +3,7 @@ type: Web Page
 title: Redis - Bun
 description: Use Bun's native Redis client with a Promise-based API
 resource: https://bun.sh/docs/runtime/redis
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 Bun’s Redis client supports Redis server versions 7.2 and up.
@@ -44,7 +44,9 @@ redis.ts
 
 ## Pub/Sub
 
-Bun provides native bindings for the Redis Pub/Sub protocol, added in Bun 1.2.23.### Basic Usage
+Bun provides native bindings for the[Redis Pub/Sub](https://redis.io/docs/latest/develop/pubsub/)protocol, added in Bun 1.2.23.
+
+### Basic Usage
 
 Create a publisher in`publisher.ts`:
 publisher.ts
@@ -125,6 +127,7 @@ The client automatically converts Redis responses to JavaScript values:- Integer
 - `UNWATCH`
 - `PIPELINE`
 - `SUBSCRIBE`
+- `PSUBSCRIBE`
 - `UNSUBSCRIBE`
 - `UNPSUBSCRIBE`
 
@@ -136,7 +139,7 @@ When creating a client, you can pass options to configure the connection:redis.t
 
 When a connection is lost, the client automatically attempts to reconnect with exponential backoff:- The client starts with a small delay (50ms) and doubles it with each attempt
 - Reconnection delay is capped at 2000ms (2 seconds)
-- The client attempts to reconnect up to `maxRetries`times (default: 10)
+- The client attempts to reconnect up to `maxRetries`times (default: 20)
 - Commands executed during disconnection are:
 - Queued if `enableOfflineQueue`is true (default)
 - Rejected immediately if `enableOfflineQueue`is false

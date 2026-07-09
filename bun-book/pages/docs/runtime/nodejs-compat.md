@@ -3,11 +3,13 @@ type: Web Page
 title: Node.js Compatibility - Bun
 description: Bun's compatibility status with Node.js APIs, modules, and globals
 resource: https://bun.sh/docs/runtime/nodejs-compat
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `npm` packages intended for Node.js work with Bun. To ensure compatibility, we run thousands of tests from Node.js’ test suite before every release of Bun.
-**If a package works in Node.js but doesn’t work in Bun, we consider it a bug in Bun.**Open an issue and we’ll fix it. This page is updated regularly and reflects the latest version of Bun’s compatibility with
+**If a package works in Node.js but doesn’t work in Bun, we consider it a bug in Bun.**
+
+[Open an issue](https://bun.com/issues)and we’ll fix it. This page is updated regularly and reflects the latest version of Bun’s compatibility with
 
 *Node.js v23*.
 
@@ -16,285 +18,356 @@ timestamp: '2026-07-07T10:59:41.879776+00:00'
 `node:assert`
 
 🟢 Fully implemented.
-`node:buffer`
+`node:assert``node:buffer`
 
 🟢 Fully implemented.
-`node:console`
+`node:buffer``node:console`
 
 🟢 Fully implemented.
-`node:dgram`
+`node:console``node:dgram`
 
 🟢 Fully implemented. > 90% of Node.js’s test suite passes.
-`node:diagnostics_channel`
+`node:dgram``node:diagnostics_channel`
 
 🟢 Fully implemented.
-`node:dns`
+`node:diagnostics_channel``node:dns`
 
 🟢 Fully implemented. > 90% of Node.js’s test suite passes.
-`node:events`
+`node:dns``node:events`
 
-🟢 Fully implemented. 100% of Node.js’s test suite passes. `EventEmitterAsyncResource` uses `AsyncResource` underneath.
+🟢 Fully implemented. 100% of Node.js’s test suite passes. `node:events``EventEmitterAsyncResource` uses `AsyncResource` underneath.
 `node:fs`
 
 🟢 Fully implemented. 92% of Node.js’s test suite passes.
-`node:http`
+`node:fs``node:http`
 
 🟢 Fully implemented. The outgoing client request body is buffered instead of streamed.
-`node:https`
+`node:http``node:https`
 
-🟢 APIs are implemented, but `Agent` is not always used.
+🟢 APIs are implemented, but `node:https``Agent` is not always used.
 `node:os`
 
 🟢 Fully implemented. 100% of Node.js’s test suite passes.
-`node:path`
+`node:os``node:path`
 
 🟢 Fully implemented. 100% of Node.js’s test suite passes.
-`node:punycode`
+`node:path``node:punycode`
 
-🟢 Fully implemented. 100% of Node.js’s test suite passes, *deprecated by Node.js*.
+🟢 Fully implemented. 100% of Node.js’s test suite passes, `node:punycode`*deprecated by Node.js*.
 
 `node:querystring`
 
 🟢 Fully implemented. 100% of Node.js’s test suite passes.
-`node:readline`
+`node:querystring``node:readline`
 
 🟢 Fully implemented.
-`node:stream`
+`node:readline``node:stream`
 
 🟢 Fully implemented.
-`node:string_decoder`
+`node:stream``node:string_decoder`
 
 🟢 Fully implemented. 100% of Node.js’s test suite passes.
-`node:timers`
+`node:string_decoder``node:timers`
 
-🟢 Use the global `setTimeout` and related functions instead.
+🟢 Use the global `node:timers``setTimeout` and related functions instead.
 `node:tty`
 
 🟢 Fully implemented.
-`node:url`
+`node:tty``node:url`
 
 🟢 Fully implemented.
-`node:zlib`
+`node:url``node:zlib`
 
 🟢 Fully implemented. 98% of Node.js’s test suite passes.
-`node:async_hooks`
+`node:zlib``node:async_hooks`
 
-🟡 `AsyncLocalStorage` and `AsyncResource` are implemented. v8 promise hooks are not called, and its usage is strongly discouraged.
+🟡 `node:async_hooks``AsyncLocalStorage` and `AsyncResource` are implemented. v8 promise hooks are not called, and its usage is [strongly discouraged](https://nodejs.org/docs/latest/api/async_hooks.html#async-hooks).
+
 `node:child_process`
 
-🟡 Missing `proc.gid` `proc.uid`. `Stream` class not exported. IPC cannot send socket handles. Node.js ↔ Bun IPC can be used with JSON serialization.
+🟡 Missing `node:child_process``proc.gid` `proc.uid`. `Stream` class not exported. IPC cannot send socket handles. Node.js ↔ Bun IPC can be used with JSON serialization.
 `node:cluster`
 
-🟡 Handles and file descriptors cannot be passed between workers, so load-balancing HTTP requests across processes is only supported on Linux (through `SO_REUSEPORT`). Otherwise, implemented but not battle-tested.
+🟡 Handles and file descriptors cannot be passed between workers, so load-balancing HTTP requests across processes is only supported on Linux (through `node:cluster``SO_REUSEPORT`). Otherwise, implemented but not battle-tested.
 `node:crypto`
 
-🟡 Missing `secureHeapUsed` `setEngine` `setFips`
+🟡 Missing `node:crypto``secureHeapUsed` `setEngine` `setFips`
 `node:domain`
 
-🟡 Missing `Domain` `active`
+🟡 Missing `node:domain``Domain` `active`
 `node:http2`
 
-🟡 Client & server are implemented (95.25% of gRPC’s test suite passes). Missing `options.allowHTTP1`, `options.enableConnectProtocol`, ALTSVC extension, and `http2stream.pushStream`.
-`node:module`
+🟡 Client & server are implemented (95.25% of gRPC’s test suite passes).
+`node:http2``node:module`
 
-🟡 Missing `syncBuiltinESMExports`, `Module#load()`. Overriding `require.cache` is supported for ESM & CJS modules. `module._extensions`, `module._pathCache`, `module._cache` are no-ops. `module.register` is not implemented; we recommend `Bun.plugin` instead.
-`node:net`
+🟡 Missing `node:module``syncBuiltinESMExports`, `Module#load()`. Overriding `require.cache` is supported for ESM & CJS modules. `module._extensions`, `module._pathCache`, `module._cache` are no-ops. `module.register` is not implemented; we recommend [instead.](/docs/runtime/plugins)
+
+`Bun.plugin``node:net`
 
 🟢 Fully implemented.
-`node:perf_hooks`
+`node:net``node:perf_hooks`
 
 🟡 APIs are implemented, but the Node.js test suite for this module does not pass.
-`node:process`
+`node:perf_hooks``node:process`
 
-🟡 See `process` Global.
-`node:sys`
+🟡 See `node:process`[Global.](#process)
 
-🟡 See `node:util`.
-`node:tls`
+`process``node:sys`
 
-🟡 Missing `tls.createSecurePair`.
+🟡 See `node:sys`[.](#node-util)
+
+`node:util``node:tls`
+
+🟡 Missing `node:tls``tls.createSecurePair`.
 `node:util`
 
-🟡 Missing `getCallSite` `getCallSites` `getSystemErrorMap` `getSystemErrorMessage` `transferableAbortSignal` `transferableAbortController`
+🟡 Missing `node:util``getCallSite` `getCallSites` `getSystemErrorMap` `getSystemErrorMessage` `transferableAbortSignal` `transferableAbortController`
 `node:v8`
 
-🟡 `writeHeapSnapshot` and `getHeapSnapshot` are implemented. `serialize` and `deserialize` use JavaScriptCore’s wire format instead of V8’s. Other methods are not implemented. For profiling, use `bun:jsc` instead.
-`node:vm`
+🟡 `node:v8``writeHeapSnapshot` and `getHeapSnapshot` are implemented. `serialize` and `deserialize` use JavaScriptCore’s wire format instead of V8’s. Other methods are not implemented. For profiling, use [instead.](/docs/project/benchmarking#javascript-heap-stats)
 
-🟡 Core functionality and ES modules are implemented, including `vm.Script`, `vm.createContext`, `vm.runInContext`, `vm.runInNewContext`, `vm.runInThisContext`, `vm.compileFunction`, `vm.isContext`, `vm.Module`, `vm.SourceTextModule`, `vm.SyntheticModule`, and `importModuleDynamically` support. Options like `timeout` and `breakOnSigint` are fully supported. Missing `vm.measureMemory` and some `cachedData` functionality.
+`bun:jsc``node:vm`
+
+🟡 Core functionality and ES modules are implemented, including `node:vm``vm.Script`, `vm.createContext`, `vm.runInContext`, `vm.runInNewContext`, `vm.runInThisContext`, `vm.compileFunction`, `vm.isContext`, `vm.Module`, `vm.SourceTextModule`, `vm.SyntheticModule`, and `importModuleDynamically` support. Options like `timeout` and `breakOnSigint` are fully supported.
 `node:wasi`
 
 🟡 Partially implemented.
-`node:worker_threads`
+`node:wasi``node:worker_threads`
 
-🟡 `Worker` doesn’t support the following options: `stdin` `stdout` `stderr` `trackedUnmanagedFds` `resourceLimits`. Missing `markAsUntransferable` `moveMessagePortToContext`.
+🟡 `node:worker_threads``Worker` doesn’t support the following options: `stdin` `stdout` `stderr` `trackedUnmanagedFds` `resourceLimits`. Missing `markAsUntransferable` `moveMessagePortToContext`.
 `node:inspector`
 
-🟡 Partially implemented. The `Profiler` API is supported (`Profiler.enable`, `Profiler.disable`, `Profiler.start`, `Profiler.stop`, `Profiler.setSamplingInterval`). Other inspector APIs are not implemented.
+🟡 Partially implemented. The `node:inspector``Profiler` API is supported (`Profiler.enable`, `Profiler.disable`, `Profiler.start`, `Profiler.stop`, `Profiler.setSamplingInterval`). Other inspector APIs are not implemented.
 `node:repl`
 
 🔴 Not implemented.
-`node:sqlite`
+`node:repl``node:sqlite`
 
 🔴 Not implemented.
-`node:test`
+`node:sqlite``node:test`
 
-🟡 Partially implemented. Missing mocks, snapshots, timers. Use `bun:test` instead.
-`node:trace_events`
+🟡 Partially implemented. Missing `node:test``mock.module`, `mock.timers`, snapshots. Use [instead.](/docs/test)
 
-🔴 Not implemented.
-## Node.js globals
+`bun:test``node:trace_events`
+
+🟢 Fully implemented.
+`node:trace_events`## Node.js globals
 
 The following list covers every global implemented by Node.js and Bun’s compatibility status for each.`AbortController`
 
 🟢 Fully implemented.
-`AbortSignal`
+`AbortController``AbortSignal`
 
 🟢 Fully implemented.
-`Blob`
+`AbortSignal``Blob`
 
 🟢 Fully implemented.
-`Buffer`
+`Blob``Buffer`
 
 🟢 Fully implemented.
-`ByteLengthQueuingStrategy`
+`Buffer``ByteLengthQueuingStrategy`
 
 🟢 Fully implemented.
-`__dirname`
+`ByteLengthQueuingStrategy``__dirname`
 
 🟢 Fully implemented.
-`__filename`
+`__dirname``__filename`
 
 🟢 Fully implemented.
-`atob()`
+`__filename``atob()`
 
 🟢 Fully implemented.
-`Atomics`
+`atob()``Atomics`
 
 🟢 Fully implemented.
-`BroadcastChannel`
+`Atomics``BroadcastChannel`
 
 🟢 Fully implemented.
-`btoa()`
+`BroadcastChannel``btoa()`
 
 🟢 Fully implemented.
-`clearImmediate()`
+`btoa()``clearImmediate()`
 
 🟢 Fully implemented.
-`clearInterval()`
+`clearImmediate()``clearInterval()`
 
 🟢 Fully implemented.
-`clearTimeout()`
+`clearInterval()``clearTimeout()`
 
 🟢 Fully implemented.
-`CompressionStream`
+`clearTimeout()``CompressionStream`
 
 🟢 Fully implemented.
-`console`
+`CompressionStream``console`
 
 🟢 Fully implemented.
-`CountQueuingStrategy`
+`console``CountQueuingStrategy`
 
 🟢 Fully implemented.
-`Crypto`
+`CountQueuingStrategy``Crypto`
 
 🟢 Fully implemented.
-`SubtleCrypto (crypto)`
+`Crypto``SubtleCrypto (crypto)`
 
 🟢 Fully implemented.
-`CryptoKey`
+`SubtleCrypto (crypto)``CryptoKey`
 
 🟢 Fully implemented.
-`CustomEvent`
+`CryptoKey``CustomEvent`
 
 🟢 Fully implemented.
-`DecompressionStream`
+`CustomEvent``DecompressionStream`
 
 🟢 Fully implemented.
-`Event`
+`DecompressionStream``Event`
 
 🟢 Fully implemented.
-`EventTarget`
+`Event``EventTarget`
 
 🟢 Fully implemented.
-`exports`
+`EventTarget``exports`
 
 🟢 Fully implemented.
-`fetch`
+`exports``fetch`
 
 🟢 Fully implemented.
-`FormData`
+`fetch``FormData`
 
 🟢 Fully implemented.
-`global`
+`FormData``global`
 
-🟢 Implemented. `global` is an object containing all objects in the global namespace. It’s rarely referenced directly, as its contents are available without a prefix, for example `__dirname` instead of `global.__dirname`.
+🟢 Implemented. `global``global` is an object containing all objects in the global namespace. It’s rarely referenced directly, as its contents are available without a prefix, for example `__dirname` instead of `global.__dirname`.
 `globalThis`
 
-🟢 Aliases to `global`.
+🟢 Aliases to `globalThis``global`.
 `Headers`
 
 🟢 Fully implemented.
-`MessageChannel`
+`Headers``MessageChannel`
 
 🟢 Fully implemented.
-`MessageEvent`
+`MessageChannel``MessageEvent`
 
 🟢 Fully implemented.
-`MessagePort`
+`MessageEvent``MessagePort`
 
 🟢 Fully implemented.
-`module`
+`MessagePort``module`
 
 🟢 Fully implemented.
-`PerformanceEntry`
+`module``PerformanceEntry`
 
 🟢 Fully implemented.
-`PerformanceMark`
+`PerformanceEntry``PerformanceMark`
 
 🟢 Fully implemented.
-`PerformanceMeasure`
+`PerformanceMark``PerformanceMeasure`
 
 🟢 Fully implemented.
-`PerformanceObserver`
+`PerformanceMeasure``PerformanceObserver`
 
 🟢 Fully implemented.
-`PerformanceObserverEntryList`
+`PerformanceObserver``PerformanceObserverEntryList`
 
 🟢 Fully implemented.
-`PerformanceResourceTiming`
+`PerformanceObserverEntryList``PerformanceResourceTiming`
 
 🟢 Fully implemented.
-`performance`
+`PerformanceResourceTiming``performance`
 
 🟢 Fully implemented.
-`process`
+`performance``process`
 
-🟡 Mostly implemented. `process.binding` (internal Node.js bindings some packages rely on) is partially implemented. `process.title` is a no-op on macOS & Linux. `getActiveResourcesInfo` `setActiveResourcesInfo`, `getActiveResources` and `setSourceMapsEnabled` are stubs. Newer APIs like `process.loadEnvFile` and `process.getBuiltinModule` are not implemented.
+🟡 Mostly implemented. `process``process.binding` (internal Node.js bindings some packages rely on) is partially implemented. `process.title` is a no-op on macOS & Linux. `getActiveResourcesInfo` `setActiveResourcesInfo`, `getActiveResources` and `setSourceMapsEnabled` are stubs. Newer APIs like `process.loadEnvFile` are not implemented.
 `queueMicrotask()`
 
 🟢 Fully implemented.
-`ReadableByteStreamController`
+`queueMicrotask()``ReadableByteStreamController`
 
 🟢 Fully implemented.
-`ReadableStream`
+`ReadableByteStreamController``ReadableStream`
 
 🟢 Fully implemented.
-`ReadableStreamBYOBReader`
+`ReadableStream``ReadableStreamBYOBReader`
 
 🟢 Fully implemented.
-`ReadableStreamBYOBRequest`
+`ReadableStreamBYOBReader``ReadableStreamBYOBRequest`
 
 🟢 Fully implemented.
-`ReadableStreamDefaultController`
+`ReadableStreamBYOBRequest``ReadableStreamDefaultController`
 
 🟢 Fully implemented.
-`ReadableStreamDefaultReader`
+`ReadableStreamDefaultController``ReadableStreamDefaultReader`
 
 🟢 Fully implemented.
-`require()`
+`ReadableStreamDefaultReader``require()`
 
-🟢 Fully implemented, including `require.main`, `require.cache`, `require.resolve`.
+🟢 Fully implemented, including `require()`[,](https://nodejs.org/api/modules.html#requiremain)
+
+`require.main`[,](https://nodejs.org/api/modules.html#requirecache)
+
+`require.cache`[.](https://nodejs.org/api/modules.html#requireresolverequest-options)
+
+`require.resolve``Response`
+
+🟢 Fully implemented.
+`Response``Request`
+
+🟢 Fully implemented.
+`Request``setImmediate()`
+
+🟢 Fully implemented.
+`setImmediate()``setInterval()`
+
+🟢 Fully implemented.
+`setInterval()``setTimeout()`
+
+🟢 Fully implemented.
+`setTimeout()``structuredClone()`
+
+🟢 Fully implemented.
+`structuredClone()``SubtleCrypto`
+
+🟢 Fully implemented.
+`SubtleCrypto``DOMException`
+
+🟢 Fully implemented.
+`DOMException``TextDecoder`
+
+🟢 Fully implemented.
+`TextDecoder``TextDecoderStream`
+
+🟢 Fully implemented.
+`TextDecoderStream``TextEncoder`
+
+🟢 Fully implemented.
+`TextEncoder``TextEncoderStream`
+
+🟢 Fully implemented.
+`TextEncoderStream``TransformStream`
+
+🟢 Fully implemented.
+`TransformStream``TransformStreamDefaultController`
+
+🟢 Fully implemented.
+`TransformStreamDefaultController``URL`
+
+🟢 Fully implemented.
+`URL``URLSearchParams`
+
+🟢 Fully implemented.
+`URLSearchParams``WebAssembly`
+
+🟢 Fully implemented.
+`WebAssembly``WritableStream`
+
+🟢 Fully implemented.
+`WritableStream``WritableStreamDefaultController`
+
+🟢 Fully implemented.
+`WritableStreamDefaultController``WritableStreamDefaultWriter`
+
+🟢 Fully implemented.`WritableStreamDefaultWriter`
 
 # Citations
 

@@ -4,7 +4,7 @@ title: Markdown - Bun
 description: Parse and render Markdown with Bun's built-in Markdown API, supporting
   GFM extensions and custom rendering callbacks
 resource: https://bun.sh/docs/runtime/markdown
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 **Unstable API**— This API is under active development and may change in future versions of Bun.
@@ -20,11 +20,11 @@ Convert a Markdown string to HTML.
 
 Pass an options object as the second argument to configure the parser:| Option | Default | Description | 
 |---|---|---|
-| `tables` | `false` | GFM tables | 
-| `strikethrough` | `false` | GFM strikethrough ( `~~text~~`) | 
-| `tasklists` | `false` | GFM task lists ( `- [x] item`) | 
-| `autolinks` | `false` | Enable autolinks — see Autolinks | 
-| `headings` | `false` | Heading IDs and autolinks — see Heading IDs | 
+| `tables` | `true` | GFM tables | 
+| `strikethrough` | `true` | GFM strikethrough ( `~~text~~`) | 
+| `tasklists` | `true` | GFM task lists ( `- [x] item`) | 
+| `autolinks` | `false` | Enable autolinks — see [Autolinks](#autolinks) | 
+| `headings` | `false` | Heading IDs and autolinks — see [Heading IDs](#heading-ids) | 
 | `hardSoftBreaks` | `false` | Treat soft line breaks as hard breaks | 
 | `wikiLinks` | `false` | Enable `[[wiki links]]` | 
 | `underline` | `false` | `__text__`renders as`<u>`instead of`<strong>` | 
@@ -60,7 +60,7 @@ Each callback receives:- `children`
 | `blockquote` | — | Blockquote block | 
 | `code` | `{ language? }` | Fenced or indented code block. `language`is the info-string when specified on the fence | 
 | `list` | `{ ordered, start?, depth }` | `depth`is nesting level (0 = top-level).`start`is set for ordered lists | 
-| `listItem` | `{ index, depth, ordered, start?, checked? }` | See List item meta below | 
+| `listItem` | `{ index, depth, ordered, start?, checked? }` | See [List item meta](#list-item-meta)below | 
 | `hr` | — | Horizontal rule | 
 | `table` | — | Table block | 
 | `thead` | — | Table head | 
@@ -146,6 +146,9 @@ Every HTML tag produced by the parser can be overridden:| Option | Props | Descr
 ### React 18 and older
 
 By default, elements use`Symbol.for('react.transitional.element')` as the `$$typeof` symbol. For React 18 and older, pass `reactVersion: 18` in the options (third argument):
+### Parser options
+
+Pass any of the[parser options](#options)as the third argument:
 
 # Citations
 

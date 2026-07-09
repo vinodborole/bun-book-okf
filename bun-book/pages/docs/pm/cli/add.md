@@ -3,7 +3,7 @@ type: Web Page
 title: bun add - Bun
 description: Add packages to your project with Bun's fast package manager
 resource: https://bun.sh/docs/pm/cli/add
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 terminal
@@ -65,7 +65,11 @@ To add a dependency from a public or private git repository:terminal
 
 To install private repositories, your system needs the appropriate SSH credentials to access the repository.
 
-`github`, `git`, `git+ssh`, and `git+https`.
+[,](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#github-urls)
+
+`github`[,](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#git-urls-as-dependencies)
+
+`git``git+ssh`, and `git+https`.
 package.json
 
 ## Tarball dependencies
@@ -140,7 +144,7 @@ variablesMaximum number of concurrent network requests
 Platform-specific optimizations for installing dependencies. One of 
 
 `clonefile`, `hardlink`,
-`symlink`, or `copyfile`Maximum number of concurrent jobs for lifecycle scripts
+`symlink`, or `copyfile`Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
 ### Caching
 

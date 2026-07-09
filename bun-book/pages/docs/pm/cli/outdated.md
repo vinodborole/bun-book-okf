@@ -3,7 +3,7 @@ type: Web Page
 title: bun outdated - Bun
 description: Check for outdated dependencies
 resource: https://bun.sh/docs/pm/cli/outdated
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `bun outdated` displays a table of the dependencies in your project that have newer versions available.
@@ -17,7 +17,7 @@ The output table shows three version columns:- **Current**: The version currentl
 
 ### Dependency Filters
 
-To check specific dependencies, pass their names as positional arguments:terminal
+To check a specific dependency, pass its name as a positional argument:terminal
 
 terminal
 
@@ -32,15 +32,14 @@ terminal
 Use the`--filter` flag to check for outdated dependencies in a different workspace package:
 terminal
 
-`--filter` more than once to check multiple workspaces:
-terminal
-
-`--filter` also accepts glob patterns for workspace names:
+`--filter` accepts glob patterns to match multiple workspaces:
 terminal
 
 ### Catalog Dependencies
 
-`bun outdated` also checks catalog dependencies defined in `package.json`:
+`bun outdated` also checks [catalog](/docs/pm/catalogs)dependencies defined in
+
+`package.json`:
 terminal
 
 ## CLI Usage
@@ -120,7 +119,7 @@ Skip lifecycle scripts in the project’s
 `package.json` (dependency scripts are never run)Platform-specific optimizations for installing dependencies. Possible values: 
 
 `clonefile` (default),
-`hardlink`, `symlink`, `copyfile`Maximum number of concurrent jobs for lifecycle scripts (default 5)
+`hardlink`, `symlink`, `copyfile`Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
 # Citations
 

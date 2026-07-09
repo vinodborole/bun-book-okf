@@ -3,7 +3,7 @@ type: Web Page
 title: bun init - Bun
 description: Scaffold an empty Bun project with the interactive bun init command
 resource: https://bun.sh/docs/runtime/templating/init
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `bun init`.
@@ -18,7 +18,7 @@ terminal
 
 `$BUN_AGENT_RULE_DISABLED=1`):
 - a `CLAUDE.md`file when Claude CLI is detected (disable with`CLAUDE_CODE_AGENT_RULE_DISABLED`env var)
-- a `.cursor/rules/*.mdc`file when Cursor is detected, which tells Cursor AI to use Bun instead of Node.js and npm
+- a `.cursor/rules/*.mdc`file when Cursor is detected, which tells[Cursor AI](https://cursor.sh)to use Bun instead of Node.js and npm
 
 `-y` or `--yes` to accept the defaults without prompting.
 At the end, it runs `bun install` to install `@types/bun`.
@@ -47,11 +47,7 @@ Accepts values for presets:
 
 Initializes project files and configuration for the chosen options. Exact files vary by template.
 
-### Global Configuration & Context
-
-Run 
-
-`bun init` as if started in a different working directory (useful in scripts).### Help
+### Help
 
 Print this help menu. Alias: 
 

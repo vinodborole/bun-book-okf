@@ -4,7 +4,7 @@ title: REPL - Bun
 description: An interactive JavaScript and TypeScript REPL with syntax highlighting,
   history, and tab completion
 resource: https://bun.sh/docs/runtime/repl
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `bun repl` starts an interactive Read-Eval-Print Loop (REPL) for evaluating JavaScript and TypeScript expressions. Use it to test code snippets, explore APIs, and debug.
@@ -29,7 +29,7 @@ The REPL exposes two special variables that update after each evaluation.| Varia
 
 ## Top-level `await`
 
-Promises are automatically awaited. You can `await` any expression directly at the prompt.
+You can `await` any expression directly at the prompt.
 ## Importing modules
 
 Just like Bun’s runtime, the REPL accepts both`require` and `import`: mix ES modules and CommonJS freely at the prompt. Module resolution uses the same rules as `bun run`, so you can import from `node_modules`, relative paths, or `node:` builtins.

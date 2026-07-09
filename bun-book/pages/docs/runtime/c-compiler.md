@@ -3,26 +3,28 @@ type: Web Page
 title: C Compiler - Bun
 description: Compile and run C from JavaScript with low overhead
 resource: https://bun.sh/docs/runtime/c-compiler
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `bun:ffi` has experimental support for compiling and running C from JavaScript with low overhead.
 ## Usage (cc in `bun:ffi`)
 
-See the introduction blog post for background.
-JavaScript:
+See the [introduction blog post](https://bun.com/blog/compile-and-run-c-in-js)for background. JavaScript:
+
 hello.ts
 
 hello.c
 
-`hello.js` prints:
+`hello.ts` prints:
 terminal
 
-`cc` uses TinyCC to compile the C code, then links it with the JavaScript runtime, converting types in-place.
+`cc` uses [TinyCC](https://bellard.org/tcc/)to compile the C code, then links it with the JavaScript runtime, converting types in-place.
+
 ### Primitive types
 
-`cc` supports the same `FFIType` values as `dlopen`.
-| `FFIType` | C Type | Aliases | 
+`cc` supports the same `FFIType` values as [.](/docs/runtime/ffi)
+
+`dlopen`| `FFIType` | C Type | Aliases | 
 |---|---|---|
 | cstring | `char*` | |
 | function | `(void*)(*)()` | `fn`,`callback` | 

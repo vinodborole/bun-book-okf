@@ -3,7 +3,7 @@ type: Web Page
 title: Utils - Bun
 description: Use Bun's utility functions to work with the runtime
 resource: https://bun.sh/docs/runtime/utils
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `Bun.version`
@@ -13,7 +13,9 @@ terminal
 
 `Bun.revision`
 
-The git commit of Bun that was compiled to create the current `bun` CLI.
+The git commit of [Bun](https://github.com/oven-sh/bun)that was compiled to create the current
+
+`bun` CLI.
 terminal
 
 `Bun.env`
@@ -24,8 +26,9 @@ An alias for `process.env`.
 An absolute path to the entrypoint of the current program (the file that was executed with `bun run`).
 script.ts
 
-`require.main = module` trick in Node.js.
-`Bun.sleep()`
+[in Node.js.](https://stackoverflow.com/questions/6398196/detect-if-called-through-require-or-directly-by-command-line)
+
+`require.main = module` trick`Bun.sleep()`
 
 `Bun.sleep(ms: number)`
 Returns a `Promise` that resolves after the given number of milliseconds.
@@ -40,10 +43,12 @@ A blocking synchronous version of `Bun.sleep`.
 Returns the path to an executable, similar to typing `which` in your terminal.
 `PATH` environment variable to determine the path. To configure `PATH`:
 `cwd` option to resolve the executable from within a specific directory.
-`which` npm package.
-`Bun.randomUUIDv7()`
+[npm package.](https://www.npmjs.com/package/which)
 
-`Bun.randomUUIDv7()` returns a UUID v7, which is monotonic and suitable for sorting and databases.
+`which``Bun.randomUUIDv7()`
+
+`Bun.randomUUIDv7()` returns a [UUID v7](https://www.ietf.org/archive/id/draft-peabody-dispatch-new-uuid-format-01.html#name-uuidv7-layout-and-bit-order), which is monotonic and suitable for sorting and databases.
+
 `timestamp` parameter defaults to the current time in milliseconds. When the timestamp changes, the counter is reset to a pseudo-random integer wrapped to 4096. This counter is atomic and threadsafe, so calls to `Bun.randomUUIDv7()` from many Workers in the same process at the same timestamp don’t produce colliding counter values.
 The final 8 bytes of the UUID are a cryptographically secure random value. It uses the same random number generator used by `crypto.randomUUID()` (which comes from BoringSSL, which in turn comes from the platform-specific system random number generator usually provided by the underlying hardware).
 `"buffer"` as the encoding to get a 16-byte buffer instead of a string. This can avoid string conversion overhead.
@@ -60,8 +65,9 @@ Reads a promise’s result without `await` or `.then`, but only if the promise h
 `Bun.openInEditor()`
 
 Opens a file in your default editor. Bun auto-detects your editor from the `$VISUAL` or `$EDITOR` environment variables.
-`debug.editor` setting in your `bunfig.toml`.
-bunfig.toml
+`debug.editor` setting in your [.](/docs/runtime/bunfig)
+
+`bunfig.toml`bunfig.toml
 
 `editor` param. You can also specify a line and column number.
 `Bun.deepEquals()`
@@ -82,7 +88,11 @@ Escapes the following characters from an input string:
 
 ~6,756x faster 
 
-`string-width` alternative`Bun.stringWidth` is ~6,756x faster than the `string-width` npm package for input larger than about 500 characters. Big thanks to sindresorhus for their work on `string-width`.
+`string-width` alternative[In this benchmark](https://github.com/oven-sh/bun/blob/5147c0ba7379d85d4d1ed0714b84d6544af917eb/bench/snippets/string-width.mjs#L13),
+
+`Bun.stringWidth` is ~6,756x faster than the `string-width` npm package for input larger than about 500 characters. Big thanks to [sindresorhus](https://github.com/sindresorhus)for their work on
+
+`string-width`.
 `Bun.stringWidth` is implemented in native code with SIMD instructions and accounts for Latin1, UTF-16, and UTF-8 encodings. It passes `string-width`’s tests.
 View full benchmark
 
@@ -119,8 +129,9 @@ Decompresses a `Uint8Array` using zlib’s GUNZIP algorithm.
 `Bun.deflateSync()`
 
 Compresses a `Uint8Array` using zlib’s DEFLATE algorithm.
-`Bun.gzipSync`.
-`Bun.inflateSync()`
+[.](#bun-gzipsync)
+
+`Bun.gzipSync``Bun.inflateSync()`
 
 Decompresses a `Uint8Array` using zlib’s INFLATE algorithm.
 `Bun.zstdCompress()` / `Bun.zstdCompressSync()`
@@ -137,8 +148,9 @@ Serializes an object to a `string` exactly as it would be printed by `console.lo
 The symbol Bun uses to implement `Bun.inspect`. Override it to customize how your objects are printed. It is identical to `util.inspect.custom` in Node.js.
 `Bun.inspect.table(tabularData, properties, options)`
 
-Format tabular data into a string. Like `console.table`, except it returns a string rather than printing to the console.
-`{ colors: true }` to enable ANSI colors.
+Format tabular data into a string. Like [, except it returns a string rather than printing to the console.](https://developer.mozilla.org/en-US/docs/Web/API/console/table_static)
+
+`console.table``{ colors: true }` to enable ANSI colors.
 `Bun.nanoseconds()`
 
 Returns the number of nanoseconds since the current `bun` process started, as a `number`. Useful for high-precision timing and benchmarking.
@@ -147,7 +159,9 @@ Returns the number of nanoseconds since the current `bun` process started, as a 
 Bun implements a set of convenience functions for asynchronously consuming the body of a `ReadableStream` and converting it to various binary formats.
 `Bun.resolveSync()`
 
-Resolves a file path or module specifier using Bun’s internal module resolution algorithm. The first argument is the path to resolve, and the second argument is the “root”. If no match is found, it throws an `Error`.
+Resolves a file path or module specifier using Bun’s internal [module resolution](/docs/runtime/module-resolution)algorithm. The first argument is the path to resolve, and the second argument is the “root”. If no match is found, it throws an
+
+`Error`.
 `process.cwd()` or `"."` as the root.
 `import.meta.dir`.
 `Bun.stripANSI()`
@@ -156,8 +170,9 @@ Resolves a file path or module specifier using Bun’s internal module resolutio
 
 `strip-ansi` alternative`Bun.stripANSI(text: string): string`
 Strip ANSI escape codes from a string. Use it to remove colors and formatting from terminal output.
-`Bun.stripANSI` is faster than the `strip-ansi` npm package:
-terminal
+`Bun.stripANSI` is faster than the [npm package:](https://www.npmjs.com/package/strip-ansi)
+
+`strip-ansi`terminal
 
 terminal
 
@@ -166,8 +181,9 @@ terminal
 Drop-in replacement for 
 
 `wrap-ansi` npm package`Bun.wrapAnsi(input: string, columns: number, options?: WrapAnsiOptions): string`
-Wrap text to a specified column width. It preserves ANSI escape codes and hyperlinks and handles Unicode/emoji width correctly. This is a native alternative to the `wrap-ansi` npm package.
-### Options
+Wrap text to a specified column width. It preserves ANSI escape codes and hyperlinks and handles Unicode/emoji width correctly. This is a native alternative to the [npm package.](https://www.npmjs.com/package/wrap-ansi)
+
+`wrap-ansi`### Options
 
 | Option | Default | Description | 
 |---|---|---|
@@ -178,8 +194,13 @@ Wrap text to a specified column width. It preserves ANSI escape codes and hyperl
 
 `serialize` & `deserialize` in `bun:jsc`
 
-To save a JavaScript value into an ArrayBuffer & back, use `serialize` and `deserialize` from the `"bun:jsc"` module.
-`structuredClone` and `postMessage` serialize and deserialize the same way. This exposes the underlying HTML Structured Clone Algorithm to JavaScript as an ArrayBuffer.
+To save a JavaScript value into a SharedArrayBuffer & back, use `serialize` and `deserialize` from the `"bun:jsc"` module.
+[and](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone)
+
+`structuredClone`[serialize and deserialize the same way. This exposes the underlying](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
+
+`postMessage`[HTML Structured Clone Algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)to JavaScript as a SharedArrayBuffer.
+
 `estimateShallowMemoryUsageOf` in `bun:jsc`
 
 The `estimateShallowMemoryUsageOf` function returns a best-effort estimate of the memory usage of an object in bytes, excluding the memory usage of properties or other objects it references. For accurate per-object memory usage, use `Bun.generateHeapSnapshot`.

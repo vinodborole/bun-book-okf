@@ -3,7 +3,7 @@ type: Web Page
 title: Bundler - Bun
 description: Bun's fast native bundler for JavaScript, TypeScript, JSX, and more
 resource: https://bun.sh/docs/bundler
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 `bun build` CLI command or the `Bun.build()` JavaScript API.
@@ -19,6 +19,8 @@ timestamp: '2026-07-07T10:59:41.879776+00:00'
 - CLI
 
 build.ts
+
+[three.js benchmark](https://github.com/oven-sh/bun/tree/main/bench/bundle).
 
 ## Why bundle?
 
@@ -45,7 +47,9 @@ Like the runtime and test runner, the bundler supports watch mode natively.termi
 
 ## Content types
 
-Like the Bun runtime, the bundler supports a range of file types by default. The following table lists the bundler’s standard “loaders”. See loaders.| Extensions | Details | 
+Like the Bun runtime, the bundler supports a range of file types by default. The following table lists the bundler’s standard “loaders”. See[loaders](/docs/bundler/loaders).
+
+| Extensions | Details | 
 |---|---|
 | `.js``.jsx``.cjs``.mjs``.mts``.cts``.ts``.tsx` | Uses Bun’s built-in transpiler to parse the file and transpile TypeScript/JSX syntax to vanilla JavaScript. The bundler executes a set of default transforms including dead code elimination and tree shaking. Bun does not down-convert syntax; if you use recent ECMAScript syntax, it appears as-is in the bundled code. | 
 | `.json` | JSON files are parsed and inlined into the bundle as a JavaScript object. `js<br/>import pkg from "./package.json";<br/>pkg.name; // => "my-package"<br/>` | 
@@ -60,12 +64,17 @@ Like the Bun runtime, the bundler supports a range of file types by default. The
 ### Assets
 
 If the bundler encounters an import with an unrecognized extension, it treats the imported file as an external file. The referenced file is copied as-is into`outdir`, and the import is resolved as a path to the file.
-`naming` and `publicPath`.
-See loaders for more on the file loader.
+[and](#naming)
 
-### Plugins
+`naming`[.](#publicpath)
 
-Plugins can override or extend the behavior described in this table. See loaders.## API
+`publicPath`See 
+
+[loaders](/docs/bundler/loaders)for more on the file loader.### Plugins
+
+Plugins can override or extend the behavior described in this table. See[loaders](/docs/bundler/loaders).
+
+## API
 
 ### entrypoints
 
@@ -98,7 +107,8 @@ The directory where output files are written.- JavaScript
 
 build.ts
 
-`outdir` is not passed to the JavaScript API, bundled code is not written to disk. Bundled files are returned in an array of `BuildArtifact` objects. These objects are Blobs with extra properties; see Outputs.
+`outdir` is not passed to the JavaScript API, bundled code is not written to disk. Bundled files are returned in an array of `BuildArtifact` objects. These objects are Blobs with extra properties; see [Outputs](#outputs).
+
 build.ts
 
 `outdir` is set, the `path` property on a `BuildArtifact` is the absolute path it was written to.
@@ -123,8 +133,8 @@ For bundles that run in the Bun runtime. In many cases, it isn’t necessary to 
 
 For bundles that run in Node.js. Prioritizes the 
 
-`"node"` export condition when resolving imports, and outputs `.mjs`.
-Bun does not polyfill the `Bun` global or the built-in `bun:*` modules.### format
+`"node"` export condition when resolving imports. Bun does not
+polyfill the `Bun` global or the built-in `bun:*` modules.### format
 
 Specifies the module format of the generated bundles. Bun defaults to`"esm"`, and provides experimental support for `"cjs"` and `"iife"`.
 #### format: “esm” - ES Module
@@ -172,10 +182,13 @@ build.ts
 
 file system
 
-`chunk-2fce6291bf86559d.js` file contains the shared code. To avoid collisions, the file name includes a content hash by default. Customize this with `naming`.
-### plugins
+`chunk-2fce6291bf86559d.js` file contains the shared code. To avoid collisions, the file name includes a content hash by default. Customize this with [.](#naming)
+
+`naming`### plugins
 
 A list of plugins to use during bundling.build.ts
+
+[plugins](/docs/bundler/plugins).
 
 ### env
 
@@ -226,9 +239,8 @@ build.ts
 ### minify
 
 Whether to enable minification. Default`false`.
-When targeting 
-
-`bun`, identifiers are minified by default.- JavaScript
+To enable all minification options:
+- JavaScript
 - CLI
 
 build.ts
@@ -435,7 +447,7 @@ This works for **pure barrel files**— files where every named export is a re-e
 ### metafile
 
 Generate metadata about the build in a structured format. The metafile describes every input and output file: sizes, imports, and exports. Use it for:- **Bundle analysis**: Understand what’s contributing to bundle size
-- **Visualization**: Feed into tools like esbuild’s bundle analyzer
+- **Visualization**: Feed into tools like- [esbuild’s bundle analyzer](https://esbuild.github.io/analyze/)
 - **Dependency tracking**: See the full import graph of your application
 - **CI integration**: Track bundle size changes over time
 
@@ -469,7 +481,7 @@ build.ts
 |---|---|
 | `kind` | What kind of build output this file is. A build generates bundled entrypoints, code-split “chunks”, sourcemaps, bytecode, and copied assets (like images). | 
 | `path` | Absolute path to the file on disk | 
-| `loader` | The loader used to interpret the file. See loaders for how Bun maps file extensions to built-in loaders. | 
+| `loader` | The loader used to interpret the file. See [loaders](/docs/bundler/loaders)for how Bun maps file extensions to built-in loaders. | 
 | `hash` | The hash of the file contents. Always defined for assets. | 
 | `sourcemap` | The sourcemap file corresponding to this file, if generated. Only defined for entrypoints and chunks. | 
 
@@ -492,6 +504,8 @@ build.ts
 ## Executables
 
 Bun supports “compiling” a JavaScript/TypeScript entrypoint into a standalone executable. This executable contains a copy of the Bun binary.terminal
+
+[standalone executables](/docs/bundler/executables).
 
 ## Logs and errors
 
@@ -590,9 +604,9 @@ Run the React Compiler over
 `.jsx`/`.tsx` files, automatically memoizing components and hooks. Output mode is derived
 from `--target` (`browser` → client, `bun`/`node` → ssr). Experimental.### Standalone Executables
 
-Generate a standalone Bun executable containing the bundle. Implies 
+Generate a standalone Bun executable containing the bundle
 
-`—production`Prepend arguments to the standalone executable’s 
+Prepend arguments to the standalone executable’s 
 
 `execArgv`### Windows Executable Details
 

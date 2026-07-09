@@ -3,7 +3,7 @@ type: Web Page
 title: Watch Mode - Bun
 description: Automatic reloading in Bun with --watch and --hot modes
 resource: https://bun.sh/docs/runtime/watch-mode
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-09T12:17:04.216670+00:00'
 ---
 
 - `--watch`mode, which hard restarts Bun’s process when imported files change.
@@ -20,6 +20,8 @@ terminal
 
 `--watch` mode, Bun keeps track of all imported files and watches them for changes. When a file changes, Bun restarts the process with the same CLI arguments and environment variables as the initial run. If Bun crashes, `--watch` attempts to restart the process.
 **⚡️ Reloads are fast.**The filesystem watchers you’re probably used to have several layers of libraries wrapping the native APIs or, worse, rely on polling.Instead, Bun uses the operating system’s native filesystem watcher APIs, like kqueue or inotify, to detect file changes. Bun also applies several optimizations to scale to larger projects, such as setting a high rlimit for file descriptors, statically allocating file path buffers, and reusing file descriptors when possible.
+
+[on each keystroke](https://code.visualstudio.com/docs/editor/codebasics#_save-auto-save).
 
 terminal
 
@@ -40,7 +42,7 @@ can edit & save your frontend code (say, a React component) and see the changes 
 refreshing the page. Bun’s 
 
 `--hot` is the server-side equivalent of this experience. To get hot reloading in the
-browser, use a framework like Vite.terminal
+browser, use a framework like [Vite](https://vite.dev).terminal
 
 `server.ts` in this example), Bun builds a registry of all imported source files (excluding those in `node_modules`) and watches them for changes. When a file changes, Bun performs a “soft reload”. All files are re-evaluated, but global state (notably, the `globalThis` object) persists.
 server.ts
