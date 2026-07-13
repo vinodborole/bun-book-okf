@@ -3,7 +3,7 @@ type: Web Page
 title: Utils - Bun
 description: Use Bun's utility functions to work with the runtime
 resource: https://bun.sh/docs/runtime/utils
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-13T08:45:21.332040+00:00'
 ---
 
 `Bun.version`
@@ -49,7 +49,7 @@ Returns the path to an executable, similar to typing `which` in your terminal.
 
 `Bun.randomUUIDv7()` returns a [UUID v7](https://www.ietf.org/archive/id/draft-peabody-dispatch-new-uuid-format-01.html#name-uuidv7-layout-and-bit-order), which is monotonic and suitable for sorting and databases.
 
-`timestamp` parameter defaults to the current time in milliseconds. When the timestamp changes, the counter is reset to a pseudo-random integer wrapped to 4096. This counter is atomic and threadsafe, so calls to `Bun.randomUUIDv7()` from many Workers in the same process at the same timestamp don’t produce colliding counter values.
+`timestamp` parameter defaults to the current time in milliseconds. When the timestamp moves forward, the counter is reseeded to a new pseudo-random integer (the high bit of the 12-bit counter is kept clear so at least 2048 values remain before rollover). If the requested timestamp is not newer than the last one emitted, Bun reuses the last emitted timestamp and increments the counter. If that counter rolls over, Bun bumps the emitted timestamp forward instead of wrapping the counter, so the returned UUIDs stay strictly increasing (RFC 9562 §6.2). The counter is atomic and threadsafe, so calls to `Bun.randomUUIDv7()` from many Workers in the same process at the same timestamp don’t produce colliding counter values.
 The final 8 bytes of the UUID are a cryptographically secure random value. It uses the same random number generator used by `crypto.randomUUID()` (which comes from BoringSSL, which in turn comes from the platform-specific system random number generator usually provided by the underlying hardware).
 `"buffer"` as the encoding to get a 16-byte buffer instead of a string. This can avoid string conversion overhead.
 buffer.ts

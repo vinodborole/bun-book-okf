@@ -2,7 +2,7 @@
   "generator": "okf-kit",
   "okf_version": "0.1",
   "root_url": "https://bun.sh/docs",
-  "updated_at": "2026-07-09T12:17:04.308369+00:00",
+  "updated_at": "2026-07-13T08:45:21.381179+00:00",
   "config": {
     "max_depth": 3,
     "max_pages": 90,
@@ -502,7 +502,7 @@
       "path": "pages/docs/runtime/utils.md",
       "url": "https://bun.sh/docs/runtime/utils",
       "title": "Utils - Bun",
-      "hash": "61ae21b092eed0811259b23f3b9ea0aa40b2396b027cbaf72efa73fefd8f5a49"
+      "hash": "1fc4071bd03254929b4c6f608220549dba72ee72ecd162e645c9406306b1da2d"
     },
     {
       "path": "pages/docs/runtime/watch-mode.md",
@@ -1484,9 +1484,9 @@
     ]
   ],
   "last_sync": {
-    "synced_at": "2026-07-09T12:17:04.260089+00:00",
+    "synced_at": "2026-07-13T08:45:21.334410+00:00",
     "added": 0,
-    "changed": 75,
+    "changed": 1,
     "removed": 0,
     "pages": 90
   }
