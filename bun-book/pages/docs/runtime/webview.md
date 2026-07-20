@@ -4,7 +4,7 @@ title: WebView - Bun
 description: Control a headless browser from Bun for automation, testing, and scraping
   — zero dependencies on macOS, Chrome DevTools Protocol everywhere else
 resource: https://bun.sh/docs/runtime/webview
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 `Bun.WebView` is a headless browser built into the runtime. Use it to load pages, run JavaScript inside them, simulate real user input, and capture screenshots — without Puppeteer, Playwright, or a separate browser download.
@@ -32,10 +32,7 @@ With the Chrome backend,
 `dataStore:     "ephemeral"` (the default).## Backends
 
 `Bun.WebView` supports two rendering engines. The default depends on your platform:
-| Backend | Engine | Platforms | Requirements | 
-|---|---|---|---|
-| `"webkit"` | WKWebView | macOS only | None — uses the system `WebKit.framework` | 
-| `"chrome"` | Blink | macOS / Linux | Chrome, Chromium, Edge, or Brave installed (or Playwright’s `chrome-headless-shell`) | 
+On macOS the default is 
 
 `"webkit"`; elsewhere it’s `"chrome"`. Requesting `backend: "webkit"` on a non-macOS platform throws.
 ### How the WebKit backend works
@@ -108,13 +105,6 @@ Capture the current viewport as an image:### Image format
 ### Return type
 
 The`encoding` option controls how the image bytes are handed back:
-| `encoding` | Returns | Notes | 
-|---|---|---|
-| `"blob"`(default) | `Blob` | MIME type set automatically. Zero-copy mmap-backed on WebKit. Works with `Bun.write()`,`new Response()` | 
-| `"buffer"` | `Buffer` | Node `Buffer`. Zero-copy mmap-backed on WebKit | 
-| `"base64"` | `string` | Base64-encoded. Zero-decode on Chrome (CDP returns base64 natively) | 
-| `"shmem"` | `{ name: string, size: number }` | POSIX shared-memory segment name. Caller owns `shm_unlink`. Not supported on Windows | 
-
 #### Shared memory for terminal graphics
 
 `encoding: "shmem"` is designed for Kitty’s [terminal graphics protocol](https://sw.kovidgoyal.net/kitty/graphics-protocol/)
@@ -221,98 +211,6 @@ Each view has a small number of independent operation “slots”. One operation
 
 `await` each call.
 Operations on **different views**are fully independent and run in parallel — each view has its own renderer process.
-
-## Reference
-
-`new Bun.WebView(options?)`
-
-| Option | Type | Default | Description | 
-|---|---|---|---|
-| `width` | `number` | `800` | Viewport width in CSS pixels. Range 1-16384. | 
-| `height` | `number` | `600` | Viewport height in CSS pixels. Range 1-16384. | 
-| `url` | `string` | — | Begin navigating to this URL immediately. | 
-| `headless` | `boolean` | `true` | Only `true`is implemented;`false`throws. | 
-| `backend` | `"webkit"`|`"chrome"`|[object](#backends) | `"webkit"`on macOS,`"chrome"`elsewhere | Rendering engine. | 
-| `console` | `typeof console`|`(type, ...args) => void` | — | Capture page-side `console.*`calls. See[Console capture](#console-capture). | 
-| `dataStore` | `"ephemeral"`|`{ directory: string }` | `"ephemeral"` | Storage for cookies / localStorage / IndexedDB. See [Persistent storage](#persistent-storage). | 
-
-`backend` object form
-
-| Option | Type | Description | 
-|---|---|---|
-| `type` | `"chrome"`|`"webkit"` | Required.Which engine to use. | 
-| `path` | `string` | ( `chrome`only) Path to the Chrome/Chromium executable. Forces spawn mode. | 
-| `argv` | `string[]` | ( `chrome`only) Extra launch flags, appended after the defaults. Forces spawn mode. | 
-| `url` | `string`|`false` | ( `chrome`only)`ws://`URL of an existing Chrome’s DevTools endpoint, or`false`to skip auto-detect and always spawn. See[above](#existing-chrome). | 
-| `stdout` | `"inherit"`|`"ignore"` | Route the subprocess’s stdout to Bun’s. Default `"ignore"`. | 
-| `stderr` | `"inherit"`|`"ignore"` | Route the subprocess’s stderr to Bun’s. Default `"ignore"`. | 
-
-### Instance properties
-
-| Property | Type | Description | 
-|---|---|---|
-| `url` | `string`(readonly) | The current URL. Updated when a navigation completes. Empty string before first navigation. | 
-| `title` | `string`(readonly) | The page’s `<title>`. Updated when a navigation completes. | 
-| `loading` | `boolean`(readonly) | `true`while a navigation is in flight. | 
-| `onNavigated` | `((url: string, title: string) => void) | null` | Fires after each successful navigation, before the `navigate()`promise resolves. | 
-| `onNavigationFailed` | `((error: Error) => void) | null` | Fires after each failed navigation, before the `navigate()`promise rejects. | 
-
-### Instance methods
-
-| Method | Returns | Description | 
-|---|---|---|
-| `navigate(url)` | `Promise<void>` | Load a URL. Resolves on the main frame’s `load`event. | 
-| `evaluate(script)` | `Promise<unknown>` | Run a JS expression in the page and return its JSON-serialized result. | 
-| `screenshot(options?)` | `Promise<Blob | Buffer | string | {name, size}>` | Capture the viewport. See [Screenshots](#screenshots). | 
-| `click(x, y, options?)` | `Promise<void>` | Native click at viewport coordinates. | 
-| `click(selector, options?)` | `Promise<void>` | Wait for the element to be actionable, then click its center. | 
-| `type(text)` | `Promise<void>` | Insert text into the focused element with the `InsertText`editing command. | 
-| `press(key, options?)` | `Promise<void>` | Press a named virtual key or single-character chord. | 
-| `scroll(dx, dy)` | `Promise<void>` | Fire a native `wheel`event at the viewport center.`dx`/`dy`must be finite. | 
-| `scrollTo(selector, options?)` | `Promise<void>` | Wait for the element to exist, then `scrollIntoView`. | 
-| `resize(width, height)` | `Promise<void>` | Change the viewport size. Each dimension 1-16384. | 
-| `goBack()` | `Promise<void>` | Navigate back in session history. No-op at the start. | 
-| `goForward()` | `Promise<void>` | Navigate forward in session history. No-op at the end. | 
-| `reload()` | `Promise<void>` | Reload the current page. | 
-| `cdp(method, params?)` | `Promise<unknown>` | (Chrome only) Send a raw CDP command scoped to this tab. See [Raw CDP](#cdp). | 
-| `addEventListener(type, fn)` | `void` | Inherited from `EventTarget`. With Chrome,`type`may be a CDP event name;`event.data`is the parsed`params`. | 
-| `close()` | `void` | Destroy the page. Rejects pending promises. Idempotent. | 
-
-`click()` options
-
-| Option | Type | Default | Description | 
-|---|---|---|---|
-| `button` | `"left"`|`"right"`|`"middle"` | `"left"` | Mouse button. | 
-| `modifiers` | `("Shift" | "Control" | "Alt" | "Meta")[]` | `[]` | Modifier keys held during the click. | 
-| `clickCount` | `1`|`2`|`3` | `1` | Click count for double/triple-click. | 
-| `timeout` | `number` | `30000` | (Selector overload only) Max milliseconds to wait for actionability. | 
-
-`press()` options
-
-| Option | Type | Default | Description | 
-|---|---|---|---|
-| `modifiers` | `("Shift" | "Control" | "Alt" | "Meta")[]` | `[]` | Modifier keys held during the keypress. | 
-
-`scrollTo()` options
-
-| Option | Type | Default | Description | 
-|---|---|---|---|
-| `block` | `"start"`|`"center"`|`"end"`|`"nearest"` | `"center"` | Vertical alignment after scrolling. | 
-| `timeout` | `number` | `30000` | Max milliseconds to wait for the element to exist. | 
-
-`screenshot()` options
-
-| Option | Type | Default | Description | 
-|---|---|---|---|
-| `format` | `"png"`|`"jpeg"`|`"webp"` | `"png"` | Image format. `"webp"`requires the Chrome backend. | 
-| `quality` | `number` | `80` | 0-100. JPEG/WebP only; ignored for PNG. | 
-| `encoding` | `"blob"`|`"buffer"`|`"base64"`|`"shmem"` | `"blob"` | Return-type encoding. `"shmem"`not supported on Windows. | 
-
-### Static methods
-
-| Method | Description | 
-|---|---|
-| `WebView.closeAll()` | `SIGKILL`every browser subprocess. Pending promises reject on the next tick. Called automatically at exit. |
 
 # Citations
 

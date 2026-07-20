@@ -3,7 +3,7 @@ type: Web Page
 title: File I/O - Bun
 description: Bun provides a set of optimized APIs for reading and writing files.
 resource: https://bun.sh/docs/runtime/file-io
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 The 
@@ -41,19 +41,6 @@ The first argument is the `destination`, which can be any of the following:
 See syscalls
 
 See syscalls
-
-| Output | Input | System call | Platform | 
-|---|---|---|---|
-| file | file | copy_file_range | Linux | 
-| file | pipe | sendfile | Linux | 
-| pipe | pipe | splice | Linux | 
-| terminal | file | sendfile | Linux | 
-| terminal | terminal | sendfile | Linux | 
-| socket | file or pipe | sendfile (if http, not https) | Linux | 
-| file (doesn’t exist) | file (path) | clonefile | macOS | 
-| file (exists) | file | fcopyfile | macOS | 
-| file | Blob or string | write | macOS | 
-| file | Blob or string | write | Linux | 
 
 `stdout`:
 ## Incremental writing with `FileSink`

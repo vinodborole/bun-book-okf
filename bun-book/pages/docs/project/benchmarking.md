@@ -3,7 +3,7 @@ type: Web Page
 title: Benchmarking - Bun
 description: How to benchmark Bun
 resource: https://bun.sh/docs/project/benchmarking
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 [directory of the Bun repo.](https://github.com/oven-sh/bun/tree/main/bench)
@@ -61,13 +61,6 @@ terminal
 
 terminal
 
-| Flag | Description | 
-|---|---|
-| `--cpu-prof` | Generate a `.cpuprofile`JSON file (Chrome DevTools format) | 
-| `--cpu-prof-md` | Generate a markdown CPU profile (grep/LLM-friendly) | 
-| `--cpu-prof-name <filename>` | Set output filename | 
-| `--cpu-prof-dir <dir>` | Set output directory | 
-
 ## Heap profiling
 
 Generate heap snapshots on exit to analyze memory usage and find memory leaks.terminal
@@ -83,13 +76,6 @@ If both
 `--heap-prof` and `--heap-prof-md` are specified, the markdown format is used.### Options
 
 terminal
-
-| Flag | Description | 
-|---|---|
-| `--heap-prof` | Generate a V8 `.heapsnapshot`file on exit | 
-| `--heap-prof-md` | Generate a markdown heap profile on exit | 
-| `--heap-prof-name <filename>` | Set output filename | 
-| `--heap-prof-dir <dir>` | Set output directory |
 
 # Citations
 

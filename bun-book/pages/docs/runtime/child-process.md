@@ -3,7 +3,7 @@ type: Web Page
 title: Spawn - Bun
 description: Spawn child processes with Bun.spawn or Bun.spawnSync
 resource: https://bun.sh/docs/runtime/child-process
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 ## Spawn a process (`Bun.spawn()`)
@@ -13,18 +13,7 @@ Provide a command as an array of strings. The result of `Bun.spawn()` is a `Bun.
 ## Input stream
 
 By default, the input stream of the subprocess is undefined; configure it with the`stdin` parameter.
-| Value | Description | 
-|---|---|
-| `null` | Default.Provide no input to the subprocess | 
-| `"pipe"` | Return a `FileSink`for fast incremental writing | 
-| `"inherit"` | Inherit the `stdin`of the parent process | 
-| `Bun.file()` | Read from the specified file | 
-| `TypedArray | DataView` | Use a binary buffer as input | 
-| `Response` | Use the response `body`as input | 
-| `Request` | Use the request `body`as input | 
-| `ReadableStream` | Use a readable stream as input | 
-| `Blob` | Use a blob as input | 
-| `number` | Read from the file with a given file descriptor | 
+With 
 
 `"pipe"`, the parent process can incrementally write to the subprocess’s input stream.
 `ReadableStream` to `stdin` pipes its data directly to the subprocess’s input:
@@ -32,14 +21,6 @@ By default, the input stream of the subprocess is undefined; configure it with t
 
 Read the subprocess’s output from the`stdout` and `stderr` properties. By default these are instances of `ReadableStream`.
 `stdout/stderr`:
-| Value | Description | 
-|---|---|
-| `"pipe"` | Default for Pipe the output to a`stdout`.`ReadableStream`on the returned`Subprocess`object | 
-| `"inherit"` | Default for Inherit from the parent process`stderr`. | 
-| `"ignore"` | Discard the output | 
-| `Bun.file()` | Write to the specified file | 
-| `number` | Write to the file with the given file descriptor | 
-
 ## Exit handling
 
 Use the`onExit` callback to listen for the process exiting or being killed.
@@ -111,15 +92,6 @@ For interactive terminal applications, use the`terminal` option to spawn a subpr
 - Access the terminal via `proc.terminal`
 
 ### Terminal options
-
-| Option | Description | Default | 
-|---|---|---|
-| `cols` | Number of columns | `80` | 
-| `rows` | Number of rows | `24` | 
-| `name` | Terminal type for PTY configuration (set the `TERM`env var separately with the`env`option) | `"xterm-256color"` | 
-| `data` | Callback when data is received `(terminal, data) => void` | — | 
-| `exit` | Callback when PTY stream closes (EOF or error). `exitCode`is PTY lifecycle status (0=EOF, 1=error), not subprocess exit code. Use`proc.exited`for process exit. | — | 
-| `drain` | Callback when ready for more data `(terminal) => void` | — | 
 
 ### Terminal methods
 

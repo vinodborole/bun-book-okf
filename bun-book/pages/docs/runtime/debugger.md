@@ -4,7 +4,7 @@ title: Debugging - Bun
 description: Debug your Bun code with an interactive debugger using WebKit Inspector
   Protocol
 resource: https://bun.sh/docs/runtime/debugger
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 [WebKit Inspector Protocol](https://github.com/oven-sh/bun/blob/main/packages/bun-inspector-protocol/src/protocol/jsc/index.d.ts), so you can debug your code with an interactive debugger. For demonstration purposes, consider the following web server.
@@ -53,12 +53,6 @@ Visual Studio Code support for debugging Bun scripts is experimental. To use it,
 ## Debugging Network Requests
 
 Set the`BUN_CONFIG_VERBOSE_FETCH` environment variable to log network requests made with `fetch()` or `node:http`.
-| Value | Description | 
-|---|---|
-| `curl` | Print requests as `curl`commands | 
-| `true` | Print request & response info | 
-| `false` | Don’t print anything (default) | 
-
 ### Print fetch & node:http requests as curl commands
 
 Set`BUN_CONFIG_VERBOSE_FETCH` to `curl` to print each `fetch()` and `node:http` request as a single-line `curl` command you can copy-paste into your terminal to replicate the request.
@@ -85,26 +79,7 @@ Bun implements the[V8 Stack Trace API](https://v8.dev/docs/stack-trace-api), a s
 
 Define a global `Error.prepareStackTrace` function to customize the stack trace output. It receives the error object and an array of `CallSite` objects, and its return value becomes `error.stack`.
 `CallSite` object has the following methods:
-| Method | Returns | 
-|---|---|
-| `getThis` | `this`value of the function call | 
-| `getTypeName` | typeof `this` | 
-| `getFunction` | function object | 
-| `getFunctionName` | function name as a string | 
-| `getMethodName` | method name as a string | 
-| `getFileName` | file name or URL | 
-| `getLineNumber` | line number | 
-| `getColumnNumber` | column number | 
-| `getEvalOrigin` | `undefined` | 
-| `getScriptNameOrSourceURL` | source URL | 
-| `isToplevel` | returns `true`if the function is in the global scope | 
-| `isEval` | returns `true`if the function is an`eval`call | 
-| `isNative` | returns `true`if the function is native | 
-| `isConstructor` | returns `true`if the function is a constructor | 
-| `isAsync` | returns `true`if the function is`async` | 
-| `isPromiseAll` | Not implemented yet. | 
-| `getPromiseIndex` | Not implemented yet. | 
-| `toString` | returns a string representation of the call site | 
+If the 
 
 `Function` object has already been garbage collected, some of these methods return `undefined`.
 `Error.captureStackTrace(error, startFn)`

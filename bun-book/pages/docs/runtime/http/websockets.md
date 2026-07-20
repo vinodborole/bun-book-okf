@@ -3,7 +3,7 @@ type: Web Page
 title: WebSockets - Bun
 description: Server-side WebSockets in Bun
 resource: https://bun.sh/docs/runtime/http/websockets
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 `Bun.serve()` supports server-side WebSockets, with on-the-fly compression, TLS support, and a Bun-native publish-subscribe API.
@@ -13,10 +13,7 @@ timestamp: '2026-07-09T12:17:04.216670+00:00'
 
 [.](https://github.com/websockets/ws)
 
-`"ws"`| Messages sent per second | Runtime | Clients | 
-|---|---|---|
-| ~700,000 | ( `Bun.serve`) Bun v0.2.1 (x64) | 16 | 
-| ~100,000 | ( `ws`) Node v18.10.0 (x64) | 16 | 
+`"ws"`Internally Bun’s WebSocket implementation is built on 
 
 [uWebSockets](https://github.com/uNetworking/uWebSockets).
 

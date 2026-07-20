@@ -3,7 +3,7 @@ type: Web Page
 title: Node.js Compatibility - Bun
 description: Bun's compatibility status with Node.js APIs, modules, and globals
 resource: https://bun.sh/docs/runtime/nodejs-compat
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 `npm` packages intended for Node.js work with Bun. To ensure compatibility, we run thousands of tests from Node.js’ test suite before every release of Bun.
@@ -143,10 +143,10 @@ timestamp: '2026-07-09T12:17:04.216670+00:00'
 🔴 Not implemented.
 `node:repl``node:sqlite`
 
-🔴 Not implemented.
-`node:sqlite``node:test`
+🟢 Fully implemented. `node:sqlite``backup()` runs synchronously and blocks the event loop for the duration of the copy (Node runs it on a worker thread). A `Buffer`/`Uint8Array` database path must be valid UTF-8 (Node passes the raw bytes through; Bun rejects non-UTF-8 with `ERR_INVALID_ARG_VALUE`). On macOS, Bun uses the system `libsqlite3.dylib`; `loadExtension()` (and, on older macOS releases, `createSession()`/`applyChangeset()`) require a full SQLite build — call `require("bun:sqlite").Database.setCustomSQLite(path)` before opening a database.
+`node:test`
 
-🟡 Partially implemented. Missing `node:test``mock.module`, `mock.timers`, snapshots. Use [instead.](/docs/test)
+🟡 Partially implemented. The in-process API works when test files run under `node:test``bun test`: tests, suites, subtests, hooks, `t.plan()`, `t.assert`, `assert.register()`, `t.waitFor()`, `getTestContext()`, and `t.mock` (function/method/getter/setter/property mocks and mock timers). Missing `run()`, `node:test/reporters`, snapshot testing, `mock.module()`, code coverage, `--test-only`, test-level `signal`/`t.signal` abort, and Node’s `--test` CLI runner mode. `test.only()` / `{only: true}` are accepted but do not filter. `concurrency` is validated but subtests always run serially. Use [instead.](/docs/test)
 
 `bun:test``node:trace_events`
 

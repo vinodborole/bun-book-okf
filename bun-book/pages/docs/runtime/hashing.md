@@ -4,7 +4,7 @@ title: Hashing - Bun
 description: Utility functions for hashing and verifying passwords with various cryptographically
   secure algorithms
 resource: https://bun.sh/docs/runtime/hashing
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 Bun implements the 
@@ -81,12 +81,6 @@ Input:
 
 `.update()`, which accepts `string`, `TypedArray`, and `ArrayBuffer`.
 `'utf-8'`). The following encodings are supported:
-| Category | Encodings | 
-|---|---|
-| Binary encodings | `"base64"``"base64url"``"hex"``"binary"` | 
-| Character encodings | `"utf8"``"utf-8"``"utf16le"``"latin1"` | 
-| Legacy character encodings | `"ascii"``"binary"``"ucs2"``"ucs-2"` | 
-
 `.digest()`. By default, this method returns a `Uint8Array` containing the hash.
 `.digest()`:
 `.digest()` can write the hash into an existing `TypedArray` instead of allocating a new one.

@@ -3,7 +3,7 @@ type: Web Page
 title: Cron - Bun
 description: Schedule and parse cron jobs with Bun
 resource: https://bun.sh/docs/runtime/cron
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 ## Quickstart
@@ -19,11 +19,6 @@ timestamp: '2026-07-09T12:17:04.216670+00:00'
 Parse a cron expression and return the next matching `Date` in UTC.
 ### Parameters
 
-| Parameter | Type | Description | 
-|---|---|---|
-| `expression` | `string` | A 5-field cron expression or predefined nickname | 
-| `relativeDate` | `Date | number` | Starting point for the search (defaults to `Date.now()`) | 
-
 ### Returns
 
 `Date | null` — the next matching time, or `null` if no match exists within 8 years (for example, February 30th).
@@ -33,35 +28,12 @@ Call`parse()` repeatedly to get a sequence of upcoming times:
 ## Cron expression syntax
 
 Standard 5-field format:`minute hour day-of-month month day-of-week`
-| Field | Values | Special characters | 
-|---|---|---|
-| Minute | `0`–`59` | `*``,``-``/` | 
-| Hour | `0`–`23` | `*``,``-``/` | 
-| Day of month | `1`–`31` | `*``,``-``/` | 
-| Month | `1`–`12`or`JAN`–`DEC` | `*``,``-``/` | 
-| Day of week | `0`–`7`or`SUN`–`SAT` | `*``,``-``/` | 
-
 ### Special characters
-
-| Character | Description | Example | 
-|---|---|---|
-| `*` | All values | `* * * * *`— every minute | 
-| `,` | List | `1,15 * * * *`— minute 1 and 15 | 
-| `-` | Range | `9-17 * * * *`— minutes 9 through 17 | 
-| `/` | Step | `*/15 * * * *`— every 15 minutes | 
 
 ### Named values
 
 Month and weekday fields accept case-insensitive names:`0` and `7` mean Sunday in the weekday field.
 ### Predefined nicknames
-
-| Nickname | Equivalent | Description | 
-|---|---|---|
-| `@yearly`/`@annually` | `0 0 1 1 *` | Once a year (January 1st) | 
-| `@monthly` | `0 0 1 * *` | Once a month (1st day) | 
-| `@weekly` | `0 0 * * 0` | Once a week (Sunday) | 
-| `@daily`/`@midnight` | `0 0 * * *` | Once a day (midnight) | 
-| `@hourly` | `0 * * * *` | Once an hour | 
 
 ### Time zone
 
@@ -83,20 +55,9 @@ When**both**day-of-month and day-of-week are specified (neither is
 `Bun.cron(schedule, handler)` — in-process
 
 Run a callback on a cron schedule inside the current process.
-| In-process | [OS-level](#bun-cron-path-schedule-title-os-level) | |
-|---|---|---|
-| Survives process exit/reboot | No | Yes | 
-| Shared state between runs | Yes | No (fresh process each time) | 
-| Platform requirements | None | crontab / launchd / Task Scheduler | 
-| Windows expression limits | None | [48-trigger cap](#trigger-limit) | 
-| Return type | `CronJob` | `Promise<void>` | 
-
 ### Parameters
 
-| Parameter | Type | Description | 
-|---|---|---|
-| `schedule` | `string` | A [cron expression](#cron-expression-syntax)or nickname like`"@hourly"`. | 
-| `handler` | `(this: CronJob) => unknown` | Called on each fire. May return a Promise — the next fire is not scheduled until it settles. Inside a `function`callback,`this`is the`CronJob`(so`this.stop()`works). | 
+Returns a 
 
 [synchronously. Throws a](#the-cronjob-handle)
 
@@ -128,11 +89,7 @@ In-process cron honors`jest.useFakeTimers()`. `setSystemTime()`, `advanceTimersB
 Register an OS-level cron job that runs a JavaScript/TypeScript module on a schedule.
 ### Parameters
 
-| Parameter | Type | Description | 
-|---|---|---|
-| `path` | `string` | Path to the script (resolved relative to caller) | 
-| `schedule` | `string` | Cron expression or nickname | 
-| `title` | `string` | Unique job identifier (alphanumeric, hyphens, underscores) | 
+Re-registering with the same 
 
 `title` overwrites the existing job in-place — the old schedule is replaced, not duplicated.
 ### The `scheduled()` handler
@@ -195,25 +152,9 @@ TCP/IP networking (`fetch()`, HTTP, WebSocket, database connections) works norma
 
 **Expressions that work on all platforms:**
 
-| Pattern | Trigger strategy | Count | 
-|---|---|---|
-| `*/5 * * * *` | Single trigger with (PT5M)`Repetition` | 1 | 
-| `*/15 * * * *` | Single trigger with Repetition (PT15M) | 1 | 
-| `0 9 * * MON-FRI` | One `CalendarTrigger`per weekday | 5 | 
-| `0,30 9-17 * * *` | 2 minutes × 9 hours | 18 | 
-| `@daily`,`@weekly`,`@monthly`,`@yearly` | Single trigger | 1 | 
-
 **Expressions that fail on Windows**(but work on Linux and macOS):
 
-| Pattern | Why | Trigger count | 
-|---|---|---|
-| `*/7 * * * *` | 9 minute values × 24 hours | 216 | 
-| `*/8 * * * *` | 8 minute values × 24 hours | 192 | 
-| `*/9 * * * *` | 7 minute values × 24 hours | 168 | 
-| `*/11 * * * *` | 6 minute values × 24 hours | 144 | 
-| `*/13 * * * *` | 5 minute values × 24 hours | 120 | 
-| `*/15 * * 6 *` | Month restriction prevents Repetition: 4 × 24 | 96 | 
-| `0,30 * 15 * FRI` | OR-split doubles triggers: 2 × 24 × 2 | 96 | 
+The key factor is whether the expression can use a 
 
 [interval (single trigger) or must expand to individual](https://learn.microsoft.com/en-us/windows/win32/taskschd/taskschedulerschema-repetition-triggerbasetype-element)
 
@@ -234,11 +175,7 @@ To work around it, simplify the expression or restrict the hour range:
 
 Remove a previously registered cron job by its title. Works on all platforms.
 `Bun.cron()` did:
-| Platform | What `remove()`does | 
-|---|---|
-| Linux | Edits crontab to remove the entry and its marker comment | 
-| macOS | Runs `launchctl bootout`and deletes the plist file | 
-| Windows | Runs `schtasks /delete`to remove the scheduled task |
+Removing a job that doesn’t exist resolves without error.
 
 # Citations
 

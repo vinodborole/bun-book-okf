@@ -3,7 +3,7 @@ type: Web Page
 title: C Compiler - Bun
 description: Compile and run C from JavaScript with low overhead
 resource: https://bun.sh/docs/runtime/c-compiler
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 `bun:ffi` has experimental support for compiling and running C from JavaScript with low overhead.
@@ -24,29 +24,7 @@ terminal
 
 `cc` supports the same `FFIType` values as [.](/docs/runtime/ffi)
 
-`dlopen`| `FFIType` | C Type | Aliases | 
-|---|---|---|
-| cstring | `char*` | |
-| function | `(void*)(*)()` | `fn`,`callback` | 
-| ptr | `void*` | `pointer`,`void*`,`char*` | 
-| i8 | `int8_t` | `int8_t` | 
-| i16 | `int16_t` | `int16_t` | 
-| i32 | `int32_t` | `int32_t`,`int` | 
-| i64 | `int64_t` | `int64_t` | 
-| i64_fast | `int64_t` | |
-| u8 | `uint8_t` | `uint8_t` | 
-| u16 | `uint16_t` | `uint16_t` | 
-| u32 | `uint32_t` | `uint32_t` | 
-| u64 | `uint64_t` | `uint64_t` | 
-| u64_fast | `uint64_t` | |
-| f32 | `float` | `float` | 
-| f64 | `double` | `double` | 
-| bool | `bool` | |
-| char | `char` | |
-| napi_env | `napi_env` | |
-| napi_value | `napi_value` | 
-
-### Strings, objects, and non-primitive types
+`dlopen`### Strings, objects, and non-primitive types
 
 For strings, objects, and other non-primitive types that don’t map 1:1 to C types,`cc` supports N-API.
 Use `napi_value` to pass or receive JavaScript values from a C function without any type conversions.

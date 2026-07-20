@@ -3,7 +3,7 @@ type: Web Page
 title: Server - Bun
 description: Use Bun.serve to start a high-performance HTTP server in Bun
 resource: https://bun.sh/docs/runtime/http/server
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 ## Basic Setup
@@ -117,11 +117,6 @@ The following Bun and Node.js servers respond`Bun!` to each incoming `Request`.
 Bun
 
 `Bun.serve` server can handle roughly 2.5x more requests per second than Node.js on Linux.
-| Runtime | Requests per second | 
-|---|---|
-| Node 16 | ~64,000 | 
-| Bun | ~160,000 | 
-
 ## Practical example: REST API
 
 Here’s a basic database-backed REST API using Bun’s router with zero dependencies:## Reference

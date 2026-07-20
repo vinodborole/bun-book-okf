@@ -3,27 +3,11 @@ type: Web Page
 title: Color - Bun
 description: Format colors as CSS, ANSI, numbers, hex strings, and more
 resource: https://bun.sh/docs/runtime/color
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 `Bun.color(input, outputFormat?)` uses Bun’s CSS parser to parse, normalize, and convert colors from user input to any of these output formats:
-| Format | Example | 
-|---|---|
-| `"css"` | `"red"` | 
-| `"ansi"` | `"\x1b[38;2;255;0;0m"` | 
-| `"ansi-16"` | `"\x1b[91m"` | 
-| `"ansi-256"` | `"\x1b[38;5;196m"` | 
-| `"ansi-16m"` | `"\x1b[38;2;255;0;0m"` | 
-| `"number"` | `0x1a2b3c` | 
-| `"rgb"` | `"rgb(255, 99, 71)"` | 
-| `"rgba"` | `"rgba(255, 99, 71, 0.5)"` | 
-| `"hsl"` | `"hsl(120, 50%, 50%)"` | 
-| `"hex"` | `"#1a2b3c"` | 
-| `"HEX"` | `"#1A2B3C"` | 
-| `"{rgb}"` | `{ r: 255, g: 99, b: 71 }` | 
-| `"{rgba}"` | `{ r: 255, g: 99, b: 71, a: 1 }` | 
-| `"[rgb]"` | `[ 255, 99, 71 ]` | 
-| `"[rgba]"` | `[ 255, 99, 71, 255]` | 
+Use it to:
 
 - Validate and normalize colors to persist in a database (`number`is the most database-friendly)
 - Convert colors to different formats

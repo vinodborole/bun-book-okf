@@ -3,7 +3,7 @@ type: Web Page
 title: Quickstart - Bun
 description: Build your first app with Bun
 resource: https://bun.sh/docs/quickstart
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 ## Overview
@@ -11,7 +11,9 @@ timestamp: '2026-07-09T12:17:04.216670+00:00'
 Build a minimal HTTP server with`Bun.serve`, run it locally, then evolve it by installing a package.
 Prerequisites: Bun installed and available on your 
 
-`PATH`. See [installation](/docs/installation)for setup.Step 1
+`PATH`. See [installation](/docs/installation)for setup.1
+
+Step 1
 
 Initialize a new project with The new 
 
@@ -19,7 +21,17 @@ Initialize a new project with The new
 
 `bun init` prompts you to pick a template: `Blank`, `React`, or `Library`. For this guide, pick `Blank`.terminal
 
-`my-app` directory contains a basic Bun app.Step 3
+`my-app` directory contains a basic Bun app.2
+
+Step 2
+
+Run 
+
+`index.ts` with `bun run`.terminal
+
+3
+
+Step 3
 
 Replace the contents of Run Visit 
 
@@ -37,6 +49,8 @@ Seeing TypeScript errors on Bun?
 
 `compilerOptions` in `tsconfig.json`:tsconfig.json
 
+4
+
 Step 4
 
 Install the Update Run Visit 
@@ -47,7 +61,9 @@ Install the Update Run Visit
 
 `index.ts` again.terminal
 
-[to test the server. You should see a page that says](http://localhost:3000/figlet)`http://localhost:3000/figlet``"Bun!"` in ASCII art.Step 5
+[to test the server. You should see a page that says](http://localhost:3000/figlet)`http://localhost:3000/figlet``"Bun!"` in ASCII art.5
+
+Step 5
 
 Now add some HTML. Create a new file called Then, import this file in Run Visit 
 

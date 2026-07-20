@@ -4,7 +4,7 @@ title: bun create - Bun
 description: Create a new Bun project from a React component, a create- npm package,
   a GitHub repo, or a local template
 resource: https://bun.sh/docs/runtime/templating/create
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 `bun create` is optional — Bun works without any configuration. This command exists to make getting started faster.Template a new Bun project with
@@ -103,29 +103,14 @@ package.json
 You can specify pre- and post-install setup scripts in the`"bun-create"` section of your local template’s `package.json`.
 package.json
 
-| Field | Description | 
-|---|---|
-| `postinstall` | runs after installing dependencies | 
-| `preinstall` | runs before installing dependencies | 
+After cloning a template, 
 
 `bun create` removes the `"bun-create"` section from `package.json` before writing it to the destination folder.
 ## Reference
 
 ### CLI flags
 
-| Flag | Description | 
-|---|---|
-| `--force` | Overwrite existing files | 
-| `--no-install` | Skip installing `node_modules`& tasks | 
-| `--no-git` | Don’t initialize a git repository | 
-| `--open` | Start & open in-browser after finish | 
-
 ### Environment variables
-
-| Name | Description | 
-|---|---|
-| `GITHUB_API_DOMAIN` | The GitHub domain Bun downloads from. Set this if you use GitHub Enterprise or a proxy | 
-| `GITHUB_TOKEN`(or`GITHUB_ACCESS_TOKEN`) | Lets `bun create`access private repositories and avoid rate limits.`GITHUB_TOKEN`is chosen over`GITHUB_ACCESS_TOKEN`if both exist. | 
 
 How `bun create` works
 

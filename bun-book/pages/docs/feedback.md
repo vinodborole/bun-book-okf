@@ -3,12 +3,14 @@ type: Web Page
 title: Feedback - Bun
 description: Share feedback, bug reports, and feature requests
 resource: https://bun.sh/docs/feedback
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 For general questions, join the 
 
 [Discord](https://bun.com/discord).## Reporting Issues
+
+1
 
 Upgrade Bun
 
@@ -18,9 +20,13 @@ Upgrade Bun to the latest version with You can also try the latest canary releas
 
 terminal
 
+2
+
 Review Existing Issues
 
 Check whether the issue has already been reported before opening a new one. It saves time for everyone and helps us focus on fixing things.If you find a related issue, add a 👍 reaction or comment with extra details instead of opening a new one.
+
+3
 
 Report the Issue
 

@@ -3,17 +3,8 @@ type: Web Page
 title: Binary Data - Bun
 description: Working with binary data in JavaScript
 resource: https://bun.sh/docs/runtime/binary-data
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
-
-| Class | Description | 
-|---|---|
-| `TypedArray` | A family of classes that provide an `Array`-like interface for interacting with binary data. Includes`Uint8Array`,`Uint16Array`,`Int8Array`, and more. | 
-| `Buffer` | A subclass of `Uint8Array`that implements a wide range of convenience methods. Unlike the others in this table, it’s a Node.js API (which Bun implements). It isn’t available in the browser. | 
-| `DataView` | A class that provides a `get/set`API for writing some number of bytes to an`ArrayBuffer`at a particular byte offset. Often used for reading or writing binary protocols. | 
-| `Blob` | A readonly blob of binary data usually representing a file. Has a MIME `type`, a`size`, and methods for converting to`ArrayBuffer`,`ReadableStream`, and string. | 
-| `File` | A subclass of `Blob`that represents a file. Has a`name`and`lastModified`timestamp. Node.js v20 has experimental support. | 
-| `BunFile` | Bun only. A subclass of`Blob`that represents a lazily-loaded file on disk. Created with`Bun.file(path)`. | 
 
 `ArrayBuffer` and views
 
@@ -40,29 +31,10 @@ It’s common to refer to this family of classes collectively by their shared su
 `TypedArray`. This class is
 *internal*to JavaScript; you can’t directly create instances of it, and`TypedArray` is not defined in the global
 scope. Think of it as an `interface` or an abstract class.`ArrayBuffer`:
-| Class | Description | 
-|---|---|
-| `Uint8Array` | Every one (1) byte is interpreted as an unsigned 8-bit integer. Range 0 to 255. | 
-| `Uint16Array` | Every two (2) bytes are interpreted as an unsigned 16-bit integer. Range 0 to 65535. | 
-| `Uint32Array` | Every four (4) bytes are interpreted as an unsigned 32-bit integer. Range 0 to 4294967295. | 
-| `Int8Array` | Every one (1) byte is interpreted as a signed 8-bit integer. Range -128 to 127. | 
-| `Int16Array` | Every two (2) bytes are interpreted as a signed 16-bit integer. Range -32768 to 32767. | 
-| `Int32Array` | Every four (4) bytes are interpreted as a signed 32-bit integer. Range -2147483648 to 2147483647. | 
-| `Float16Array` | Every two (2) bytes are interpreted as a 16-bit floating point number. Range -6.104e5 to 6.55e4. | 
-| `Float32Array` | Every four (4) bytes are interpreted as a 32-bit floating point number. Range -3.4e38 to 3.4e38. | 
-| `Float64Array` | Every eight (8) bytes are interpreted as a 64-bit floating point number. Range -1.7e308 to 1.7e308. | 
-| `BigInt64Array` | Every eight (8) bytes are interpreted as a signed `BigInt`. Range -9223372036854775808 to 9223372036854775807 (though`BigInt`is capable of representing larger numbers). | 
-| `BigUint64Array` | Every eight (8) bytes are interpreted as an unsigned `BigInt`. Range 0 to 18446744073709551615 (though`BigInt`is capable of representing larger numbers). | 
-| `Uint8ClampedArray` | Same as `Uint8Array`, but automatically “clamps” to the range 0-255 when assigning a value to an element. | 
+The following table shows how the same bytes in an 
 
 `ArrayBuffer` are interpreted by different typed array classes.
-| Byte 0 | Byte 1 | Byte 2 | Byte 3 | Byte 4 | Byte 5 | Byte 6 | Byte 7 | |
-|---|---|---|---|---|---|---|---|---|
-| `ArrayBuffer` | `00000000` | `00000001` | `00000010` | `00000011` | `00000100` | `00000101` | `00000110` | `00000111` | 
-| `Uint8Array` | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 
-| `Uint16Array` | 256 ( `1 * 256 + 0`) | 770 ( `3 * 256 + 2`) | 1284 ( `5 * 256 + 4`) | 1798 ( `7 * 256 + 6`) | ||||
-| `Uint32Array` | 50462976 | 117835012 | ||||||
-| `BigUint64Array` | 506097522914230528n | 
+To create a typed array from a pre-defined 
 
 `ArrayBuffer`:
 `Uint32Array` from this same `ArrayBuffer` throws an error.

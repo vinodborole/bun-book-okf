@@ -3,7 +3,7 @@ type: Web Page
 title: bun install - Bun
 description: Install packages with Bun's fast package manager
 resource: https://bun.sh/docs/pm/cli/install
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 ## Basic Usage
@@ -145,14 +145,7 @@ bunfig.toml
 ### Configuring with environment variables
 
 Environment variables take priority over`bunfig.toml`.
-| Name | Description | 
-|---|---|
-| `BUN_CONFIG_REGISTRY` | Set an npm registry (default: [https://registry.npmjs.org](https://registry.npmjs.org)) | 
-| `BUN_CONFIG_TOKEN` | Set an auth token for the default registry | 
-| `BUN_CONFIG_YARN_LOCKFILE` | Save a Yarn v1-style yarn.lock | 
-| `BUN_CONFIG_SKIP_SAVE_LOCKFILE` | Don’t save a lockfile | 
-| `BUN_CONFIG_SKIP_LOAD_LOCKFILE` | Don’t load a lockfile | 
-| `BUN_CONFIG_SKIP_INSTALL_PACKAGES` | Don’t install any packages | 
+Bun uses the fastest installation method available on the target platform: 
 
 `clonefile` on macOS and `hardlink` on Linux. You can change the installation method with the `--backend` flag. When unavailable or on error, `clonefile` and `hardlink` fall back to a platform-specific implementation of copying files.
 Bun stores installed packages from npm in `~/.bun/install/cache/${name}@${version}`. If the semver version has a `build` or a `pre` tag, Bun replaces it with a hash of that value. This reduces the chances of errors from long file paths, but complicates figuring out where a package was installed on disk.

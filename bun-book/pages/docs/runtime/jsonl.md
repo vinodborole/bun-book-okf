@@ -3,7 +3,7 @@ type: Web Page
 title: JSONL - Bun
 description: Parse newline-delimited JSON (JSONL) with Bun's built-in streaming parser
 resource: https://bun.sh/docs/runtime/jsonl
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 [JSONL](https://jsonlines.org/)(newline-delimited JSON), where each line is a separate JSON value. The parser is implemented in C++ using JavaScriptCore’s optimized JSON parser and supports streaming.
@@ -22,13 +22,6 @@ For streaming, `parseChunk` parses as many complete values as it can from the in
 ### Return value
 
 `parseChunk` returns an object with four properties:
-| Property | Type | Description | 
-|---|---|---|
-| `values` | `any[]` | Array of successfully parsed JSON values | 
-| `read` | `number` | Number of bytes (for `Uint8Array`) or characters (for strings) consumed | 
-| `done` | `boolean` | `true`if the entire input was consumed with no remaining data | 
-| `error` | `SyntaxError | null` | Parse error, or `null`if no error occurred | 
-
 ### Streaming example
 
 Use`read` to slice off consumed input and carry forward the remainder:

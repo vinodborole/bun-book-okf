@@ -3,7 +3,7 @@ type: Web Page
 title: Image - Bun
 description: Decode, transform, and encode images with a fast native pipeline
 resource: https://bun.sh/docs/runtime/image
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 `Bun.Image` is a chainable image pipeline for decoding, resizing, rotating, and re-encoding JPEG, PNG, WebP, HEIC, and AVIF — built on libjpeg-turbo, spng, libwebp, and SIMD geometry kernels, with zero npm dependencies and no native addon build step.
@@ -24,22 +24,8 @@ A second `options` argument guards against decompression bombs and controls EXIF
 Read`width`, `height`, and `format` without decoding pixel data:
 ## Resize
 
-| `fit` | Behavior | 
-|---|---|
-| `"fill"`(default) | Stretch to exactly `width × height` | 
-| `"inside"` | Preserve aspect ratio; result fits withinthe box | 
-
 `filter` selects the resampling kernel. The default `"lanczos3"` is the right choice for photographs.
-| Filter | Use when | 
-|---|---|
-| `"lanczos3"`(default) | General-purpose, sharpest for photos | 
-| `"lanczos2"` | Slightly softer, fewer ringing artifacts | 
-| `"mitchell"` | Smooth gradients; the classic bicubic compromise | 
-| `"cubic"` | Catmull-Rom — sharper than Mitchell, can ring | 
-| `"mks2013"`/`"mks2021"` | ”Magic Kernel Sharp”; used by Facebook/Instagram | 
-| `"bilinear"`/`"linear"` | Fast, soft | 
-| `"box"` | Area-average; good for large integer downscales | 
-| `"nearest"` | Pixel art / hard edges | 
+When the source is a JPEG and the target is at most half the source size, decode skips straight to the nearest M/8 IDCT scale, so generating a thumbnail from a 24 MP photo never materializes the full-resolution buffer.
 
 ## Rotate · flip
 
@@ -71,14 +57,7 @@ A `Bun.Image` pipeline is a valid `Response` body and sets `Content-Type` automa
 For a passive “image in clipboard, press ⌘V” hint, poll `clipboardChangeCount()` (a single integer read) and call `hasClipboardImage()` only when it moves; macOS has no clipboard-change notification, so this is the documented pattern.
 ## Platform backends
 
-| Linux | macOS | Windows | |
-|---|---|---|---|
-| JPEG / PNG / WebP | libjpeg-turbo · spng · libwebp | same | same | 
-| BMP / GIF (decode) | built-in | ImageIO | WIC | 
-| TIFF (decode) | ❌ | ImageIO | WIC | 
-| Resize / rotate / flip | Highway SIMD | Accelerate vImage | Highway SIMD | 
-| HEIC / AVIF | ❌ `ERR_IMAGE_FORMAT_UNSUPPORTED` | ImageIO ² | WIC ¹ | 
-| Clipboard | ❌ returns `null` | NSPasteboard | Win32 | 
+¹ Windows requires the 
 
 **HEIF Image Extensions**/
 

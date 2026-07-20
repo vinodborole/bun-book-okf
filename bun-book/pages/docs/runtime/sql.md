@@ -4,7 +4,7 @@ title: SQL - Bun
 description: Bun provides native bindings for working with SQL databases through a
   unified Promise-based API that supports PostgreSQL, MySQL, and SQLite.
 resource: https://bun.sh/docs/runtime/sql
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 db.ts
@@ -152,34 +152,10 @@ SQLite is selected when the connection string matches these patterns:- `:memory:
 
 PostgreSQL is the default for connection strings that don’t match MySQL or SQLite patterns:### MySQL Environment Variables
 
-MySQL connections can be configured with environment variables:| Environment Variable | Default Value | Description | 
-|---|---|---|
-| `MYSQL_HOST` | `localhost` | Database host | 
-| `MYSQL_PORT` | `3306` | Database port | 
-| `MYSQL_USER` | `root` | Database user | 
-| `MYSQL_PASSWORD` | (empty) | Database password | 
-| `MYSQL_DATABASE` | `mysql` | Database name | 
-| `MYSQL_URL` | (empty) | Primary connection URL for MySQL | 
-| `TLS_MYSQL_DATABASE_URL` | (empty) | SSL/TLS-enabled connection URL | 
+MySQL connections can be configured with environment variables:### PostgreSQL Environment Variables
 
-### PostgreSQL Environment Variables
-
-These environment variables define the PostgreSQL connection:| Environment Variable | Description | 
-|---|---|
-| `POSTGRES_URL` | Primary connection URL for PostgreSQL | 
-| `DATABASE_URL` | Alternative connection URL (auto-detected) | 
-| `PGURL` | Alternative connection URL | 
-| `PG_URL` | Alternative connection URL | 
-| `TLS_POSTGRES_DATABASE_URL` | SSL/TLS-enabled connection URL | 
-| `TLS_DATABASE_URL` | Alternative SSL/TLS-enabled connection URL | 
-
-| Environment Variable | Fallback Variables | Default Value | Description | 
-|---|---|---|---|
-| `PGHOST` | - | `localhost` | Database host | 
-| `PGPORT` | - | `5432` | Database port | 
-| `PGUSERNAME` | `PGUSER`,`USER`,`USERNAME` | `postgres` | Database user | 
-| `PGPASSWORD` | - | (empty) | Database password | 
-| `PGDATABASE` | - | username | Database name | 
+These environment variables define the PostgreSQL connection:
+If no connection URL is provided, Bun checks these individual parameters:
 
 ### SQLite Environment Variables
 
@@ -236,15 +212,7 @@ Bun supports SCRAM-SHA-256 (SASL), MD5, and Clear Text authentication. SASL is r
 
 ### SSL Modes Overview
 
-PostgreSQL’s SSL/TLS modes control whether a secure connection is required and how much certificate verification is performed.| SSL Mode | Description | 
-|---|---|
-| `disable` | No SSL/TLS used. Connections fail if server requires SSL. Default mode if none specified. | 
-| `prefer` | Tries SSL first, falls back to non-SSL if SSL fails. | 
-| `require` | Requires SSL without certificate verification. Fails if SSL cannot be established. | 
-| `verify-ca` | Verifies server certificate is signed by trusted CA. Fails if verification fails. | 
-| `verify-full` | Most secure mode. Verifies certificate and hostname match. Protects against untrusted certificates and MITM attacks. | 
-
-### Using With Connection Strings
+PostgreSQL’s SSL/TLS modes control whether a secure connection is required and how much certificate verification is performed.### Using With Connection Strings
 
 You can also set the SSL mode in the connection string:## Connection Pooling
 
@@ -275,95 +243,13 @@ PostgreSQL-Specific Error Codes
 
 PostgreSQL-Specific Error Codes
 
-### PostgreSQL Connection Errors
-
-| Connection Errors | Description | 
-|---|---|
-| `ERR_POSTGRES_CONNECTION_CLOSED` | An established connection was terminated | 
-| `ERR_POSTGRES_CONNECTION_FAILED` | Connection was accepted but closed before the handshake completed (e.g. the server is still starting up). Retried with backoff until `connectionTimeout`while queries are waiting. Note: errors the server sends during startup, like`57P03`, surface as`ERR_POSTGRES_SERVER_ERROR` | 
-| `ERR_POSTGRES_CONNECTION_REFUSED` | Connection was refused because nothing is listening at the address. Fails immediately and is not retried | 
-| `ERR_POSTGRES_CONNECTION_TIMEOUT` | Failed to establish connection within timeout period | 
-| `ERR_POSTGRES_IDLE_TIMEOUT` | Connection closed due to inactivity | 
-| `ERR_POSTGRES_LIFETIME_TIMEOUT` | Connection exceeded maximum lifetime | 
-| `ERR_POSTGRES_TLS_NOT_AVAILABLE` | SSL/TLS connection not available | 
-| `ERR_POSTGRES_TLS_UPGRADE_FAILED` | Failed to upgrade connection to SSL/TLS | 
-
-### Authentication Errors
-
-| Authentication Errors | Description | 
-|---|---|
-| `ERR_POSTGRES_AUTHENTICATION_FAILED_PBKDF2` | Password authentication failed | 
-| `ERR_POSTGRES_UNKNOWN_AUTHENTICATION_METHOD` | Server requested unknown auth method | 
-| `ERR_POSTGRES_UNSUPPORTED_AUTHENTICATION_METHOD` | Server requested unsupported auth method | 
-| `ERR_POSTGRES_INVALID_SERVER_KEY` | Invalid server key during authentication | 
-| `ERR_POSTGRES_INVALID_SERVER_SIGNATURE` | Invalid server signature | 
-| `ERR_POSTGRES_SASL_SIGNATURE_INVALID_BASE64` | Invalid SASL signature encoding | 
-| `ERR_POSTGRES_SASL_SIGNATURE_MISMATCH` | SASL signature verification failed | 
-
-### Query Errors
-
-| Query Errors | Description | 
-|---|---|
-| `ERR_POSTGRES_SYNTAX_ERROR` | Invalid SQL syntax (extends `SyntaxError`) | 
-| `ERR_POSTGRES_SERVER_ERROR` | General error from PostgreSQL server | 
-| `ERR_POSTGRES_INVALID_QUERY_BINDING` | Invalid parameter binding | 
-| `ERR_POSTGRES_QUERY_CANCELLED` | Query was cancelled | 
-| `ERR_POSTGRES_NOT_TAGGED_CALL` | Query was called without a tagged call | 
-
-### Data Type Errors
-
-| Data Type Errors | Description | 
-|---|---|
-| `ERR_POSTGRES_INVALID_BINARY_DATA` | Invalid binary data format | 
-| `ERR_POSTGRES_INVALID_BYTE_SEQUENCE` | Invalid byte sequence | 
-| `ERR_POSTGRES_INVALID_BYTE_SEQUENCE_FOR_ENCODING` | Encoding error | 
-| `ERR_POSTGRES_INVALID_CHARACTER` | Invalid character in data | 
-| `ERR_POSTGRES_OVERFLOW` | Numeric overflow | 
-| `ERR_POSTGRES_UNSUPPORTED_BYTEA_FORMAT` | Unsupported binary format | 
-| `ERR_POSTGRES_UNSUPPORTED_INTEGER_SIZE` | Integer size not supported | 
-| `ERR_POSTGRES_MULTIDIMENSIONAL_ARRAY_NOT_SUPPORTED_YET` | Multidimensional arrays not supported | 
-| `ERR_POSTGRES_NULLS_IN_ARRAY_NOT_SUPPORTED_YET` | NULL values in arrays not supported | 
-
-### Protocol Errors
-
-| Protocol Errors | Description | 
-|---|---|
-| `ERR_POSTGRES_EXPECTED_REQUEST` | Expected client request | 
-| `ERR_POSTGRES_EXPECTED_STATEMENT` | Expected prepared statement | 
-| `ERR_POSTGRES_INVALID_BACKEND_KEY_DATA` | Invalid backend key data | 
-| `ERR_POSTGRES_INVALID_MESSAGE` | Invalid protocol message | 
-| `ERR_POSTGRES_INVALID_MESSAGE_LENGTH` | Invalid message length | 
-| `ERR_POSTGRES_UNEXPECTED_MESSAGE` | Unexpected message type | 
-
-### Transaction Errors
-
-| Transaction Errors | Description | 
-|---|---|
-| `ERR_POSTGRES_UNSAFE_TRANSACTION` | Unsafe transaction operation detected | 
-| `ERR_POSTGRES_INVALID_TRANSACTION_STATE` | Invalid transaction state | 
-
 ### SQLite-Specific Errors
 
 SQLite errors carry SQLite’s standard error codes and numbers:Common SQLite Error Codes
 
 Common SQLite Error Codes
 
-| Error Code | errno | Description | 
-|---|---|---|
-| `SQLITE_CONSTRAINT` | 19 | Constraint violation (UNIQUE, CHECK, NOT NULL, etc.) | 
-| `SQLITE_BUSY` | 5 | Database is locked | 
-| `SQLITE_LOCKED` | 6 | Table in the database is locked | 
-| `SQLITE_READONLY` | 8 | Attempt to write to a readonly database | 
-| `SQLITE_IOERR` | 10 | Disk I/O error | 
-| `SQLITE_CORRUPT` | 11 | Database disk image is malformed | 
-| `SQLITE_FULL` | 13 | Database or disk is full | 
-| `SQLITE_CANTOPEN` | 14 | Unable to open database file | 
-| `SQLITE_PROTOCOL` | 15 | Database lock protocol error | 
-| `SQLITE_SCHEMA` | 17 | Database schema has changed | 
-| `SQLITE_TOOBIG` | 18 | String or BLOB exceeds size limit | 
-| `SQLITE_MISMATCH` | 20 | Data type mismatch | 
-| `SQLITE_MISUSE` | 21 | Library used incorrectly | 
-| `SQLITE_AUTH` | 23 | Authorization denied | 
+Example error handling:
 
 ## Numbers and BigInt
 
@@ -395,24 +281,7 @@ MySQL can return multiple result sets from multi-statement queries:#### Characte
 
 Bun sends client information to MySQL for monitoring:#### Type Handling
 
-MySQL types are converted to JavaScript types:| MySQL Type | JavaScript Type | Notes | 
-|---|---|---|
-| INT, TINYINT, MEDIUMINT | number | Within safe integer range | 
-| BIGINT | string, number or BigInt | number if the value fits in i32/u32, otherwise string or BigInt depending on the `bigint`option | 
-| DECIMAL, NUMERIC | string | To preserve precision | 
-| FLOAT, DOUBLE | number | |
-| DATE | Date | JavaScript Date object | 
-| DATETIME, TIMESTAMP | Date | Decoded as UTC (see note below); `0000-00-00`becomes an Invalid Date | 
-| TIME | number | Total of microseconds | 
-| YEAR | number | |
-| CHAR, VARCHAR, VARSTRING, STRING | string | |
-| TINY TEXT, MEDIUM TEXT, TEXT, LONG TEXT | string | |
-| TINY BLOB, MEDIUM BLOB, BLOB, LONG BLOB | string | BLOB types are aliases for the TEXT types | 
-| JSON | object/array | Automatically parsed | 
-| BIT(1) | boolean | BIT(1) in MySQL | 
-| GEOMETRY | string | Geometry data | 
-
-`DATETIME` and `TIMESTAMP` values have no timezone on the wire, so Bun reads them back as **UTC**— the
+MySQL types are converted to JavaScript types:`DATETIME` and `TIMESTAMP` values have no timezone on the wire, so Bun reads them back as **UTC**— the
 
 `Date` you get has the same UTC wall-clock that was stored, regardless of the machine’s timezone. This matches how values are written (a bound `Date` stores its UTC components). The same applies to PostgreSQL’s `timestamp` (without time zone); `timestamptz` carries an explicit offset and is unaffected.
 #### Differences from PostgreSQL

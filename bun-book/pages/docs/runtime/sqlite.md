@@ -3,7 +3,7 @@ type: Web Page
 title: SQLite - Bun
 description: Bun natively implements a high-performance SQLite3 driver.
 resource: https://bun.sh/docs/runtime/sqlite
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 [SQLite3](https://www.sqlite.org/)driver. To use it, import from the built-in
@@ -280,18 +280,6 @@ db.ts
 ## Reference
 
 Type Reference
-
-### Datatypes
-
-| JavaScript type | SQLite type | 
-|---|---|
-| `string` | `TEXT` | 
-| `number` | `INTEGER`or`DECIMAL` | 
-| `boolean` | `INTEGER`(1 or 0) | 
-| `Uint8Array` | `BLOB` | 
-| `Buffer` | `BLOB` | 
-| `bigint` | `INTEGER` | 
-| `null` | `NULL` |
 
 # Citations
 

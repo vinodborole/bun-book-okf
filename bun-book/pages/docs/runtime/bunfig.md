@@ -3,7 +3,7 @@ type: Web Page
 title: bunfig.toml - Bun
 description: Configure Bun's behavior using its configuration file bunfig.toml
 resource: https://bun.sh/docs/runtime/bunfig
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 `bunfig.toml` is Bun’s configuration file.
@@ -266,23 +266,10 @@ Configure Bun’s [auto-install](/docs/runtime/auto-install)behavior. Default
 `"auto"` — when no `node_modules` folder is found, Bun installs dependencies on the fly during execution.
 bunfig.toml
 
-| Value | Description | 
-|---|---|
-| `"auto"` | Resolve modules from local `node_modules`if it exists. Otherwise, auto-install dependencies on the fly. | 
-| `"force"` | Always auto-install dependencies, even if `node_modules`exists. | 
-| `"disable"` | Never auto-install dependencies. | 
-| `"fallback"` | Check local `node_modules`first, then auto-install any packages that aren’t found. You can enable this from the CLI with`bun -i`. | 
-
 `install.prefer`
 
 Configure how Bun resolves package versions against the npm registry when running scripts. Default `"online"`.
 bunfig.toml
-
-| Value | Description | 
-|---|---|
-| `"online"` | Default. Check the registry for stale packages as needed. | 
-| `"offline"` | Skip staleness checks and resolve packages from the local cache. Equivalent to `--prefer-offline`. | 
-| `"latest"` | Always check npm for the latest matching versions. Equivalent to `--prefer-latest`. | 
 
 `install.frozenLockfile`
 
@@ -345,11 +332,6 @@ Configure the linker strategy: how `bun install` lays out dependencies in `node_
 See [Isolated installs](/docs/pm/isolated-installs).
 
 bunfig.toml
-
-| Value | Description | 
-|---|---|
-| `"hoisted"` | Link dependencies in a shared `node_modules`directory. | 
-| `"isolated"` | Link dependencies inside each package installation. | 
 
 `install.globalStore`
 
@@ -439,8 +421,9 @@ bunfig.toml
 
 `run.noOrphans` - don’t leave orphan processes behind
 
-When `true`, Bun watches the process that spawned it and exits as soon as that parent goes away — even if the parent was `SIGKILL`ed and never got a chance to forward a signal. On its own exit, Bun also recursively `SIGKILL`s every descendant process so nothing it spawned outlives it. Useful when Bun is launched by a supervisor (Electron, a CI runner, a thin shim) that may be force-killed.
-Linux and macOS only (no-op on Windows and other platforms). Equivalent to the `--no-orphans` CLI flag or the `BUN_FEATURE_FLAG_NO_ORPHANS=1` environment variable.
+When `true`, Bun watches the process that spawned it and exits as soon as that parent goes away, even if the parent was force-killed and never got a chance to forward a signal. On its own exit, Bun also terminates every descendant process so nothing it spawned outlives it. Useful when Bun is launched by a supervisor (Electron, a CI runner, a thin shim) that may be force-killed.
+On Linux this uses `prctl(PR_SET_PDEATHSIG)` and a `/proc` descendant walk; on macOS, `EVFILT_PROC`/`NOTE_EXIT` on the event loop’s kqueue and a libproc descendant walk; on Windows, a thread-pool wait on the parent’s process handle and a kill-on-close Job Object.
+Equivalent to the `--no-orphans` CLI flag or the `BUN_FEATURE_FLAG_NO_ORPHANS=1` environment variable.
 bunfig.toml
 
 # Citations

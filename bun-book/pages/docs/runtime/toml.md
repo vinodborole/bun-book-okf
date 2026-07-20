@@ -4,7 +4,7 @@ title: TOML - Bun
 description: Use Bun's built-in support for TOML files through both runtime APIs and
   bundler integration
 resource: https://bun.sh/docs/runtime/toml
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 - Parse TOML strings with `Bun.TOML.parse`
@@ -18,21 +18,33 @@ timestamp: '2026-07-09T12:17:04.216670+00:00'
 Parse a TOML string into a JavaScript object.
 #### Supported TOML Features
 
-Bun’s TOML parser supports the[TOML v1.0 specification](https://toml.io/en/v1.0.0), including:
+Bun’s TOML parser implements the full[TOML v1.1.0 specification](https://github.com/toml-lang/toml/releases/tag/1.1.0)and passes the complete official
 
-- **Strings**: basic (- `"..."`) and literal (- `'...'`), including multi-line
-- **Integers**: decimal, hex (- `0x`), octal (- `0o`), and binary (- `0b`)
-- **Floats**
+[toml-test](https://github.com/toml-lang/toml-test)conformance suite.
+
+- **Strings**: basic (- `"..."`) and literal (- `'...'`), including multi-line, with all escapes (- `\uHHHH`,- `\UHHHHHHHH`, and TOML 1.1’s- `\xHH`and- `\e`)
+- **Integers**: decimal, hex (- `0x`), octal (- `0o`), and binary (- `0b`). Integers that cannot be represented losslessly as a JavaScript number — outside ±(2^53 - 1) — throw
+- **Floats**: including- `inf`and- `nan`
 - **Booleans**:- `true`and- `false`
+- **Date/times**: offset date-time, local date-time, local date, and local time, returned as strings of their source text
 - **Arrays**: including mixed types and nested arrays
-- **Tables**: standard (- `[table]`) and inline (- `{ key = "value" }`)
+- **Tables**: standard (- `[table]`) and inline (- `{ key = "value" }`), including TOML 1.1 multi-line inline tables
 - **Array of tables**:- `[[array]]`
 - **Dotted keys**:- `a.b.c = "value"`
 - **Comments**: using- `#`
 
 #### Error Handling
 
-`Bun.TOML.parse()` throws if the TOML is invalid:
+`Bun.TOML.parse()` throws a `SyntaxError` if the TOML is invalid:
+`Bun.TOML.stringify()`
+
+Serialize a JavaScript object to a TOML document. Scalar keys come first,
+followed by `[table]` and `[[array-of-tables]]` sections:
+`Date`
+values become TOML offset date-times. Because TOML cannot represent them,
+`null` values, `BigInt`, and circular structures throw; `undefined`,
+function, and symbol properties are skipped (inside arrays they throw,
+since TOML arrays cannot have holes).
 ## Module Import
 
 ### ES Modules

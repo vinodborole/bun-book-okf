@@ -3,7 +3,7 @@ type: Web Page
 title: Installation - Bun
 description: Install Bun with npm, Homebrew, Docker, or the official script.
 resource: https://bun.sh/docs/installation
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 ## Overview
@@ -22,6 +22,37 @@ Bun ships as a single, dependency-free executable. Install it with the install s
 Add Bun to your PATH
 
 Add Bun to your PATH
+
+- macOS & Linux
+- Windows
+
+1
+
+Determine which shell you're using
+
+terminal
+
+2
+
+Open your shell configuration file
+
+- For bash: `~/.bashrc`
+- For zsh: `~/.zshrc`
+- For fish: `~/.config/fish/config.fish`
+
+3
+
+Add the Bun directory to PATH
+
+Add this line to your configuration file:
+
+terminal
+
+4
+
+Reload your shell configuration
+
+terminal
 
 ## Upgrading
 
@@ -92,10 +123,6 @@ CPU requirements depend on which binary you’re using:- Standard Builds
 - Baseline Builds
 
 **x64 binaries**target the Haswell CPU architecture (AVX and AVX2 instructions required)
-
-| Platform | Intel Requirement | AMD Requirement | 
-|---|---|---|
-| x64 | Haswell (4th gen Core) or newer | Excavator or newer | 
 
 Bun does not support CPUs older than the baseline target, which requires the SSE4.2 extension. Bun requires macOS 13.0
 or later.

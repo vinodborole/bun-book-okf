@@ -3,7 +3,7 @@ type: Web Page
 title: FFI - Bun
 description: Use Bun's FFI module to efficiently call native libraries from JavaScript
 resource: https://bun.sh/docs/runtime/ffi
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 `bun:ffi` module to efficiently call native libraries from JavaScript. It works with any language that supports the C ABI, including Zig, Rust, C/C++, C#, Nim, and Kotlin.
@@ -33,29 +33,6 @@ terminal
 ## FFI types
 
 The following`FFIType` values are supported.
-| `FFIType` | C Type | Aliases | 
-|---|---|---|
-| buffer | `char*` | |
-| cstring | `char*` | |
-| function | `(void*)(*)()` | `fn`,`callback` | 
-| ptr | `void*` | `pointer`,`void*`,`char*` | 
-| i8 | `int8_t` | `int8_t` | 
-| i16 | `int16_t` | `int16_t` | 
-| i32 | `int32_t` | `int32_t`,`int` | 
-| i64 | `int64_t` | `int64_t` | 
-| i64_fast | `int64_t` | |
-| u8 | `uint8_t` | `uint8_t` | 
-| u16 | `uint16_t` | `uint16_t` | 
-| u32 | `uint32_t` | `uint32_t` | 
-| u64 | `uint64_t` | `uint64_t` | 
-| u64_fast | `uint64_t` | |
-| f32 | `float` | `float` | 
-| f64 | `double` | `double` | 
-| bool | `bool` | |
-| char | `char` | |
-| napi_env | `napi_env` | |
-| napi_value | `napi_value` | 
-
 `buffer` arguments must be a `TypedArray` or `DataView`.
 ## Strings
 
@@ -109,20 +86,6 @@ How does a 64 bit pointer fit in a JavaScript number?
 `DataView`:
 `read`:
 `read` function behaves similarly to `DataView`, but it’s usually faster because it doesn’t need to create a `DataView` or `ArrayBuffer`.
-| `FFIType` | `read`function | 
-|---|---|
-| ptr | `read.ptr` | 
-| i8 | `read.i8` | 
-| i16 | `read.i16` | 
-| i32 | `read.i32` | 
-| i64 | `read.i64` | 
-| u8 | `read.u8` | 
-| u16 | `read.u16` | 
-| u32 | `read.u32` | 
-| u64 | `read.u64` | 
-| f32 | `read.f32` | 
-| f64 | `read.f64` | 
-
 ### Memory management
 
 `bun:ffi` does not manage memory for you. You must free the memory when you’re done with it.

@@ -3,7 +3,7 @@ type: Web Page
 title: File Types - Bun
 description: File types and loaders supported by Bun's bundler and runtime
 resource: https://bun.sh/docs/runtime/file-types
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 `.js` `.cjs` `.mjs` `.mts` `.cts` `.ts` `.tsx` `.jsx` `.css` `.json` `.jsonc` `.json5` `.toml` `.yaml` `.yml` `.txt` `.wasm` `.node` `.html` `.sh`
@@ -170,12 +170,6 @@ logo.ts
 Output
 
 `publicPath` is set, the import uses its value as a prefix to construct an absolute path/URL.
-| Public path | Resolved import | 
-|---|---|
-| `""`(default) | `./logo.svg` | 
-| `"/assets/"` | `/assets/logo.svg` | 
-| `"https://cdn.example.com/"` | `https://cdn.example.com/logo.svg` | 
-
 The location and file name of the copied file is determined by the value of 
 
 [.](/docs/bundler#naming)`naming.asset`Fixing TypeScript import errors

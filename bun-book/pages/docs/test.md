@@ -4,7 +4,7 @@ title: Test runner - Bun
 description: Bun's fast, built-in, Jest-compatible test runner with TypeScript support,
   lifecycle hooks, mocking, and watch mode
 resource: https://bun.sh/docs/test
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 - TypeScript and JSX
@@ -133,12 +133,8 @@ terminal
 
 ## Lifecycle hooks
 
-Bun supports the following lifecycle hooks:| Hook | Description | 
-|---|---|
-| `beforeAll` | Runs once before all tests. | 
-| `beforeEach` | Runs before each test. | 
-| `afterEach` | Runs after each test. | 
-| `afterAll` | Runs once after all tests. | 
+Bun supports the following lifecycle hooks:
+Define hooks inside test files, or in a separate file preloaded with the 
 
 `--preload` flag.
 terminal

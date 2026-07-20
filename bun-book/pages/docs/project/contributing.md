@@ -3,7 +3,7 @@ type: Web Page
 title: Contributing - Bun
 description: Contributing to Bun
 resource: https://bun.sh/docs/project/contributing
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 [Building Windows](/docs/project/building-windows).
@@ -87,7 +87,7 @@ The build output goes to `./build/debug-local` (instead of `./build/debug`), so 
 `C/C++: Select a Configuration` command so IntelliSense finds the debug headers.
 If you make changes to Bun’s [WebKit fork](https://github.com/oven-sh/WebKit), you also have to change
 
-`WEBKIT_VERSION` in `scripts/build/deps/webkit.ts` to point to your commit hash.
+`WEBKIT_VERSION` in `scripts/build/deps/webkit.ts` to point to your commit hash or release tag.
 ## Troubleshooting
 
 ### ’span’ file not found on Ubuntu

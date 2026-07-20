@@ -3,146 +3,24 @@ type: Web Page
 title: Globals - Bun
 description: Use Bun's global objects
 resource: https://bun.sh/docs/runtime/globals
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
-Documentation IndexFetch the complete documentation index at: /docs/llms.txtUse this file to discover all available pages before exploring further.
+Standards & Compatibility
 
-Fetch the complete documentation index at: /docs/llms.txt
-
-Use this file to discover all available pages before exploring further.
+# Globals
 
 Use Bun’s global objects
 
-AbortController
+Bun implements the following globals.
 
-AbortSignal
+## Documentation Index
 
-alert
+Fetch the complete documentation index at:
 
-Blob
+[/docs/llms.txt](/docs/llms.txt)Use this file to discover all available pages before exploring further.
 
-Buffer
-
-Bun
-
-ByteLengthQueuingStrategy
-
-confirm
-
-__dirname
-
-__filename
-
-atob()
-
-btoa()
-
-BuildMessage
-
-clearImmediate()
-
-clearInterval()
-
-clearTimeout()
-
-console
-
-CountQueuingStrategy
-
-Crypto
-
-crypto
-
-CryptoKey
-
-CustomEvent
-
-Event
-
-ErrorEvent
-
-CloseEvent
-
-MessageEvent
-
-EventTarget
-
-exports
-
-fetch
-
-FormData
-
-global
-
-globalThis
-
-Headers
-
-HTMLRewriter
-
-JSON
-
-module
-
-performance
-
-process
-
-prompt
-
-queueMicrotask()
-
-ReadableByteStreamController
-
-ReadableStream
-
-ReadableStreamDefaultController
-
-ReadableStreamDefaultReader
-
-reportError
-
-require()
-
-ResolveMessage
-
-Response
-
-Request
-
-setImmediate()
-
-setInterval()
-
-setTimeout()
-
-ShadowRealm
-
-SubtleCrypto
-
-DOMException
-
-TextDecoder
-
-TextEncoder
-
-TransformStream
-
-TransformStreamDefaultController
-
-URL
-
-URLSearchParams
-
-WebAssembly
-
-WritableStream
-
-WritableStreamDefaultController
-
-WritableStreamDefaultWriter
+Use Bun’s global objects
 
 Was this page helpful?
 

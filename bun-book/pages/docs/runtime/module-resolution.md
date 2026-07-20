@@ -3,7 +3,7 @@ type: Web Page
 title: Module Resolution - Bun
 description: How Bun resolves modules and handles imports in JavaScript and TypeScript
 resource: https://bun.sh/docs/runtime/module-resolution
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-20T08:37:03.598151+00:00'
 ---
 
 ## Syntax
@@ -48,11 +48,6 @@ index.ts
 ## Module systems
 
 Bun has native support for CommonJS and ES modules. ES modules are the recommended module format for new projects, but CommonJS modules are still widely used in the Node.js ecosystem. In Bun’s JavaScript runtime, both ES modules and CommonJS modules can use`require`. If the target module is an ES module, `require` returns the module namespace object (equivalent to `import * as`). If the target module is a CommonJS module, `require` returns the `module.exports` object (as in Node.js).
-| Module Type | `require()` | `import * as` | 
-|---|---|---|
-| ES Module | Module Namespace | Module Namespace | 
-| CommonJS | module.exports | `default`is`module.exports`, keys of module.exports are named exports | 
-
 ### Using `require()`
 
 You can `require()` any file or package, even `.ts` or `.mjs` files.
@@ -158,18 +153,6 @@ Bun’s JavaScript runtime has native support for CommonJS. When Bun’s JavaScr
 The `import.meta` object exposes information about the current module. It’s part of the JavaScript language, but its contents are not standardized: each “host” (browser or runtime) implements its own properties on the `import.meta` object.
 Bun implements the following properties.
 /path/to/project/file.ts
-
-| Property | Description | 
-|---|---|
-| `import.meta.dir` | Absolute path to the directory containing the current file, e.g. `/path/to/project`. Equivalent to`__dirname`in CommonJS modules (and Node.js) | 
-| `import.meta.dirname` | An alias to `import.meta.dir`, for Node.js compatibility | 
-| `import.meta.env` | An alias to `process.env`. | 
-| `import.meta.file` | The name of the current file, e.g. `index.tsx` | 
-| `import.meta.path` | Absolute path to the current file, e.g. `/path/to/project/index.ts`. Equivalent to`__filename`in CommonJS modules (and Node.js) | 
-| `import.meta.filename` | An alias to `import.meta.path`, for Node.js compatibility | 
-| `import.meta.main` | Indicates whether the current file is the entrypoint to the current `bun`process:`true`if it’s executed directly by`bun run`,`false`if it’s imported | 
-| `import.meta.resolve` | Resolve a module specifier (e.g. `"zod"`or`"./file.tsx"`) to a url. Equivalent to. Example:`import.meta.resolve`in browsers`import.meta.resolve("zod")`returns`"file:///path/to/project/node_modules/zod/index.ts"` | 
-| `import.meta.url` | A `string`url to the current file, e.g.`file:///path/to/project/index.ts`. Equivalent to`import.meta.url`in browsers |
 
 # Citations
 
