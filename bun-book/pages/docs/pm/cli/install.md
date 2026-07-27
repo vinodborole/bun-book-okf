@@ -3,7 +3,7 @@ type: Web Page
 title: bun install - Bun
 description: Install packages with Bun's fast package manager
 resource: https://bun.sh/docs/pm/cli/install
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-07-27T09:26:27.222623+00:00'
 ---
 
 ## Basic Usage
@@ -257,97 +257,173 @@ terminal
 
 ### General Configuration
 
+string
+
 Specify path to config file (bunfig.toml)
+
+string
 
 Set a specific cwd
 
 ### Dependency Scope & Management
 
+boolean
+
 Don’t install devDependencies
+
+boolean
 
 Don’t update package.json or save a lockfile
 
+boolean
+
+default:"true"
+
 Save to package.json
 
+string
+
 Exclude ‘dev’, ‘optional’, or ‘peer’ dependencies from install
+
+boolean
 
 Only add dependencies to package.json if they are not already present
 
 ### Dependency Type & Versioning
 
+boolean
+
 Add dependency to “devDependencies”
+
+boolean
 
 Add dependency to “optionalDependencies”
 
+boolean
+
 Add dependency to “peerDependencies”
+
+boolean
 
 Add the exact version instead of the ^ range
 
 ### Lockfile Control
 
+boolean
+
 Write a yarn.lock file (yarn v1)
+
+boolean
 
 Disallow changes to lockfile
 
+boolean
+
 Save a text-based lockfile
+
+boolean
 
 Generate a lockfile without installing dependencies
 
 ### Network & Registry Settings
 
+string
+
 Provide a Certificate Authority signing certificate
 
+string
+
 File path to Certificate Authority signing certificate
+
+string
 
 Use a specific registry by default, overriding .npmrc, bunfig.toml and environment variables
 
 ### Installation Process Control
 
+boolean
+
 Don’t install anything
+
+boolean
 
 Always request the latest versions from the registry & reinstall all dependencies
 
+boolean
+
 Install globally
+
+string
 
 Platform-specific optimizations: “clonefile”, “hardlink”, “symlink”, “copyfile”
 
+string
+
 Install packages for the matching workspaces
+
+boolean
 
 Recursively analyze & install all dependencies of files passed as arguments
 
 ### Caching Options
 
+string
+
 Store & load cached data from a specific directory path
+
+boolean
 
 Ignore manifest cache entirely
 
 ### Output & Logging
 
+boolean
+
 Don’t log anything
+
+boolean
 
 Excessively verbose logging
 
+boolean
+
 Disable the progress bar
+
+boolean
 
 Don’t print a summary
 
 ### Security & Integrity
 
+boolean
+
 Skip verifying integrity of newly downloaded packages
+
+boolean
 
 Add to trustedDependencies in the project’s package.json and install the package(s)
 
 ### Concurrency & Performance
 
+number
+
 Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
+
+number
+
+default:"48"
 
 Maximum number of concurrent network requests
 
 ### Lifecycle Script Management
 
+boolean
+
 Skip lifecycle scripts in the project’s package.json (dependency scripts are never run)
 
 ### Help Information
+
+boolean
 
 Print this help menu
 

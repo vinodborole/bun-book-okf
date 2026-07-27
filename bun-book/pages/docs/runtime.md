@@ -4,7 +4,7 @@ title: Bun Runtime - Bun
 description: Execute JavaScript/TypeScript files, package.json scripts, and executable
   packages with Bun's fast runtime.
 resource: https://bun.sh/docs/runtime
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-07-27T09:26:27.222623+00:00'
 ---
 
 [JavaScriptCore engine](https://developer.apple.com/documentation/javascriptcore), developed by Apple for Safari. It usually starts and runs faster than V8, the engine used by Node.js and Chromium-based browsers. Bun’s transpiler and runtime are written in Rust. On Linux, Bun starts
@@ -109,153 +109,306 @@ When a `package.json` script and a file have the same name, `bun run` prefers th
 
 ### General Execution Options
 
+boolean
+
 Don’t print the script command
+
+boolean
 
 Exit without an error if the entrypoint does not exist
 
+string
+
 Evaluate argument as a script. Alias: 
 
-`-e`Evaluate argument as a script and print the result. Alias: 
+`-e`string
 
-`-p`Display this menu and exit. Alias: 
+Evaluate argument as a script and print the result. Alias: 
+
+`-p`boolean
+
+Display this menu and exit. Alias: 
 
 `-h`### Workspace Management
 
+number
+
+default:"10"
+
 Number of lines of script output shown when using —filter (default: 10). Set to 0 to show all lines
+
+string
 
 Run a script in all workspace packages matching the pattern. Alias: 
 
-`-F`Run a script in all workspace packages (from the 
+`-F`boolean
 
-`workspaces` field in `package.json`)Run multiple scripts or workspace scripts concurrently with prefixed output
+Run a script in all workspace packages (from the 
+
+`workspaces` field in `package.json`)boolean
+
+Run multiple scripts or workspace scripts concurrently with prefixed output
+
+boolean
 
 Run multiple scripts or workspace scripts one after another with prefixed output
+
+boolean
 
 When using 
 
 `—parallel` or `—sequential`, continue running other scripts when one fails### Runtime & Process Control
 
+boolean
+
 Force a script or package to use Bun’s runtime instead of Node.js (via symlinking node). Alias: 
 
-`-b`Control the shell used for 
+`-b`string
 
-`package.json` scripts. Supports either `bun` or `system`Use less memory, but run garbage collection more often
+Control the shell used for 
+
+`package.json` scripts. Supports either `bun` or `system`boolean
+
+Open the Node.js-compatible REPL (
+
+`node:repl`). When combined with `-e`, starts the REPL and
+then evaluates the script. Under `—interactive`, `-e` is raw JavaScript (matching
+`node -i -e`); use `bun repl` for TypeScript. Distinct from `bun repl`, which is
+Bun’s native REPL.boolean
+
+Use less memory, but run garbage collection more often
+
+boolean
 
 Expose 
 
-`gc()` on the global object. Has no effect on `Bun.gc()`Suppress all reporting of the custom deprecation
+`gc()` on the global object. Has no effect on `Bun.gc()`boolean
+
+Suppress all reporting of the custom deprecation
+
+boolean
 
 Determine whether deprecation warnings result in errors
 
+string
+
 Set the process title
+
+boolean
 
 Force 
 
-`Buffer.allocUnsafe(size)` to be zero-filledThrow an error if 
+`Buffer.allocUnsafe(size)` to be zero-filledboolean
 
-`process.dlopen` is called, and disable export condition `node-addons`One of 
+Throw an error if 
+
+`process.dlopen` is called, and disable export condition `node-addons`string
+
+One of 
 
 `strict`, `throw`, `warn`, `none`, or
-`warn-with-error-code`Set the default depth for 
+`warn-with-error-code`number
+
+default:"2"
+
+Set the default depth for 
 
 `console.log` object inspection (default: 2)### Development Workflow
 
+boolean
+
 Automatically restart the process on file change
 
+boolean
+
 Enable auto reload in the Bun runtime, test runner, or bundler
+
+boolean
 
 Disable clearing the terminal screen on reload when —hot or —watch is enabled
 
 ### Debugging
 
+string
+
 Activate Bun’s debugger
 
+string
+
 Activate Bun’s debugger, wait for a connection before executing
+
+string
 
 Activate Bun’s debugger, set breakpoint on first line of code and wait
 
 ### Dependency & Module Resolution
 
+string
+
 Import a module before other modules are loaded. Alias: 
 
-`-r`Alias of —preload, for Node.js compatibility
+`-r`string
 
 Alias of —preload, for Node.js compatibility
 
+string
+
+Alias of —preload, for Node.js compatibility
+
+boolean
+
 Disable auto install in the Bun runtime
+
+string
+
+default:"auto"
 
 Configure auto-install behavior. One of 
 
 `auto` (default, auto-installs when no node_modules),
-`fallback` (missing packages only), `force` (always)Auto-install dependencies during execution. Equivalent to —install=fallback
+`fallback` (missing packages only), `force` (always)boolean
+
+Auto-install dependencies during execution. Equivalent to —install=fallback
+
+boolean
 
 Skip staleness checks for packages in the Bun runtime and resolve from disk
 
+boolean
+
 Use the latest matching versions of packages in the Bun runtime, always checking npm
+
+string
 
 Pass custom conditions to resolve
 
+string
+
 Main fields to lookup in 
 
-`package.json`. Defaults to —target dependentPreserve symlinks when resolving files
+`package.json`. Defaults to —target dependentboolean
+
+Preserve symlinks when resolving files
+
+boolean
 
 Preserve symlinks when resolving the main entry point
+
+string
+
+default:".tsx,.ts,.jsx,.js,.json"
 
 Defaults to: 
 
 `.tsx,.ts,.jsx,.js,.json`### Transpilation & Language Features
 
+string
+
 Specify custom 
 
-`tsconfig.json`. Default `$cwd/tsconfig.json`Substitute K:V while parsing, e.g. 
+`tsconfig.json`. Default `$cwd/tsconfig.json`string
+
+Substitute K:V while parsing, e.g. 
 
 `—define process.env.NODE_ENV:“development”`. Values are parsed as
-JSON. Alias: `-d`Remove function calls, e.g. 
+JSON. Alias: `-d`string
 
-`—drop=console` removes all `console.*` callsParse files with 
+Remove function calls, e.g. 
+
+`—drop=console` removes all `console.*` callsstring
+
+Parse files with 
 
 `.ext:loader`, e.g. `—loader .js:jsx`. Valid loaders: `js`,
 `jsx`, `ts`, `tsx`, `json`, `toml`, `text`,
-`file`, `wasm`, `napi`. Alias: `-l`Disable macros from being executed in the bundler, transpiler and runtime
+`file`, `wasm`, `napi`. Alias: `-l`boolean
+
+Disable macros from being executed in the bundler, transpiler and runtime
+
+string
 
 Changes the function called when compiling JSX elements using the classic JSX runtime
 
+string
+
 Changes the function called when compiling JSX fragments
+
+string
+
+default:"react"
 
 Declares the module specifier used to import the jsx and jsxs factory functions. Default: 
 
-`react``automatic` (default) or `classic`Treat JSX elements as having side effects (disable pure annotations)
+`react`string
+
+default:"automatic"
+
+`automatic` (default) or `classic`boolean
+
+Treat JSX elements as having side effects (disable pure annotations)
+
+boolean
 
 Ignore tree-shaking annotations such as 
 
 `@`**PURE**### Networking & Security
 
+number
+
 Set the default port for 
 
-`Bun.serve`Preconnect to a URL while code is loading
+`Bun.serve`string
+
+Preconnect to a URL while code is loading
+
+number
+
+default:"16384"
 
 Set the maximum size of HTTP headers in bytes. Default is 16KiB
+
+string
+
+default:"verbatim"
 
 Set the default order of DNS lookup results. Valid orders: 
 
 `verbatim` (default), `ipv4first`,
-`ipv6first`Use the system’s trusted certificate authorities
+`ipv6first`boolean
+
+Use the system’s trusted certificate authorities
+
+boolean
 
 Use OpenSSL’s default CA store
 
+boolean
+
 Use bundled CA store
+
+boolean
 
 Preconnect to 
 
-`$REDIS_URL` at startupPreconnect to PostgreSQL at startup
+`$REDIS_URL` at startupboolean
+
+Preconnect to PostgreSQL at startup
+
+string
 
 Set the default User-Agent header for HTTP requests
 
 ### Global Configuration & Context
 
+string
+
 Load environment variables from the specified file(s)
 
+string
+
 Absolute path to resolve files & entrypoints from. This just changes the process’ cwd
+
+string
 
 Specify path to Bun config file. Default 
 

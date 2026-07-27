@@ -3,7 +3,7 @@ type: Web Page
 title: Cron - Bun
 description: Schedule and parse cron jobs with Bun
 resource: https://bun.sh/docs/runtime/cron
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-07-27T09:26:27.222623+00:00'
 ---
 
 ## Quickstart
@@ -16,7 +16,7 @@ timestamp: '2026-07-20T08:37:03.598151+00:00'
 
 `Bun.cron.parse()`
 
-Parse a cron expression and return the next matching `Date` in UTC.
+Parse a cron expression and return the next matching `Date` in the system’s local time zone.
 ### Parameters
 
 ### Returns
@@ -37,12 +37,12 @@ Month and weekday fields accept case-insensitive names:`0` and `7` mean Sunday i
 
 ### Time zone
 
-`Bun.cron.parse()` and the in-process `Bun.cron(schedule, handler)` interpret schedules in **UTC**. There is no DST to handle —
+Schedules are interpreted in the system’s**local time zone**— the same way crontab, launchd, and Windows Task Scheduler read them. The OS-level form and the in-process callback form fire at the same wall-clock time. To override, pass an IANA time-zone name as
 
-`0 9 * * *` always means 9:00 UTC.
-The OS-level `Bun.cron(path, schedule, title)` uses the **system’s local time zone**, because that’s how crontab, launchd, and Windows Task Scheduler work. To make the two forms agree, run the process with
+`{ tz }` to `Bun.cron.parse()` or the in-process `Bun.cron(schedule, handler, options)`:
+- **Spring-forward**— a schedule that lands in the missing hour fires that day, shifted forward by the gap (e.g.- `30 2 * * *`runs at 3:30 on the spring-forward day). For multi-minute patterns inside the gap (- `*/15 2 * * *`), only the first match fires.
+- **Fall-back**— a fixed-time schedule in the duplicated hour (- `30 1 * * *`) fires once, at the first occurrence. A schedule whose minute or hour field is- `*`(- `0 * * * *`,- `* * * * *`) fires through- **both**occurrences — once per real-time minute, matching crontab on Linux.
 
-`TZ=UTC`.
 ### Day-of-month and day-of-week interaction
 
 When**both**day-of-month and day-of-week are specified (neither is
@@ -61,7 +61,7 @@ Returns a
 
 [synchronously. Throws a](#the-cronjob-handle)
 
-`CronJob``TypeError` if the expression is invalid or has no future occurrences, like `"0 0 30 2 *"` (February 30th).
+`CronJob``TypeError` if the expression is invalid, the time-zone name is unknown, or the expression has no future occurrences, like `"0 0 30 2 *"` (February 30th).
 ### No-overlap guarantee
 
 The next fire time is computed only after the handler — including any returned`Promise` — settles. If your handler takes 90 seconds and the schedule is `* * * * *`, the second fire is the first minute boundary *after*the handler finishes, not 60 seconds after the first fire. Invocations never stack.

@@ -3,7 +3,7 @@ type: Web Page
 title: bun link - Bun
 description: Link local packages for development
 resource: https://bun.sh/docs/pm/cli/link
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-27T09:26:27.222623+00:00'
 ---
 
 `bun link` in a local directory to register the current package as a “linkable” package.
@@ -24,93 +24,165 @@ terminal
 
 ### Installation Scope
 
+boolean
+
 Install globally. Alias: 
 
 `-g`### Dependency Management
 
+boolean
+
 Don’t install devDependencies. Alias: 
 
-`-p`Exclude 
+`-p`string
+
+Exclude 
 
 `dev`, `optional`, or `peer` dependencies from install### Project Files & Lockfiles
 
+boolean
+
 Write a 
 
-`yarn.lock` file (yarn v1). Alias: `-y`Disallow changes to lockfile
+`yarn.lock` file (yarn v1). Alias: `-y`boolean
+
+Disallow changes to lockfile
+
+boolean
 
 Save a text-based lockfile
 
+boolean
+
 Generate a lockfile without installing dependencies
+
+boolean
 
 Don’t update 
 
-`package.json` or save a lockfileSave to 
+`package.json` or save a lockfileboolean
 
-`package.json`Add to 
+default:"true"
+
+Save to 
+
+`package.json`boolean
+
+Add to 
 
 `trustedDependencies` in the project’s `package.json` and install the package(s)### Installation Control
 
+boolean
+
 Always request the latest versions from the registry & reinstall all dependencies. Alias: 
 
-`-f`Skip verifying integrity of newly downloaded packages
+`-f`boolean
+
+Skip verifying integrity of newly downloaded packages
+
+string
+
+default:"clonefile"
 
 Platform-specific optimizations for installing dependencies. One of 
 
 `clonefile`, `hardlink`,
-`symlink`, or `copyfile`Linker strategy (one of 
+`symlink`, or `copyfile`string
 
-`isolated` or `hoisted`)Don’t install anything
+Linker strategy (one of 
+
+`isolated` or `hoisted`)boolean
+
+Don’t install anything
+
+boolean
 
 Skip lifecycle scripts in the project’s 
 
 `package.json` (dependency scripts are never run)### Network & Registry
 
+string
+
 Provide a Certificate Authority signing certificate
+
+string
 
 Same as 
 
-`—ca`, but as a file path to the certificateUse a specific registry by default, overriding 
+`—ca`, but as a file path to the certificatestring
+
+Use a specific registry by default, overriding 
 
 `.npmrc`, `bunfig.toml`, and environment
-variablesMaximum number of concurrent network requests
+variablesnumber
+
+default:"48"
+
+Maximum number of concurrent network requests
 
 ### Performance & Resource
+
+number
 
 Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
 ### Caching
 
+string
+
 Store & load cached data from a specific directory path
+
+boolean
 
 Ignore manifest cache entirely
 
 ### Output & Logging
 
+boolean
+
 Don’t log anything
+
+boolean
 
 Only show tarball name when packing
 
+boolean
+
 Excessively verbose logging
 
+boolean
+
 Disable the progress bar
+
+boolean
 
 Don’t print a summary
 
 ### Platform Targeting
 
+string
+
 Override CPU architecture for optional dependencies (e.g., 
 
 `x64`, `arm64`, `*` for
-all)Override operating system for optional dependencies (e.g., 
+all)string
+
+Override operating system for optional dependencies (e.g., 
 
 `linux`, `darwin`, `*` for
 all)### Global Configuration & Context
 
+string
+
 Specify path to config file (
 
-`bunfig.toml`). Alias: `-c`Set a specific current working directory
+`bunfig.toml`). Alias: `-c`string
+
+Set a specific current working directory
 
 ### Help
+
+boolean
 
 Print this help menu. Alias: 
 

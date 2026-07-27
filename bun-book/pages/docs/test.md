@@ -4,7 +4,7 @@ title: Test runner - Bun
 description: Bun's fast, built-in, Jest-compatible test runner with TypeScript support,
   lifecycle hooks, mocking, and watch mode
 resource: https://bun.sh/docs/test
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-07-27T09:26:27.222623+00:00'
 ---
 
 - TypeScript and JSX
@@ -187,46 +187,90 @@ terminal
 
 ### Execution Control
 
+number
+
+default:"5000"
+
 Set the per-test timeout in milliseconds (default 5000)
+
+number
 
 Re-run each test file 
 
-`NUMBER` times to help catch certain bugsRetry failed tests up to 
+`NUMBER` times to help catch certain bugsnumber
 
-`NUMBER` times. Overridden by per-test Treat all tests as 
+Retry failed tests up to 
 
-`test.concurrent()` testsRun tests in random order
+`NUMBER` times. Overridden by per-test boolean
+
+Treat all tests as 
+
+`test.concurrent()` testsboolean
+
+Run tests in random order
+
+number
 
 Set the random seed for test randomization
 
+number
+
+default:"1"
+
 Exit the test suite after 
 
-`NUMBER` failures. If you do not specify a number, it defaults to 1.Maximum number of concurrent tests to execute at once (default 20)
+`NUMBER` failures. If you do not specify a number, it defaults to 1.number
+
+default:"20"
+
+Maximum number of concurrent tests to execute at once (default 20)
 
 ### Test Filtering
 
+boolean
+
 Include tests that are marked with 
 
-`test.todo()`Run only tests with a name that matches the given regex. Alias: 
+`test.todo()`string
+
+Run only tests with a name that matches the given regex. Alias: 
 
 `-t`### Reporting
+
+string
 
 Test output reporter format. Available: 
 
 `junit` (requires —reporter-outfile), `dots`. Default:
-console output.Output file path for the reporter format (required with —reporter)
+console output.string
+
+Output file path for the reporter format (required with —reporter)
+
+boolean
 
 Enable dots reporter. Shorthand for —reporter=dots
 
 ### Coverage
 
+boolean
+
 Generate a coverage profile
+
+string
+
+default:"text"
 
 Report coverage in 
 
-`text` and/or `lcov`. Defaults to `text`Directory for coverage files. Defaults to 
+`text` and/or `lcov`. Defaults to `text`string
+
+default:"coverage"
+
+Directory for coverage files. Defaults to 
 
 `coverage`### Snapshots
+
+boolean
 
 Update snapshot files. Alias: 
 

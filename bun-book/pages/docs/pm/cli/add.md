@@ -3,7 +3,7 @@ type: Web Page
 title: bun add - Bun
 description: Add packages to your project with Bun's fast package manager
 resource: https://bun.sh/docs/pm/cli/add
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-27T09:26:27.222623+00:00'
 ---
 
 terminal
@@ -84,91 +84,167 @@ package.json
 
 ### Dependency Management
 
+boolean
+
 Don’t install devDependencies. Alias: 
 
-`-p`Exclude 
+`-p`string
 
-`dev`, `optional`, or `peer` dependencies from installInstall globally. Alias: 
+Exclude 
 
-`-g`Add dependency to 
+`dev`, `optional`, or `peer` dependencies from installboolean
 
-`devDependencies`. Alias: `-d`Add dependency to 
+Install globally. Alias: 
 
-`optionalDependencies`Add dependency to 
+`-g`boolean
 
-`peerDependencies`Add the exact version instead of the 
+Add dependency to 
 
-`^` range. Alias: `-E`Only add dependencies to 
+`devDependencies`. Alias: `-d`boolean
+
+Add dependency to 
+
+`optionalDependencies`boolean
+
+Add dependency to 
+
+`peerDependencies`boolean
+
+Add the exact version instead of the 
+
+`^` range. Alias: `-E`boolean
+
+Only add dependencies to 
 
 `package.json` if they are not already present### Project Files & Lockfiles
 
+boolean
+
 Write a 
 
-`yarn.lock` file (yarn v1). Alias: `-y`Don’t update 
+`yarn.lock` file (yarn v1). Alias: `-y`boolean
 
-`package.json` or save a lockfileSave to 
+Don’t update 
 
-`package.json`Disallow changes to lockfile
+`package.json` or save a lockfileboolean
+
+default:"true"
+
+Save to 
+
+`package.json`boolean
+
+Disallow changes to lockfile
+
+boolean
 
 Add to 
 
-`trustedDependencies` in the project’s `package.json` and install the package(s)Save a text-based lockfile
+`trustedDependencies` in the project’s `package.json` and install the package(s)boolean
+
+Save a text-based lockfile
+
+boolean
 
 Generate a lockfile without installing dependencies
 
 ### Installation Control
 
+boolean
+
 Don’t install anything
+
+boolean
 
 Always request the latest versions from the registry & reinstall all dependencies. Alias: 
 
-`-f`Skip verifying integrity of newly downloaded packages
+`-f`boolean
+
+Skip verifying integrity of newly downloaded packages
+
+boolean
 
 Skip lifecycle scripts in the project’s 
 
-`package.json` (dependency scripts are never run)Recursively analyze & install dependencies of files passed as arguments (using Bun’s bundler). Alias:
+`package.json` (dependency scripts are never run)boolean
+
+Recursively analyze & install dependencies of files passed as arguments (using Bun’s bundler). Alias:
 
 `-a`### Network & Registry
 
+string
+
 Provide a Certificate Authority signing certificate
+
+string
 
 Same as 
 
-`—ca`, but as a file path to the certificateUse a specific registry by default, overriding 
+`—ca`, but as a file path to the certificatestring
+
+Use a specific registry by default, overriding 
 
 `.npmrc`, `bunfig.toml`, and environment
-variablesMaximum number of concurrent network requests
+variablesnumber
+
+default:"48"
+
+Maximum number of concurrent network requests
 
 ### Performance & Resource
+
+string
+
+default:"clonefile"
 
 Platform-specific optimizations for installing dependencies. One of 
 
 `clonefile`, `hardlink`,
-`symlink`, or `copyfile`Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
+`symlink`, or `copyfile`number
+
+Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
 ### Caching
 
+string
+
 Store & load cached data from a specific directory path
+
+boolean
 
 Ignore manifest cache entirely
 
 ### Output & Logging
 
+boolean
+
 Don’t log anything
+
+boolean
 
 Excessively verbose logging
 
+boolean
+
 Disable the progress bar
+
+boolean
 
 Don’t print a summary
 
 ### Global Configuration & Context
 
+string
+
 Specify path to config file (
 
-`bunfig.toml`). Alias: `-c`Set a specific current working directory
+`bunfig.toml`). Alias: `-c`string
+
+Set a specific current working directory
 
 ### Help
+
+boolean
 
 Print this help menu. Alias: 
 

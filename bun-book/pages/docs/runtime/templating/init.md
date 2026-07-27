@@ -3,7 +3,7 @@ type: Web Page
 title: bun init - Bun
 description: Scaffold an empty Bun project with the interactive bun init command
 resource: https://bun.sh/docs/runtime/templating/init
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-27T09:26:27.222623+00:00'
 ---
 
 `bun init`.
@@ -28,11 +28,17 @@ terminal
 
 ### Initialization Options
 
+boolean
+
 Accept all default prompts without asking questions. Alias: 
 
-`-y`Only initialize type definitions (skip app scaffolding). Alias: 
+`-y`boolean
+
+Only initialize type definitions (skip app scaffolding). Alias: 
 
 `-m`### Project Templates
+
+string|boolean
 
 Scaffold a React project. When used without a value, creates a baseline React app.
 
@@ -45,9 +51,13 @@ Accepts values for presets:
 
 `bun init —react bun init —react=tailwind bun init —react=shadcn`### Output & Files
 
+info
+
 Initializes project files and configuration for the chosen options. Exact files vary by template.
 
 ### Help
+
+boolean
 
 Print this help menu. Alias: 
 

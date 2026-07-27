@@ -3,7 +3,7 @@ type: Web Page
 title: bun update - Bun
 description: Update dependencies to latest versions
 resource: https://bun.sh/docs/pm/cli/update
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-27T09:26:27.222623+00:00'
 ---
 
 To upgrade your Bun CLI version, see 
@@ -92,80 +92,146 @@ terminal
 
 ### Update Strategy
 
+boolean
+
 Always request the latest versions from the registry & reinstall all dependencies. Alias: 
 
-`-f`Update packages to their latest versions
+`-f`boolean
+
+Update packages to their latest versions
 
 ### Dependency Scope
 
+boolean
+
 Don’t install devDependencies. Alias: 
 
-`-p`Install globally. Alias: 
+`-p`boolean
 
-`-g`Exclude 
+Install globally. Alias: 
+
+`-g`string
+
+Exclude 
 
 `dev`, `optional`, or `peer` dependencies from install### Project File Management
 
+boolean
+
 Write a 
 
-`yarn.lock` file (yarn v1). Alias: `-y`Don’t update 
+`yarn.lock` file (yarn v1). Alias: `-y`boolean
 
-`package.json` or save a lockfileSave to 
+Don’t update 
 
-`package.json` (true by default)Disallow changes to lockfile
+`package.json` or save a lockfileboolean
+
+default:"true"
+
+Save to 
+
+`package.json` (true by default)boolean
+
+Disallow changes to lockfile
+
+boolean
 
 Save a text-based lockfile
+
+boolean
 
 Generate a lockfile without installing dependencies
 
 ### Network & Registry
 
+string
+
 Provide a Certificate Authority signing certificate
+
+string
 
 Same as 
 
-`—ca`, but as a file path to the certificateUse a specific registry by default, overriding 
+`—ca`, but as a file path to the certificatestring
 
-`.npmrc`, `bunfig.toml` and environment variablesMaximum number of concurrent network requests (default 48)
+Use a specific registry by default, overriding 
+
+`.npmrc`, `bunfig.toml` and environment variablesnumber
+
+default:"48"
+
+Maximum number of concurrent network requests (default 48)
 
 ### Caching
 
+string
+
 Store & load cached data from a specific directory path
+
+boolean
 
 Ignore manifest cache entirely
 
 ### Output & Logging
 
+boolean
+
 Don’t log anything
+
+boolean
 
 Excessively verbose logging
 
+boolean
+
 Disable the progress bar
+
+boolean
 
 Don’t print a summary
 
 ### Script Execution
 
+boolean
+
 Skip lifecycle scripts in the project’s 
 
-`package.json` (dependency scripts are never run)Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
+`package.json` (dependency scripts are never run)number
+
+Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
 ### Installation Controls
 
+boolean
+
 Skip verifying integrity of newly downloaded packages
+
+boolean
 
 Add to 
 
-`trustedDependencies` in the project’s `package.json` and install the package(s)Platform-specific optimizations for installing dependencies. Possible values: 
+`trustedDependencies` in the project’s `package.json` and install the package(s)string
+
+default:"clonefile"
+
+Platform-specific optimizations for installing dependencies. Possible values: 
 
 `clonefile` (default),
 `hardlink`, `symlink`, `copyfile`### General & Environment
 
+string
+
 Specify path to config file (
 
-`bunfig.toml`). Alias: `-c`Don’t install anything
+`bunfig.toml`). Alias: `-c`boolean
+
+Don’t install anything
+
+string
 
 Set a specific cwd
+
+boolean
 
 Print this help menu. Alias: 
 

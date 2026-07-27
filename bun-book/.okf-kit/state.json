@@ -2,7 +2,7 @@
   "generator": "okf-kit",
   "okf_version": "0.1",
   "root_url": "https://bun.sh/docs",
-  "updated_at": "2026-07-20T08:37:03.660748+00:00",
+  "updated_at": "2026-07-27T09:26:27.259413+00:00",
   "config": {
     "max_depth": 3,
     "max_pages": 90,
@@ -22,7 +22,7 @@
       "path": "pages/docs/bundler.md",
       "url": "https://bun.sh/docs/bundler",
       "title": "Bundler - Bun",
-      "hash": "6c266e1600e2fb549b98b808c4787ea0d9cf5046c0be7a77f01c347784ce7746"
+      "hash": "a32b62e8ad06e46fb815d74f9a623db7eb8694915b26e765046473b8caa7681b"
     },
     {
       "path": "pages/docs/feedback.md",
@@ -46,7 +46,7 @@
       "path": "pages/docs/pm/bunx.md",
       "url": "https://bun.sh/docs/pm/bunx",
       "title": "bunx - Bun",
-      "hash": "ba88946ec293675bbbeaf7b9c347352dfe82570c6f48d571d9623d5636c6a78a"
+      "hash": "9175774147066d5937b95910ae1c47b6446b11580e3b69399bbf364f7348baac"
     },
     {
       "path": "pages/docs/pm/catalogs.md",
@@ -58,7 +58,7 @@
       "path": "pages/docs/pm/cli/add.md",
       "url": "https://bun.sh/docs/pm/cli/add",
       "title": "bun add - Bun",
-      "hash": "ba15f87fb2ab82d35a0bec9e9f34719eb78f4ce30cc4d507a3d98d9e0ba497fb"
+      "hash": "71b6411ffe4b613533f5bcae76d1222b5417b15a1ddea2660e1f92bae0b73742"
     },
     {
       "path": "pages/docs/pm/cli/audit.md",
@@ -76,37 +76,37 @@
       "path": "pages/docs/pm/cli/install.md",
       "url": "https://bun.sh/docs/pm/cli/install",
       "title": "bun install - Bun",
-      "hash": "c132c5cab11b3f4c75d897692ef04359b850317eede579a3589d17af5666442c"
+      "hash": "065cb73b1354128f5601516121bd822b0f4468fd3dedecd48b4992bfa7d1a025"
     },
     {
       "path": "pages/docs/pm/cli/link.md",
       "url": "https://bun.sh/docs/pm/cli/link",
       "title": "bun link - Bun",
-      "hash": "b0c8dd0abc5c2503fa5248060ed7860fc214b5027c8471a1dfe10078e09f6d82"
+      "hash": "38eb79925a95250554fefccc02ca3f3a56ddcd9e71a9f689ed84542be8b04259"
     },
     {
       "path": "pages/docs/pm/cli/outdated.md",
       "url": "https://bun.sh/docs/pm/cli/outdated",
       "title": "bun outdated - Bun",
-      "hash": "d8cedaeaa973aacf9df0bb3226cf46816dfc82cd4954a13133cb75305c2f42c3"
+      "hash": "17215e8403ecbee951bf55b18c98ad1e983661d8758ea3c53f8ed48e7253859f"
     },
     {
       "path": "pages/docs/pm/cli/publish.md",
       "url": "https://bun.sh/docs/pm/cli/publish",
       "title": "bun publish - Bun",
-      "hash": "02da268eb969c6d4df7f31a67b64fa29b5be9cd9d19e8cab1c03ff1c8cac4223"
+      "hash": "7c7d0844c2271862df9202b1f70ad0bb5544c18619bb9b3b3ff5b001543b787f"
     },
     {
       "path": "pages/docs/pm/cli/remove.md",
       "url": "https://bun.sh/docs/pm/cli/remove",
       "title": "bun remove - Bun",
-      "hash": "f3ccc512a6da7c349149213caa537cdb214904b47e2ef0c17faff512b401a24d"
+      "hash": "bac246a52146b5771bd466ce55bc03e99d1d1f990d4afee264a24b4cd9306398"
     },
     {
       "path": "pages/docs/pm/cli/update.md",
       "url": "https://bun.sh/docs/pm/cli/update",
       "title": "bun update - Bun",
-      "hash": "f260560f9336ff52e422f1a9a5c23cf392c21ca2898425b0778f63ead35d7777"
+      "hash": "ca9804d925f7fa9208d900dce89f2a98e5ab2d5fb306b669261f12a9905562b2"
     },
     {
       "path": "pages/docs/pm/cli/why.md",
@@ -166,7 +166,7 @@
       "path": "pages/docs/runtime.md",
       "url": "https://bun.sh/docs/runtime",
       "title": "Bun Runtime - Bun",
-      "hash": "7d716fca4837c94059b93cd5cddbb68fe2ca3595bbe5ecd729a26117cbdee38a"
+      "hash": "df797debdc72398cf6137603a8c7aef633f2f9652d994a94b36c71e7579b24e8"
     },
     {
       "path": "pages/docs/runtime/archive.md",
@@ -232,7 +232,7 @@
       "path": "pages/docs/runtime/cron.md",
       "url": "https://bun.sh/docs/runtime/cron",
       "title": "Cron - Bun",
-      "hash": "ec9d87d80a124a0760f2f194a3f50464ffca4e3cedc38d5b1a9a4f1d8ade433b"
+      "hash": "9a66924999d5f6050fcfe318367b3357d3715cf8bcd3604b17b3880fe87f3df6"
     },
     {
       "path": "pages/docs/runtime/csrf.md",
@@ -412,7 +412,7 @@
       "path": "pages/docs/runtime/nodejs-compat.md",
       "url": "https://bun.sh/docs/runtime/nodejs-compat",
       "title": "Node.js Compatibility - Bun",
-      "hash": "4d6369f4d3c8e42f40e7c3cc203a0056bd9865a7c7b2c5dc7dade0cd503dfb59"
+      "hash": "0662af54324b0ff112dcebcbd1c5c390d00f0c09d755e0e72a3544305333842c"
     },
     {
       "path": "pages/docs/runtime/plugins.md",
@@ -484,7 +484,7 @@
       "path": "pages/docs/runtime/templating/init.md",
       "url": "https://bun.sh/docs/runtime/templating/init",
       "title": "bun init - Bun",
-      "hash": "d04c0a5e881c4b921609940b92784e66dd8ec1615d6ae7588c883bd7449c532e"
+      "hash": "a58bfa46a1151af28074232b751aa92b843e8fd2584217e66f6950f7b4574524"
     },
     {
       "path": "pages/docs/runtime/toml.md",
@@ -538,7 +538,7 @@
       "path": "pages/docs/test.md",
       "url": "https://bun.sh/docs/test",
       "title": "Test runner - Bun",
-      "hash": "87aa9719a9e717bd70016127df75c227837ef4917dc35bd888ba9781acab92c6"
+      "hash": "1aded8cffb67dca099cfae29fff236e37316a4ebff92b46bac688377fe00d5ac"
     },
     {
       "path": "pages/docs/typescript-6.md",
@@ -1484,9 +1484,9 @@
     ]
   ],
   "last_sync": {
-    "synced_at": "2026-07-20T08:37:03.621472+00:00",
+    "synced_at": "2026-07-27T09:26:27.229438+00:00",
     "added": 0,
-    "changed": 42,
+    "changed": 14,
     "removed": 0,
     "pages": 90
   }

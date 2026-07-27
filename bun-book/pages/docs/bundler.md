@@ -3,7 +3,7 @@ type: Web Page
 title: Bundler - Bun
 description: Bun's fast native bundler for JavaScript, TypeScript, JSX, and more
 resource: https://bun.sh/docs/bundler
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-07-27T09:26:27.222623+00:00'
 ---
 
 `bun build` CLI command or the `Bun.build()` JavaScript API.
@@ -501,112 +501,218 @@ Typescript Definitions
 
 ### General Configuration
 
+boolean
+
 Set 
 
-`NODE_ENV=production` and enable minificationUse a bytecode cache when compiling
+`NODE_ENV=production` and enable minificationboolean
+
+Use a bytecode cache when compiling
+
+string
+
+default:"browser"
 
 Intended execution environment for the bundle. One of 
 
-`browser`, `bun`, or `node`Pass custom resolution conditions
+`browser`, `bun`, or `node`string
+
+Pass custom resolution conditions
+
+string
+
+default:"disable"
 
 Inline environment variables into the bundle as 
 
 `process.env.$`. To inline variables matching a
 prefix, use a glob like `FOO_PUBLIC_*`### Output & File Handling
 
+string
+
+default:"dist"
+
 Output directory (used when building multiple entry points)
+
+string
 
 Write output to a specific file
 
+string
+
+default:"none"
+
 Generate source maps. One of 
 
-`linked`, `inline`, `external`, or `none`Add a banner to the output (e.g. 
+`linked`, `inline`, `external`, or `none`string
+
+Add a banner to the output (e.g. 
 
 `“use client”` for React Server Components)Add a footer to the output (e.g. 
 
-`// built with bun!`)Module format of the output bundle. One of 
+`// built with bun!`)string
+
+default:"esm"
+
+Module format of the output bundle. One of 
 
 `esm`, `cjs`, or `iife`. Defaults to
 `cjs` when `—bytecode` is used.### File Naming
 
+string
+
+default:"[dir]/[name].[ext]"
+
 Customize entry point filenames
 
+string
+
+default:"[name]-[hash].[ext]"
+
 Customize chunk filenames
+
+string
+
+default:"[name]-[hash].[ext]"
 
 Customize asset filenames
 
 ### Bundling Options
 
+string
+
 Root directory used when bundling multiple entry points
+
+boolean
 
 Enable code splitting for shared modules
 
+string
+
 Prefix to be added to import paths in bundled code
+
+string
 
 Exclude modules from the bundle (supports wildcards). Alias: 
 
-`-e`How to treat dependencies: 
+`-e`string
 
-`external` or `bundle`Transpile only — do not bundle
+default:"bundle"
+
+How to treat dependencies: 
+
+`external` or `bundle`boolean
+
+Transpile only — do not bundle
+
+boolean
 
 Chunk CSS files together to reduce duplication (only when multiple entry points import CSS)
 
 ### Minification & Optimization
 
+boolean
+
+default:"true"
+
 Re-emit Dead Code Elimination annotations. Disabled when 
 
-`—minify-whitespace` is usedEnable all minification options
+`—minify-whitespace` is usedboolean
+
+Enable all minification options
+
+boolean
 
 Minify syntax and inline constants
 
+boolean
+
 Minify whitespace
 
+boolean
+
 Minify variable and function identifiers
+
+boolean
 
 Preserve original function and class names when minifying
 
 ### Development Features
 
+boolean
+
 Rebuild automatically when files change
+
+boolean
 
 Don’t clear the terminal when rebuilding with 
 
-`—watch`Enable React Fast Refresh transform (for development testing)
+`—watch`boolean
+
+Enable React Fast Refresh transform (for development testing)
+
+boolean
 
 Run the React Compiler over 
 
 `.jsx`/`.tsx` files, automatically memoizing components and hooks. Output mode is derived
 from `--target` (`browser` → client, `bun`/`node` → ssr). Experimental.### Standalone Executables
 
+boolean
+
 Generate a standalone Bun executable containing the bundle
+
+string
 
 Prepend arguments to the standalone executable’s 
 
 `execArgv`### Windows Executable Details
 
+boolean
+
 Prevent a console window from opening when running a compiled Windows executable
+
+string
 
 Set an icon for the Windows executable
 
+string
+
 Set the Windows executable product name
+
+string
 
 Set the Windows executable company name
 
+string
+
 Set the Windows executable version (e.g. 
 
-`1.2.3.4`)Set the Windows executable description
+`1.2.3.4`)string
+
+Set the Windows executable description
+
+string
 
 Set the Windows executable copyright notice
 
 ### Experimental & App Building
 
+boolean
+
 **(EXPERIMENTAL)**Build a web app for production using Bun Bake
+
+boolean
 
 **(EXPERIMENTAL)**Enable React Server Components
 
+boolean
+
 When 
 
-`—app` is set, dump all server files to disk even for static buildsWhen 
+`—app` is set, dump all server files to disk even for static buildsboolean
+
+When 
 
 `—app` is set, disable all minification
 

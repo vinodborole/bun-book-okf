@@ -3,7 +3,7 @@ type: Web Page
 title: Node.js Compatibility - Bun
 description: Bun's compatibility status with Node.js APIs, modules, and globals
 resource: https://bun.sh/docs/runtime/nodejs-compat
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-07-27T09:26:27.222623+00:00'
 ---
 
 `npm` packages intended for Node.js work with Bun. To ensure compatibility, we run thousands of tests from Node.js’ test suite before every release of Bun.
@@ -140,8 +140,8 @@ timestamp: '2026-07-20T08:37:03.598151+00:00'
 🟡 Partially implemented. The `node:inspector``Profiler` API is supported (`Profiler.enable`, `Profiler.disable`, `Profiler.start`, `Profiler.stop`, `Profiler.setSamplingInterval`). Other inspector APIs are not implemented.
 `node:repl`
 
-🔴 Not implemented.
-`node:repl``node:sqlite`
+🟡 Mostly implemented. `node:repl``bun --interactive` starts a Node.js-compatible REPL. Result previews (which need V8’s inspector-based side-effect-free eval), tab-completion of `let`/`const`/`class` bindings in `useGlobal: true` mode, and some V8-specific error-message wording differ.
+`node:sqlite`
 
 🟢 Fully implemented. `node:sqlite``backup()` runs synchronously and blocks the event loop for the duration of the copy (Node runs it on a worker thread). A `Buffer`/`Uint8Array` database path must be valid UTF-8 (Node passes the raw bytes through; Bun rejects non-UTF-8 with `ERR_INVALID_ARG_VALUE`). On macOS, Bun uses the system `libsqlite3.dylib`; `loadExtension()` (and, on older macOS releases, `createSession()`/`applyChangeset()`) require a full SQLite build — call `require("bun:sqlite").Database.setCustomSQLite(path)` before opening a database.
 `node:test`

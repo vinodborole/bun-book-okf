@@ -3,7 +3,7 @@ type: Web Page
 title: bunx - Bun
 description: Run packages from npm
 resource: https://bun.sh/docs/pm/bunx
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-07-27T09:26:27.222623+00:00'
 ---
 
 `bunx` is an alias for `bun x`. The `bunx` CLI is auto-installed when you install `bun`.`bunx` to auto-install and run packages from `npm`. It’s Bun’s equivalent of `npx` or `yarn dlx`.
@@ -56,13 +56,23 @@ dist/index.js
 `node_modules`, Bun installs it into a global shared cache.
 ### Flags
 
+boolean
+
 Force the command to run with Bun instead of Node.js, even if the executable contains a Node shebang (
 
-`#!/usr/bin/env     node`)Specify package to install when binary name differs from package name
+`#!/usr/bin/env     node`)string
+
+Specify package to install when binary name differs from package name
+
+boolean
 
 Skip installation if package is not already installed
 
+boolean
+
 Enable verbose output during installation
+
+boolean
 
 Suppress output during installation
 
