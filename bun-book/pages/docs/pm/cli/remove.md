@@ -3,7 +3,7 @@ type: Web Page
 title: bun remove - Bun
 description: Remove dependencies from your project
 resource: https://bun.sh/docs/pm/cli/remove
-timestamp: '2026-07-27T09:26:27.222623+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 ## Basic Usage
@@ -20,35 +20,41 @@ boolean
 
 Print this help menu. Alias: 
 
-`-h`### Configuration
+`-h`
+### Configuration
 
 string
 
 Specify path to config file (
 
-`bunfig.toml`). Alias: `-c`### Package.json Interaction
+`bunfig.toml`). Alias: `-c`
+### Package.json Interaction
 
 boolean
 
 Don’t update 
 
-`package.json` or save a lockfileboolean
+`package.json` or save a lockfile
+boolean
 
 default:"true"
 
 Save to 
 
-`package.json` (true by default)boolean
+`package.json` (true by default)
+boolean
 
 Add to 
 
-`trustedDependencies` in the project’s `package.json` and install the package(s)### Lockfile Behavior
+`trustedDependencies` in the project’s `package.json` and install the package(s)
+### Lockfile Behavior
 
 boolean
 
 Write a 
 
-`yarn.lock` file (yarn v1). Alias: `-y`boolean
+`yarn.lock` file (yarn v1). Alias: `-y`
+boolean
 
 Disallow changes to lockfile
 
@@ -66,11 +72,13 @@ boolean
 
 Don’t install devDependencies. Alias: 
 
-`-p`string
+`-p`
+string
 
 Exclude 
 
-`dev`, `optional`, or `peer` dependencies from install### Network & Registry
+`dev`, `optional`, or `peer` dependencies from install
+### Network & Registry
 
 string
 
@@ -80,11 +88,13 @@ string
 
 Same as 
 
-`—ca`, but as a file path to the certificatestring
+`—ca`, but as a file path to the certificate
+string
 
 Use a specific registry by default, overriding 
 
-`.npmrc`, `bunfig.toml` and environment variables### Execution Control & Validation
+`.npmrc`, `bunfig.toml` and environment variables
+### Execution Control & Validation
 
 boolean
 
@@ -94,7 +104,8 @@ boolean
 
 Always request the latest versions from the registry & reinstall all dependencies. Alias: 
 
-`-f`boolean
+`-f`
+boolean
 
 Skip verifying integrity of newly downloaded packages
 
@@ -132,7 +143,8 @@ boolean
 
 Skip lifecycle scripts in the project’s 
 
-`package.json` (dependency scripts are never run)number
+`package.json` (dependency scripts are never run)
+number
 
 Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
@@ -142,7 +154,8 @@ boolean
 
 Install globally. Alias: 
 
-`-g`string
+`-g`
+string
 
 Set a specific cwd
 
@@ -155,7 +168,8 @@ default:"clonefile"
 Platform-specific optimizations for installing dependencies. Possible values: 
 
 `clonefile` (default),
-`hardlink`, `symlink`, `copyfile`number
+`hardlink`, `symlink`, `copyfile`
+number
 
 default:"48"
 

@@ -3,12 +3,13 @@ type: Web Page
 title: Feedback - Bun
 description: Share feedback, bug reports, and feature requests
 resource: https://bun.sh/docs/feedback
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 For general questions, join the 
 
-[Discord](https://bun.com/discord).## Reporting Issues
+[Discord](https://bun.com/discord).
+## Reporting Issues
 
 1
 
@@ -16,7 +17,8 @@ Upgrade Bun
 
 Upgrade Bun to the latest version with You can also try the latest canary release, which includes changes and bug fixes that haven’t reached a stable release yet.If the issue persists after upgrading, continue to the next step.
 
-`bun upgrade`. This might fix your problem without opening an issue.terminal
+`bun upgrade`. This might fix your problem without opening an issue.
+terminal
 
 terminal
 
@@ -34,13 +36,12 @@ If no one has reported the issue, open a new one or suggest an improvement.Provi
 
 - A clear and concise title
 - A code example or steps to reproduce the issue
-- The version of Bun you are using (run `bun --version`)
+- The version of Bun you are using (run `bun --version` )
 - A description of the issue (what you expected to happen and what actually happened)
 - The operating system and version you are using
-- For macOS and Linux: copy the output of `uname -mprs`
-- For Windows: copy the output of this command in the PowerShell console:
+  - For macOS and Linux: copy the output of `uname -mprs`
+  - For Windows: copy the output of this command in the PowerShell console:
 `"$([Environment]::OSVersion | ForEach-Object VersionString) $(if ([Environment]::Is64BitOperatingSystem) { "x64" } else { "x86" })"`
- 
 - For macOS and Linux: copy the output of 
 
 ## Use `bun feedback`

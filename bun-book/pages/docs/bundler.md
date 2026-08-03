@@ -3,7 +3,7 @@ type: Web Page
 title: Bundler - Bun
 description: Bun's fast native bundler for JavaScript, TypeScript, JSX, and more
 resource: https://bun.sh/docs/bundler
-timestamp: '2026-07-27T09:26:27.222623+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 `bun build` CLI command or the `Bun.build()` JavaScript API.
@@ -11,9 +11,9 @@ timestamp: '2026-07-27T09:26:27.222623+00:00'
 
 - JS API: `await Bun.build({ entrypoints, outdir })`
 - CLI: `bun build <entry> --outdir ./out`
-- Watch: `--watch`for incremental rebuilds
+- Watch: `--watch` for incremental rebuilds
 - Targets: `--target browser|bun|node`
-- Formats: `--format esm|cjs|iife`(experimental for cjs/iife)
+- Formats: `--format esm|cjs|iife` (experimental for cjs/iife)
 
 - JavaScript
 - CLI
@@ -24,14 +24,16 @@ build.ts
 
 ## Why bundle?
 
-Bundlers solve several problems:- **Reducing HTTP requests.**A single package in- `node_modules`may consist of hundreds of files, and large applications may have dozens of such dependencies. Loading each of these files with a separate HTTP request becomes untenable, so bundlers convert your application source code into a smaller number of self-contained “bundles” that can be loaded with a single request.
-- **Code transforms.**Modern apps are commonly built with languages or tools like TypeScript, JSX, and CSS modules, all of which must be converted into plain JavaScript and CSS before they can be consumed by a browser. The bundler is the natural place to configure these transformations.
-- **Framework features.**Frameworks rely on bundler plugins & code transformations to implement common patterns like file-system routing, client-server code co-location (think- `getServerSideProps`or Remix loaders), and server components.
-- **Full-stack Applications.**Bun’s bundler can handle both server and client code in a single command, enabling optimized production builds and single-file executables. With build-time HTML imports, you can bundle your entire application — frontend assets and backend server — into a single deployable unit.
+Bundlers solve several problems:
+- **Reducing HTTP requests.** A single package in`node_modules` may consist of hundreds of files, and large applications may have dozens of such dependencies. Loading each of these files with a separate HTTP request becomes untenable, so bundlers convert your application source code into a smaller number of self-contained “bundles” that can be loaded with a single request.
+- **Code transforms.** Modern apps are commonly built with languages or tools like TypeScript, JSX, and CSS modules, all of which must be converted into plain JavaScript and CSS before they can be consumed by a browser. The bundler is the natural place to configure these transformations.
+- **Framework features.** Frameworks rely on bundler plugins & code transformations to implement common patterns like file-system routing, client-server code co-location (think`getServerSideProps` or Remix loaders), and server components.
+- **Full-stack Applications.** Bun’s bundler can handle both server and client code in a single command, enabling optimized production builds and single-file executables. With build-time HTML imports, you can bundle your entire application — frontend assets and backend server — into a single deployable unit.
 
 The Bun bundler is not intended to replace 
 
-`tsc` for typechecking or generating type declarations.## Basic example
+`tsc` for typechecking or generating type declarations.
+## Basic example
 
 Build your first bundle. You have the following two files, which implement a client-side rendered React app.`index.tsx` is the “entrypoint” to the application: the file the bundler starts from. Commonly, this is a script that performs some side effect, like starting a server or, in this case, initializing a React root. Because these files use TypeScript and JSX, the code must be bundled before it can be sent to the browser.
 To create the bundle:
@@ -43,30 +45,37 @@ out/index.js
 
 ## Watch mode
 
-Like the runtime and test runner, the bundler supports watch mode natively.terminal
+Like the runtime and test runner, the bundler supports watch mode natively.
+terminal
 
 ## Content types
 
-Like the Bun runtime, the bundler supports a range of file types by default. The following table lists the bundler’s standard “loaders”. See[loaders](/docs/bundler/loaders).
+Like the Bun runtime, the bundler supports a range of file types by default. The following table lists the bundler’s standard “loaders”. See
+[loaders](/docs/bundler/loaders).
 
 ### Assets
 
 If the bundler encounters an import with an unrecognized extension, it treats the imported file as an external file. The referenced file is copied as-is into`outdir`, and the import is resolved as a path to the file.
 [and](#naming)
 
-`naming`[.](#publicpath)
+`naming`
+[.](#publicpath)
 
-`publicPath`See 
+`publicPath`
+See 
 
-[loaders](/docs/bundler/loaders)for more on the file loader.### Plugins
+[loaders](/docs/bundler/loaders)for more on the file loader.
+### Plugins
 
-Plugins can override or extend the behavior described in this table. See[loaders](/docs/bundler/loaders).
+Plugins can override or extend the behavior described in this table. See
+[loaders](/docs/bundler/loaders).
 
 ## API
 
 ### entrypoints
 
-Required An array of paths corresponding to the entrypoints of your application. Bun generates one bundle per entrypoint.- JavaScript
+Required An array of paths corresponding to the entrypoints of your application. Bun generates one bundle per entrypoint.
+- JavaScript
 - CLI
 
 build.ts
@@ -82,15 +91,18 @@ build.ts
 `files` map, the current working directory is used as the root.
 #### Override files on disk
 
-In-memory files take priority over files on disk, so you can override specific files while keeping the rest of your codebase unchanged:build.ts
+In-memory files take priority over files on disk, so you can override specific files while keeping the rest of your codebase unchanged:
+build.ts
 
 #### Mix disk and virtual files
 
-Real files on disk can import virtual files, and virtual files can import real files:build.ts
+Real files on disk can import virtual files, and virtual files can import real files:
+build.ts
 
 ### outdir
 
-The directory where output files are written.- JavaScript
+The directory where output files are written.
+- JavaScript
 - CLI
 
 build.ts
@@ -102,7 +114,8 @@ build.ts
 `outdir` is set, the `path` property on a `BuildArtifact` is the absolute path it was written to.
 ### target
 
-The intended execution environment for the bundle.- JavaScript
+The intended execution environment for the bundle.
+- JavaScript
 - CLI
 
 build.ts
@@ -113,16 +126,19 @@ build.ts
 
 `"browser"` export condition when resolving imports.
 Importing built-in modules like `node:events` or `node:path` works, but calling some functions, like `fs.readFile`,
-does not.## bun
+does not.
+## bun
 
 For bundles that run in the Bun runtime. In many cases, it isn’t necessary to bundle server-side code; you can directly execute the source code without modification. However, bundling your server code can reduce startup times and improve running performance. Use this target for full-stack applications with build-time HTML imports, where server and client code are bundled together.All bundles generated with 
 
-`target: "bun"` are marked with a `// @bun` pragma, which tells the Bun runtime that there’s no need to re-transpile the file before execution.If any entrypoint contains a Bun shebang (`#!/usr/bin/env bun`), the bundler defaults to `target: "bun"` instead of `"browser"`.When using `target: "bun"` and `format: "cjs"` together, the `// @bun @bun-cjs` pragma is added and the CommonJS wrapper function is not compatible with Node.js.## node
+`target: "bun"` are marked with a `// @bun` pragma, which tells the Bun runtime that there’s no need to re-transpile the file before execution.If any entrypoint contains a Bun shebang (`#!/usr/bin/env bun`), the bundler defaults to `target: "bun"` instead of `"browser"`.When using `target: "bun"` and `format: "cjs"` together, the `// @bun @bun-cjs` pragma is added and the CommonJS wrapper function is not compatible with Node.js.
+## node
 
 For bundles that run in Node.js. Prioritizes the 
 
 `"node"` export condition when resolving imports. Bun does not
-polyfill the `Bun` global or the built-in `bun:*` modules.### format
+polyfill the `Bun` global or the built-in `bun:*` modules.
+### format
 
 Specifies the module format of the generated bundles. Bun defaults to`"esm"`, and provides experimental support for `"cjs"` and `"iife"`.
 #### format: “esm” - ES Module
@@ -144,7 +160,8 @@ build.ts
 
 #### format: “iife” - IIFE
 
-TODO: document IIFE once we support globalNames.`jsx`
+TODO: document IIFE once we support globalNames.
+### `jsx`
 
 Configures how JSX is compiled.
 **Classic runtime example**(uses
@@ -155,7 +172,8 @@ Configures how JSX is compiled.
 `importSource`):
 ### splitting
 
-Whether to enable code splitting.- JavaScript
+Whether to enable code splitting.
+- JavaScript
 - CLI
 
 build.ts
@@ -172,9 +190,11 @@ file system
 
 `chunk-2fce6291bf86559d.js` file contains the shared code. To avoid collisions, the file name includes a content hash by default. Customize this with [.](#naming)
 
-`naming`### plugins
+`naming`
+### plugins
 
-A list of plugins to use during bundling.build.ts
+A list of plugins to use during bundling.
+build.ts
 
 [plugins](/docs/bundler/plugins).
 
@@ -209,9 +229,11 @@ output.js
 
 #### env: “disable”
 
-Disables environment variable injection entirely.### sourcemap
+Disables environment variable injection entirely.
+### sourcemap
 
-Specifies the type of sourcemap to generate.- JavaScript
+Specifies the type of sourcemap to generate.
+- JavaScript
 - CLI
 
 build.ts
@@ -278,10 +300,10 @@ file system
 file system
 
 `naming` field customizes the names and locations of the generated files. It accepts a template string, used for all bundles corresponding to entrypoints, in which the following tokens are replaced with their values:
-- `[name]`- The name of the entrypoint file, without the extension.
-- `[ext]`- The extension of the generated bundle.
-- `[hash]`- A hash of the bundle contents.
-- `[dir]`- The relative path from the project root to the parent directory of the source file.
+- `[name]` - The name of the entrypoint file, without the extension.
+- `[ext]` - The extension of the generated bundle.
+- `[hash]` - A hash of the bundle contents.
+- `[dir]` - The relative path from the project root to the parent directory of the source file.
 
 Combine these tokens to create a template string. For instance, to include the hash in the generated bundle names:
 
@@ -300,7 +322,8 @@ build.ts
 
 ### root
 
-The root directory of the project.- JavaScript
+The root directory of the project.
+- JavaScript
 - CLI
 
 build.ts
@@ -321,9 +344,10 @@ Override this by specifying the `root` option:
 `.` as `root`, the generated file structure looks like this:
 ### publicPath
 
-A prefix added to any import paths in bundled code. In many cases, generated bundles contain no import statements; the goal of bundling is to combine all of the code into a single file. In a few cases, though, the generated bundles contain import statements:- **Asset imports**— When importing an unrecognized file type like- `*.svg`, the bundler defers to the file loader, which copies the file into- `outdir`as is. The import is converted into a variable.
-- **External modules**— Files and modules marked as external are not included in the bundle. Instead, the import statement is left in the final bundle.
-- **Chunking.**When- `splitting`is enabled, the bundler may generate separate “chunk” files that represent code that is shared among multiple entrypoints.
+A prefix added to any import paths in bundled code. In many cases, generated bundles contain no import statements; the goal of bundling is to combine all of the code into a single file. In a few cases, though, the generated bundles contain import statements:
+- **Asset imports** — When importing an unrecognized file type like`*.svg` , the bundler defers to the file loader, which copies the file into`outdir` as is. The import is converted into a variable.
+- **External modules** — Files and modules marked as external are not included in the bundle. Instead, the import statement is left in the final bundle.
+- **Chunking.** When`splitting` is enabled, the bundler may generate separate “chunk” files that represent code that is shared among multiple entrypoints.
 
 `publicPath` prefixes all file paths with the specified value.
 - JavaScript
@@ -335,14 +359,16 @@ out/index.js
 
 ### define
 
-A map of global identifiers to be replaced at build time. Keys of this object are identifier names, and values are JSON strings that are inlined.- JavaScript
+A map of global identifiers to be replaced at build time. Keys of this object are identifier names, and values are JSON strings that are inlined.
+- JavaScript
 - CLI
 
 build.ts
 
 ### loader
 
-A map of file extensions to built-in loader names. Use this to customize how certain files are loaded.- JavaScript
+A map of file extensions to built-in loader names. Use this to customize how certain files are loaded.
+- JavaScript
 - CLI
 
 build.ts
@@ -357,7 +383,8 @@ build.ts
 
 ### footer
 
-A footer added to the final bundle. This can be a comment block for a license or a fun easter egg.- JavaScript
+A footer added to the final bundle. This can be a comment block for a license or a fun easter egg.
+- JavaScript
 - CLI
 
 build.ts
@@ -389,16 +416,16 @@ Output (without --feature PREMIUM, with --minify)
 
 **Key behaviors:**
 
-- `feature()`requires a string literal argument — dynamic values are not supported
-- The `bun:bundle`import is completely removed from the output
-- Works with `bun build`,`bun run`, and`bun test`
+- `feature()` requires a string literal argument — dynamic values are not supported
+- The `bun:bundle` import is completely removed from the output
+- Works with `bun build` ,`bun run` , and`bun test`
 - Multiple flags can be enabled: `--feature FLAG_A --feature FLAG_B`
-- For type safety, augment the `Registry`interface to restrict`feature()`to known flags
+- For type safety, augment the `Registry` interface to restrict`feature()` to known flags
 
 **Use cases:**
 
-- Platform-specific code (`feature("SERVER")`vs`feature("CLIENT")`)
-- Environment-based features (`feature("DEVELOPMENT")`)
+- Platform-specific code (`feature("SERVER")` vs`feature("CLIENT")` )
+- Environment-based features (`feature("DEVELOPMENT")` )
 - Gradual feature rollouts
 - A/B testing variants
 - Paid tier features
@@ -426,10 +453,11 @@ This works for **pure barrel files**— files where every named export is a re-e
 
 ### metafile
 
-Generate metadata about the build in a structured format. The metafile describes every input and output file: sizes, imports, and exports. Use it for:- **Bundle analysis**: Understand what’s contributing to bundle size
-- **Visualization**: Feed into tools like- [esbuild’s bundle analyzer](https://esbuild.github.io/analyze/)
-- **Dependency tracking**: See the full import graph of your application
-- **CI integration**: Track bundle size changes over time
+Generate metadata about the build in a structured format. The metafile describes every input and output file: sizes, imports, and exports. Use it for:
+- **Bundle analysis** : Understand what’s contributing to bundle size
+- **Visualization** : Feed into tools like[esbuild’s bundle analyzer](https://esbuild.github.io/analyze/)
+- **Dependency tracking** : See the full import graph of your application
+- **CI integration** : Track bundle size changes over time
 
 - JavaScript
 - CLI
@@ -444,7 +472,7 @@ terminal
 `--metafile` and `--metafile-md` can be used together:
 terminal
 
-`metafile` option formats
+#### `metafile` option formats
 
 In the JavaScript API, `metafile` accepts several forms:
 build.ts
@@ -466,8 +494,8 @@ build.ts
 ## Bytecode
 
 The`bytecode: boolean` option generates bytecode for any JavaScript/TypeScript entrypoints, which can greatly improve startup times for large applications. Requires `"target": "bun"` and a matching version of Bun.
-- **CommonJS**: Works with or without- `compile: true`. Generates a- `.jsc`file alongside each entrypoint.
-- **ESM**: Requires- `compile: true`. Bytecode and module metadata are embedded in the standalone executable.
+- **CommonJS** : Works with or without`compile: true` . Generates a`.jsc` file alongside each entrypoint.
+- **ESM** : Requires`compile: true` . Bytecode and module metadata are embedded in the standalone executable.
 
 `format`, bytecode defaults to CommonJS.
 - JavaScript
@@ -477,7 +505,8 @@ build.ts
 
 ## Executables
 
-Bun supports “compiling” a JavaScript/TypeScript entrypoint into a standalone executable. This executable contains a copy of the Bun binary.terminal
+Bun supports “compiling” a JavaScript/TypeScript entrypoint into a standalone executable. This executable contains a copy of the Bun binary.
+terminal
 
 [standalone executables](/docs/bundler/executables).
 
@@ -505,7 +534,8 @@ boolean
 
 Set 
 
-`NODE_ENV=production` and enable minificationboolean
+`NODE_ENV=production` and enable minification
+boolean
 
 Use a bytecode cache when compiling
 
@@ -515,7 +545,8 @@ default:"browser"
 
 Intended execution environment for the bundle. One of 
 
-`browser`, `bun`, or `node`string
+`browser`, `bun`, or `node`
+string
 
 Pass custom resolution conditions
 
@@ -526,7 +557,8 @@ default:"disable"
 Inline environment variables into the bundle as 
 
 `process.env.$`. To inline variables matching a
-prefix, use a glob like `FOO_PUBLIC_*`### Output & File Handling
+prefix, use a glob like `FOO_PUBLIC_*`
+### Output & File Handling
 
 string
 
@@ -544,20 +576,22 @@ default:"none"
 
 Generate source maps. One of 
 
-`linked`, `inline`, `external`, or `none`string
-
+`linked`, `inline`, `external`, or `none`
 Add a banner to the output (e.g. 
 
-`“use client”` for React Server Components)Add a footer to the output (e.g. 
+`“use client”` for React Server Components)
+Add a footer to the output (e.g. 
 
-`// built with bun!`)string
+`// built with bun!`)
+string
 
 default:"esm"
 
 Module format of the output bundle. One of 
 
 `esm`, `cjs`, or `iife`. Defaults to
-`cjs` when `—bytecode` is used.### File Naming
+`cjs` when `—bytecode` is used.
+### File Naming
 
 string
 
@@ -595,13 +629,15 @@ string
 
 Exclude modules from the bundle (supports wildcards). Alias: 
 
-`-e`string
+`-e`
+string
 
 default:"bundle"
 
 How to treat dependencies: 
 
-`external` or `bundle`boolean
+`external` or `bundle`
+boolean
 
 Transpile only — do not bundle
 
@@ -617,7 +653,8 @@ default:"true"
 
 Re-emit Dead Code Elimination annotations. Disabled when 
 
-`—minify-whitespace` is usedboolean
+`—minify-whitespace` is used
+boolean
 
 Enable all minification options
 
@@ -647,7 +684,8 @@ boolean
 
 Don’t clear the terminal when rebuilding with 
 
-`—watch`boolean
+`—watch`
+boolean
 
 Enable React Fast Refresh transform (for development testing)
 
@@ -656,7 +694,8 @@ boolean
 Run the React Compiler over 
 
 `.jsx`/`.tsx` files, automatically memoizing components and hooks. Output mode is derived
-from `--target` (`browser` → client, `bun`/`node` → ssr). Experimental.### Standalone Executables
+from `--target` (`browser` → client, `bun`/`node` → ssr). Experimental.
+### Standalone Executables
 
 boolean
 
@@ -666,7 +705,8 @@ string
 
 Prepend arguments to the standalone executable’s 
 
-`execArgv`### Windows Executable Details
+`execArgv`
+### Windows Executable Details
 
 boolean
 
@@ -688,7 +728,8 @@ string
 
 Set the Windows executable version (e.g. 
 
-`1.2.3.4`)string
+`1.2.3.4`)
+string
 
 Set the Windows executable description
 
@@ -710,7 +751,8 @@ boolean
 
 When 
 
-`—app` is set, dump all server files to disk even for static buildsboolean
+`—app` is set, dump all server files to disk even for static builds
+boolean
 
 When 
 

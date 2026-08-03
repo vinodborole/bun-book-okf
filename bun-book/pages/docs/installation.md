@@ -3,12 +3,13 @@ type: Web Page
 title: Installation - Bun
 description: Install Bun with npm, Homebrew, Docker, or the official script.
 resource: https://bun.sh/docs/installation
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 ## Overview
 
-Bun ships as a single, dependency-free executable. Install it with the install script, a package manager, or Docker on macOS, Linux, and Windows.## Installation
+Bun ships as a single, dependency-free executable. Install it with the install script, a package manager, or Docker on macOS, Linux, and Windows.
+## Installation
 
 - macOS & Linux
 - Windows
@@ -17,9 +18,10 @@ Bun ships as a single, dependency-free executable. Install it with the install s
 
 **Linux users**The
 
-`unzip` package is required to install Bun (`sudo apt install unzip`). Kernel version 5.6 or higher is recommended; Bun runs on kernels as old as 3.10 (RHEL 7) with graceful degradation of newer syscalls. Use `uname -r` to check your kernel version.terminal
+`unzip` package is required to install Bun (`sudo apt install unzip`). Kernel version 5.6 or higher is recommended; Bun runs on kernels as old as 3.10 (RHEL 7) with graceful degradation of newer syscalls. Use `uname -r` to check your kernel version.
+terminal
 
-Add Bun to your PATH
+## Add Bun to your PATH
 
 Add Bun to your PATH
 
@@ -56,7 +58,8 @@ terminal
 
 ## Upgrading
 
-Once installed, the binary can upgrade itself:terminal
+Once installed, the binary can upgrade itself:
+terminal
 
 ## Canary Builds
 
@@ -66,7 +69,8 @@ terminal
 
 ## Installing Older Versions
 
-Since Bun is a single binary, you can install older versions by re-running the installer script with a specific version.- Linux & macOS
+Since Bun is a single binary, you can install older versions by re-running the installer script with a specific version.
+- Linux & macOS
 - Windows
 
 To install a specific version, pass the git tag to the install script:
@@ -75,7 +79,8 @@ terminal
 
 ## Direct Downloads
 
-To download Bun binaries directly, visit the[releases page on GitHub](https://github.com/oven-sh/bun/releases).
+To download Bun binaries directly, visit the
+[releases page on GitHub](https://github.com/oven-sh/bun/releases).
 
 ### Latest Version Downloads
 
@@ -117,9 +122,11 @@ For distributions without`glibc` (Alpine Linux, Void Linux):
 Bun’s glibc binaries require glibc 2.17 or newer. If you encounter an error like 
 
 `bun:     /lib/x86_64-linux-gnu/libc.so.6: version GLIBC_... not found`, try using the musl binary. Bun’s install script
-automatically chooses the correct binary for your system.## CPU Requirements
+automatically chooses the correct binary for your system.
+## CPU Requirements
 
-CPU requirements depend on which binary you’re using:- Standard Builds
+CPU requirements depend on which binary you’re using:
+- Standard Builds
 - Baseline Builds
 
 **x64 binaries**target the Haswell CPU architecture (AVX and AVX2 instructions required)
@@ -129,7 +136,8 @@ or later.
 
 ## Uninstall
 
-To remove Bun from your system:- macOS & Linux
+To remove Bun from your system:
+- macOS & Linux
 - Windows
 - Package Managers
 

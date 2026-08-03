@@ -3,7 +3,7 @@ type: Web Page
 title: Spawn - Bun
 description: Spawn child processes with Bun.spawn or Bun.spawnSync
 resource: https://bun.sh/docs/runtime/child-process
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 ## Spawn a process (`Bun.spawn()`)
@@ -74,8 +74,8 @@ child.ts
 child.ts
 
 `serialization` option controls the underlying communication format between the two processes:
-- `advanced`: (default) Messages are serialized using the JSC- `serialize`API, which supports cloning- [everything](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm). This does not support transferring ownership of objects.- `structuredClone`supports
-- `json`: Messages are serialized using- `JSON.stringify`and- `JSON.parse`, which does not support as many object types as- `advanced`does.
+- `advanced` : (default) Messages are serialized using the JSC`serialize` API, which supports cloning[everything `structuredClone` supports](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm) . This does not support transferring ownership of objects.
+- `json` : Messages are serialized using`JSON.stringify` and`JSON.parse` , which does not support as many object types as`advanced` does.
 
 ### IPC between Bun & Node.js
 
@@ -86,9 +86,9 @@ bun-node-ipc.js
 
 For interactive terminal applications, use the`terminal` option to spawn a subprocess with a pseudo-terminal (PTY) attached. The subprocess sees a real terminal, which enables colored output, cursor movement, and interactive prompts.
 `terminal` option is provided:
-- The subprocess sees `process.stdout.isTTY`as`true`
-- `stdin`,- `stdout`, and- `stderr`are all connected to the terminal
-- `proc.stdin`,- `proc.stdout`, and- `proc.stderr`return- `null`— use the terminal instead
+- The subprocess sees `process.stdout.isTTY` as`true`
+- `stdin` ,`stdout` , and`stderr` are all connected to the terminal
+- `proc.stdin` ,`proc.stdout` , and`proc.stderr` return`null` — use the terminal instead
 - Access the terminal via `proc.terminal`
 
 ### Terminal options
@@ -101,25 +101,25 @@ The`Terminal` object returned by `proc.terminal` has the following methods:
 To run multiple commands in sequence through the same terminal session, create a terminal independently and reuse it across subprocesses:`Terminal` object:
 - The terminal can be reused across multiple spawns
 - You control when to close the terminal
-- The `exit`callback fires when you call`terminal.close()`, not when each subprocess exits
-- Use `proc.exited`to detect individual subprocess exits
+- The `exit` callback fires when you call`terminal.close()` , not when each subprocess exits
+- Use `proc.exited` to detect individual subprocess exits
 
 ### Platform differences
 
 `Bun.Terminal` uses `openpty()` on Linux and macOS, and ConPTY (`CreatePseudoConsole`) on Windows. The core behavior — child sees a TTY, `write()` reaches the child’s stdin, child output reaches the `data` callback, `resize()` updates the child’s view — is the same on every platform. A few details differ:
-- **No termios on Windows.**- `inputFlags`,- `outputFlags`,- `localFlags`, and- `controlFlags`always read as- `0`and setting them is a no-op.- `setRawMode()`records the flag but has no effect on the child; the child controls its own console mode.
-- **No echo without a child process on Windows.**On POSIX, the kernel line discipline echoes- `write()`input back to the- `data`callback even with no process attached. ConPTY has no line discipline; input is buffered for the next reader. If you need echo, spawn a process that echoes.
-- **ConPTY re-encodes output.**ConPTY renders the child’s output to a virtual screen and emits whatever VT sequences describe the result, so the- `data`callback receives semantically equivalent — but not byte-identical — escape sequences. Colors and text are preserved; cursor-positioning and reset sequences may be reordered or coalesced. ConPTY also emits a short VT init sequence (- `\x1b[?9001h\x1b[?1004h…`) before any child output.
-- **Input**POSIX- `\r`is not translated to- `\n`on Windows.- `ICRNL`maps carriage return to newline on input; ConPTY passes- `\r`through unchanged.
-- `process.on('SIGWINCH')`in the child does not fire under ConPTY- `process.stdout.columns`/- `rows`do update after- `resize()`. This is a libuv limitation that affects any libuv-based child (Node.js included).
-- On Windows before 11 24H2 (build 26100), `terminal.close()`may not terminate a still-running child promptly because`ClosePseudoConsole`
+- **No termios on Windows.**`inputFlags` ,`outputFlags` ,`localFlags` , and`controlFlags` always read as`0` and setting them is a no-op.`setRawMode()` records the flag but has no effect on the child; the child controls its own console mode.
+- **No echo without a child process on Windows.** On POSIX, the kernel line discipline echoes`write()` input back to the`data` callback even with no process attached. ConPTY has no line discipline; input is buffered for the next reader. If you need echo, spawn a process that echoes.
+- **ConPTY re-encodes output.** ConPTY renders the child’s output to a virtual screen and emits whatever VT sequences describe the result, so the`data` callback receives semantically equivalent — but not byte-identical — escape sequences. Colors and text are preserved; cursor-positioning and reset sequences may be reordered or coalesced. ConPTY also emits a short VT init sequence (`\x1b[?9001h\x1b[?1004h…` ) before any child output.
+- **Input `\r` is not translated to `\n` on Windows.** POSIX`ICRNL` maps carriage return to newline on input; ConPTY passes`\r` through unchanged.
+- **`process.on('SIGWINCH')` in the child does not fire under ConPTY** unless the child is reading stdin in raw mode.`process.stdout.columns` /`rows` do update after`resize()` . This is a libuv limitation that affects any libuv-based child (Node.js included).
+- On Windows before 11 24H2 (build 26100), `terminal.close()` may not terminate a still-running child promptly because[`ClosePseudoConsole`](https://learn.microsoft.com/en-us/windows/console/closepseudoconsole) blocks until conhost has flushed its output through the pipe on those versions. Kill the attached process first if you need to tear down with a running child.
 
 ## Blocking API (`Bun.spawnSync()`)
 
 `Bun.spawnSync` is the blocking equivalent of `Bun.spawn`. It supports the same inputs and parameters and returns a `SyncSubprocess` object, which differs from `Subprocess` in a few ways.
-- It contains a `success`property that indicates whether the process exited with a zero exit code.
-- The `stdout`and`stderr`properties are instances of`Buffer`instead of`ReadableStream`.
-- There is no `stdin`property. Use`Bun.spawn`to incrementally write to the subprocess’s input stream.
+1. It contains a `success` property that indicates whether the process exited with a zero exit code.
+2. The `stdout` and`stderr` properties are instances of`Buffer` instead of`ReadableStream` .
+3. There is no `stdin` property. Use`Bun.spawn` to incrementally write to the subprocess’s input stream.
 
 `Bun.spawn` API is better for HTTP servers and apps, and `Bun.spawnSync` is better for building command-line tools.
 ## Benchmarks

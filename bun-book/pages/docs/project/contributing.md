@@ -3,7 +3,7 @@ type: Web Page
 title: Contributing - Bun
 description: Contributing to Bun
 resource: https://bun.sh/docs/project/contributing
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 [Building Windows](/docs/project/building-windows).
@@ -37,19 +37,20 @@ We recommend adding `./build/debug` to your `$PATH` so that you can run `bun-deb
 
 The`bd` package.json script compiles and runs a debug build of Bun, only printing the output of the build process if it fails.
 - Batch up your changes
-- Use `cargo check -p <crate>`(or`bun run rust:check`for the whole workspace) to type-check Rust changes without linking.`bun run watch`runs`cargo check`on every save.
+- Use `cargo check -p <crate>` (or`bun run rust:check` for the whole workspace) to type-check Rust changes without linking.`bun run watch` runs`cargo check` on every save.
 - Ensure rust-analyzer is running for inline diagnostics (the recommended VSCode extensions set this up)
 - Prefer using the debugger (“CodeLLDB” in VSCode) to step through the code.
-- Use debug logs. `BUN_DEBUG_<scope>=1`enables debug logging for the corresponding`declare_scope!(<scope>, ...)`/`scoped_log!(<scope>, ...)`logs. Set`BUN_DEBUG_QUIET_LOGS=1`to disable all debug logging that isn’t explicitly enabled. To dump debug logs into a file, set`BUN_DEBUG=<path-to-file>.log`. Debug logs are removed in release builds.
+- Use debug logs. `BUN_DEBUG_<scope>=1` enables debug logging for the corresponding`declare_scope!(<scope>, ...)` /`scoped_log!(<scope>, ...)` logs. Set`BUN_DEBUG_QUIET_LOGS=1` to disable all debug logging that isn’t explicitly enabled. To dump debug logs into a file, set`BUN_DEBUG=<path-to-file>.log` . Debug logs are removed in release builds.
 - src/js/**.ts changes rebuild almost instantly. Single-crate Rust changes and C++ changes are incremental; only the final link is unavoidable.
 
 ## Code generation scripts
 
-Bun’s build process runs several code generation scripts automatically when certain files change:- `./src/codegen/generate-jssink.ts`— Generates- `build/debug/codegen/JSSink.cpp`,- `build/debug/codegen/JSSink.h`which implement various classes for interfacing with- `ReadableStream`. This is internally how- `FileSink`,- `ArrayBufferSink`,- `"type": "direct"`streams and other code related to streams work.
-- `./src/codegen/generate-classes.ts`— Generates Rust & C++ bindings for JavaScriptCore classes implemented in Rust.- `**/*.classes.ts`files define the interfaces for classes, methods, prototypes, and getters/setters; the code generator reads them to generate the boilerplate that implements the JavaScript objects in C++ and wires them up to Rust.
-- `./src/codegen/cppbind.ts`— Scans the C++ bindings for functions marked with an export attribute and generates automatic Rust FFI wrappers (- `cpp.rs`) for them.
-- `./src/codegen/bundle-modules.ts`— Bundles built-in modules like- `node:fs`,- `bun:ffi`into files included in the final binary. In development, these can be reloaded without rebuilding native code (you still need to run- `bun run build`, but it re-reads the transpiled files from disk afterwards). In release builds, these are embedded into the binary.
-- `./src/codegen/bundle-functions.ts`— Bundles globally-accessible functions implemented in JavaScript/TypeScript like- `ReadableStream`and- `WritableStream`. These are used similarly to the builtin modules, but the output more closely aligns with what WebKit/Safari does for Safari’s built-in functions, so implementations can be copy-pasted from WebKit as a starting point.
+Bun’s build process runs several code generation scripts automatically when certain files change:
+- `./src/codegen/generate-jssink.ts` — Generates`build/debug/codegen/JSSink.cpp` ,`build/debug/codegen/JSSink.h` which implement various classes for interfacing with`ReadableStream` . This is internally how`FileSink` ,`ArrayBufferSink` ,`"type": "direct"` streams and other code related to streams work.
+- `./src/codegen/generate-classes.ts` — Generates Rust & C++ bindings for JavaScriptCore classes implemented in Rust.`**/*.classes.ts` files define the interfaces for classes, methods, prototypes, and getters/setters; the code generator reads them to generate the boilerplate that implements the JavaScript objects in C++ and wires them up to Rust.
+- `./src/codegen/cppbind.ts` — Scans the C++ bindings for functions marked with an export attribute and generates automatic Rust FFI wrappers (`cpp.rs` ) for them.
+- `./src/codegen/bundle-modules.ts` — Bundles built-in modules like`node:fs` ,`bun:ffi` into files included in the final binary. In development, these can be reloaded without rebuilding native code (you still need to run`bun run build` , but it re-reads the transpiled files from disk afterwards). In release builds, these are embedded into the binary.
+- `./src/codegen/bundle-functions.ts` — Bundles globally-accessible functions implemented in JavaScript/TypeScript like`ReadableStream` and`WritableStream` . These are used similarly to the builtin modules, but the output more closely aligns with what WebKit/Safari does for Safari’s built-in functions, so implementations can be copy-pasted from WebKit as a starting point.
 
 ## Modifying ESM modules
 
@@ -64,7 +65,8 @@ You can run the release build from a pull request without building it locally, w
 `gh` CLI installed to authenticate with GitHub.
 ### Viewing CI failures from the terminal
 
-Bun’s CI runs on BuildKite. Install the[BuildKite CLI](https://github.com/buildkite/cli)(
+Bun’s CI runs on BuildKite. Install the
+[BuildKite CLI](https://github.com/buildkite/cli)(
 
 `brew install buildkite/buildkite/bk`) and set `BUILDKITE_API_TOKEN` to a read-scoped [API token](https://buildkite.com/user/api-access-tokens). The repo includes a
 
@@ -81,8 +83,8 @@ To build a release build with AddressSanitizer, run:
 WebKit is not cloned by default (to save time and disk space). To clone and build WebKit locally, run:`bun run build:local` handles everything: configuring JSC, building JSC, and building Bun. On subsequent runs, JSC rebuilds incrementally if any WebKit sources changed. `ninja -Cbuild/debug-local` also works after the first build, and builds both Bun and JSC.
 The build output goes to `./build/debug-local` (instead of `./build/debug`), so you’ll need to update a couple of places:
 - The first line in `src/js/builtins.d.ts`
-- The `CompilationDatabase`line in`.clangd`config should be`CompilationDatabase: build/debug-local`
-- In `.vscode/launch.json`, many configurations use`./build/debug/`, change them as you see fit
+- The `CompilationDatabase` line in`.clangd` config should be`CompilationDatabase: build/debug-local`
+- In `.vscode/launch.json` , many configurations use`./build/debug/` , change them as you see fit
 
 `C/C++: Select a Configuration` command so IntelliSense finds the debug headers.
 If you make changes to Bun’s [WebKit fork](https://github.com/oven-sh/WebKit), you also have to change
@@ -106,9 +108,9 @@ If you see this error when compiling, run:
 Bun defaults to linking `libatomic` statically, as not all systems have it. If you are building on a distro that does not have a static libatomic available, enable dynamic linking with:
 ## Using bun-debug
 
-- Disable logging: `BUN_DEBUG_QUIET_LOGS=1 bun-debug ...`(to disable all debug logging)
-- Enable logging for a specific scope: `BUN_DEBUG_EventLoop=1 bun-debug ...`(to enable`scoped_log!(EventLoop, ...)`output)
-- Bun transpiles every file it runs. To see the actual executed source in a debug build, find it in `/tmp/bun-debug-src/...path/to/file`. For example, the transpiled version of`/home/bun/index.ts`is in`/tmp/bun-debug-src/home/bun/index.ts`
+- Disable logging: `BUN_DEBUG_QUIET_LOGS=1 bun-debug ...` (to disable all debug logging)
+- Enable logging for a specific scope: `BUN_DEBUG_EventLoop=1 bun-debug ...` (to enable`scoped_log!(EventLoop, ...)` output)
+- Bun transpiles every file it runs. To see the actual executed source in a debug build, find it in `/tmp/bun-debug-src/...path/to/file` . For example, the transpiled version of`/home/bun/index.ts` is in`/tmp/bun-debug-src/home/bun/index.ts`
 
 # Citations
 

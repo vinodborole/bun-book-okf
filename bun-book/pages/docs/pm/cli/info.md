@@ -3,7 +3,7 @@ type: Web Page
 title: bun info - Bun
 description: Display package metadata from the npm registry
 resource: https://bun.sh/docs/pm/cli/info
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 `bun info` displays package metadata from the npm registry.
@@ -14,11 +14,13 @@ terminal
 `bun info react` prints the package’s latest version, description, homepage, dependencies, and other metadata.
 ## Viewing specific versions
 
-To view information about a specific version:terminal
+To view information about a specific version:
+terminal
 
 ## Viewing specific properties
 
-To print specific properties from the package metadata:terminal
+To print specific properties from the package metadata:
+terminal
 
 ## JSON output
 

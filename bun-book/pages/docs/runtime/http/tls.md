@@ -3,7 +3,7 @@ type: Web Page
 title: TLS - Bun
 description: Enable TLS in Bun.serve
 resource: https://bun.sh/docs/runtime/http/tls
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 [BoringSSL](https://boringssl.googlesource.com/boringssl). To enable TLS, pass both
@@ -22,7 +22,8 @@ If your private key is encrypted with a passphrase, provide a value for`passphra
 Pass`ca` to override the trusted CA certificates. By default, the server trusts the list of well-known CAs curated by Mozilla; setting `ca` replaces that list.
 ### Diffie-Hellman
 
-To override Diffie-Hellman parameters:## Server name indication (SNI)
+To override Diffie-Hellman parameters:
+## Server name indication (SNI)
 
 To configure the server name indication (SNI) for the server, set the`serverName` field in the `tls` object.
 `tls`, each with a `serverName` field.

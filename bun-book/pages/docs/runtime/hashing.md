@@ -4,12 +4,13 @@ title: Hashing - Bun
 description: Utility functions for hashing and verifying passwords with various cryptographically
   secure algorithms
 resource: https://bun.sh/docs/runtime/hashing
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 Bun implements the 
 
-`createHash` and `createHmac` functions from [in addition to the Bun-native APIs documented below.](https://nodejs.org/api/crypto.html)`node:crypto``Bun.password`
+`createHash` and `createHmac` functions from [in addition to the Bun-native APIs documented below.](https://nodejs.org/api/crypto.html)`node:crypto`
+## `Bun.password`
 
 `Bun.password` is a collection of utility functions for hashing and verifying passwords with various cryptographically secure algorithms.
 `Bun.password.hash` is a params object that selects and configures the hashing algorithm.
@@ -23,31 +24,33 @@ Bun implements the
 `Bun.password.hash` generates a salt automatically and includes it in the hash.
 ### bcrypt - Modular Crypt Format
 
-In the following[Modular Crypt Format](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html)hash (used by
+In the following
+[Modular Crypt Format](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html)hash (used by
 
 `bcrypt`):
 Input:
-- `bcrypt`:- `$2b`
-- `rounds`:- `$10`- rounds (log2 of the actual number of rounds)
-- `salt`:- `Lyj9kHYZtiyfxh2G60TEfe`
-- `hash`:- `qs7xkkGiEFFDi3iJGc50ZG/XJ1sxIFi`
+- `bcrypt` :`$2b`
+- `rounds` :`$10` - rounds (log2 of the actual number of rounds)
+- `salt` :`Lyj9kHYZtiyfxh2G60TEfe`
+- `hash` :`qs7xkkGiEFFDi3iJGc50ZG/XJ1sxIFi`
 
 `Bun.password.hash` with the `bcrypt` algorithm hashes any password longer than 72 bytes with SHA-512 before passing it to bcrypt.
 ### argon2 - PHC format
 
-In the following[PHC format](https://github.com/P-H-C/phc-string-format/blob/master/phc-sf-spec.md)hash (used by
+In the following
+[PHC format](https://github.com/P-H-C/phc-string-format/blob/master/phc-sf-spec.md)hash (used by
 
 `argon2`):
 Input:
-- `algorithm`:- `$argon2id`
-- `version`:- `$v=19`
-- `memory cost`:- `65536`
-- `iterations`:- `t=2`
-- `parallelism`:- `p=1`
-- `salt`:- `$xXnlSvPh4ym5KYmxKAuuHVlDvy2QGHBNuI6bJJrRDOs`
-- `hash`:- `$2YY6M48XmHn+s5NoBaL+ficzXajq2Yj8wut3r0vnrwI`
+- `algorithm` :`$argon2id`
+- `version` :`$v=19`
+- `memory cost` :`65536`
+- `iterations` :`t=2`
+- `parallelism` :`p=1`
+- `salt` :`$xXnlSvPh4ym5KYmxKAuuHVlDvy2QGHBNuI6bJJrRDOs`
+- `hash` :`$2YY6M48XmHn+s5NoBaL+ficzXajq2Yj8wut3r0vnrwI`
 
-`Bun.hash`
+## `Bun.hash`
 
 `Bun.hash` is a collection of utilities for *non-cryptographic*hashing. Non-cryptographic hashing algorithms are optimized for speed of computation over collision-resistance or security. The standard
 
@@ -56,7 +59,7 @@ Input:
 `TypedArray`, `DataView`, `ArrayBuffer`, or `SharedArrayBuffer`.
 `Number.MAX_SAFE_INTEGER` as BigInt to avoid loss of precision.
 `Bun.hash`. The API is the same for each; 32-bit hashes return a number and 64-bit hashes return a bigint.
-`Bun.CryptoHasher`
+## `Bun.CryptoHasher`
 
 `Bun.CryptoHasher` incrementally computes a hash of string or binary data with a cryptographic hash algorithm. The following algorithms are supported:
 - `"blake2b256"`

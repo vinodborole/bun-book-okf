@@ -3,7 +3,7 @@ type: Web Page
 title: bun audit - Bun
 description: Check your installed packages for known security vulnerabilities
 resource: https://bun.sh/docs/pm/cli/audit
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 `bun.lock` file:
@@ -13,17 +13,20 @@ terminal
 
 **- Only show vulnerabilities at this severity level or higher:**
 
-`--audit-level=<low|moderate|high|critical>`terminal
+`--audit-level=<low|moderate|high|critical>`
+terminal
 
 **- Audit only production dependencies (excludes devDependencies):**
 
-`--prod`terminal
+`--prod`
+terminal
 
 **- Ignore specific CVEs (repeat the flag to ignore several):**
 
-`--ignore <CVE>`terminal
+`--ignore <CVE>`
+terminal
 
-`--json`
+### `--json`
 
 Use the `--json` flag to print the raw JSON response from the registry instead of the formatted report:
 terminal

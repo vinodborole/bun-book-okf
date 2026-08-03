@@ -4,18 +4,19 @@ title: YAML - Bun
 description: Use Bun's built-in support for YAML files through both runtime APIs and
   bundler integration
 resource: https://bun.sh/docs/runtime/yaml
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 - Parse YAML strings with `Bun.YAML.parse`
-- `import`&- `require`YAML files as modules at runtime (including hot reloading & watch mode support)
-- `import`&- `require`YAML files in frontend apps with Bun’s bundler
+- `import` &`require` YAML files as modules at runtime (including hot reloading & watch mode support)
+- `import` &`require` YAML files in frontend apps with Bun’s bundler
 
 ## Conformance
 
-Bun’s YAML parser, written in Rust, passes over 90% of the official YAML test suite and covers the vast majority of real-world use cases. We’re working toward 100% conformance.## Runtime API
+Bun’s YAML parser, written in Rust, passes over 90% of the official YAML test suite and covers the vast majority of real-world use cases. We’re working toward 100% conformance.
+## Runtime API
 
-`Bun.YAML.parse()`
+### `Bun.YAML.parse()`
 
 Parse a YAML string into a JavaScript object.
 #### Multi-document YAML
@@ -23,13 +24,14 @@ Parse a YAML string into a JavaScript object.
 When parsing YAML with multiple documents (separated by`---`), `Bun.YAML.parse()` returns an array:
 #### Supported YAML Features
 
-Bun’s YAML parser supports the full YAML 1.2 specification, including:- **Scalars**: strings, numbers, booleans, null values
-- **Collections**: sequences (arrays) and mappings (objects)
-- **Anchors and Aliases**: reusable nodes with- `&`and- `*`
-- **Tags**: type hints like- `!!str`,- `!!int`,- `!!float`,- `!!bool`,- `!!null`
-- **Multi-line strings**: literal (- `|`) and folded (- `>`) scalars
-- **Comments**: using- `#`
-- **Directives**:- `%YAML`and- `%TAG`
+Bun’s YAML parser supports the full YAML 1.2 specification, including:
+- **Scalars** : strings, numbers, booleans, null values
+- **Collections** : sequences (arrays) and mappings (objects)
+- **Anchors and Aliases** : reusable nodes with`&` and`*`
+- **Tags** : type hints like`!!str` ,`!!int` ,`!!float` ,`!!bool` ,`!!null`
+- **Multi-line strings** : literal (`|` ) and folded (`>` ) scalars
+- **Comments** : using`#`
+- **Directives** :`%YAML` and`%TAG`
 
 #### Error Handling
 
@@ -38,7 +40,8 @@ Bun’s YAML parser supports the full YAML 1.2 specification, including:- **Scal
 
 ### ES Modules
 
-Import YAML files directly as ES modules. Bun parses the content and exposes it as both default and named exports:config.yaml
+Import YAML files directly as ES modules. Bun parses the content and exposes it as both default and named exports:
+config.yaml
 
 #### Default Import
 
@@ -46,7 +49,8 @@ app.ts
 
 #### Named Imports
 
-Top-level YAML properties are available as named imports:app.ts
+Top-level YAML properties are available as named imports:
+app.ts
 
 app.ts
 
@@ -71,7 +75,8 @@ terminal
 
 ### Environment-Based Configuration
 
-One YAML file can hold configuration for several environments, sharing defaults with anchors:config.yaml
+One YAML file can hold configuration for several environments, sharing defaults with anchors:
+config.yaml
 
 app.ts
 
@@ -89,7 +94,8 @@ db.ts
 
 ### Bundler Integration
 
-When you bundle an application that imports YAML files, Bun parses the YAML at build time and includes it as a JavaScript module:terminal
+When you bundle an application that imports YAML files, Bun parses the YAML at build time and includes it as a JavaScript module:
+terminal
 
 - No runtime YAML parsing overhead in production
 - Smaller bundle sizes
@@ -97,7 +103,8 @@ When you bundle an application that imports YAML files, Bun parses the YAML at b
 
 ### Dynamic Imports
 
-Dynamically import YAML files to load configuration on demand:Load configuration based on environment
+Dynamically import YAML files to load configuration on demand:
+Load configuration based on environment
 
 # Citations
 

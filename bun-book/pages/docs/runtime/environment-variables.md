@@ -4,25 +4,27 @@ title: Environment Variables - Bun
 description: Read and configure environment variables in Bun, including automatic
   .env file support
 resource: https://bun.sh/docs/runtime/environment-variables
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 `.env` files automatically and provides idiomatic ways to read and write your environment variables programmatically. You can also configure parts of Bun’s runtime behavior with Bun-specific environment variables.
 ## Setting environment variables
 
-Bun reads the following files automatically (listed in order of increasing precedence).- `.env`
-- `.env.production`,- `.env.development`,- `.env.test`(depending on the value of- `NODE_ENV`)
+Bun reads the following files automatically (listed in order of increasing precedence).
+- `.env`
+- `.env.production` ,`.env.development` ,`.env.test` (depending on the value of`NODE_ENV` )
 - `.env.local`
 
 .env
 
-Cross-platform solution with Windows
+## Cross-platform solution with Windows
 
 Cross-platform solution with Windows
 
 For a cross-platform solution, use On Windows, 
 
-[Bun Shell](/docs/runtime/shell), for example through`bun exec`.`package.json` scripts called with `bun run` automatically use the **Bun Shell**, so the following is also cross-platform.package.json
+[Bun Shell](/docs/runtime/shell), for example through`bun exec`.`package.json` scripts called with `bun run` automatically use the **Bun Shell**, so the following is also cross-platform.
+package.json
 
 `process.env`.
 ## Manually specifying `.env` files
@@ -35,13 +37,16 @@ Use `--no-env-file` to disable Bun’s automatic `.env` file loading, for exampl
 bunfig.toml
 
 `--env-file` still load even when default loading is disabled.
+When Bun is invoked as `node` (for example via `bun --bun`, `bunx --bun`, or a `node` symlink pointing at Bun), automatic `.env` loading is disabled to match Node.js. This lets tools with their own mode-aware `.env` resolution, such as Vite’s `loadEnv`, pick the correct `.env.{mode}` file instead of seeing Bun’s pre-populated values as shell-set overrides. Explicit `--env-file` arguments are still honored.
 ## Quotation marks
 
-Bun supports double quotes, single quotes, and template literal backticks:.env
+Bun supports double quotes, single quotes, and template literal backticks:
+.env
 
 ### Expansion
 
-Bun automatically*expands*environment variables, so you can reference previously-defined variables.
+Bun automatically
+*expands*environment variables, so you can reference previously-defined variables.
 
 .env
 
@@ -50,7 +55,7 @@ Bun automatically*expands*environment variables, so you can reference previously
 `$` with a backslash.
 .env
 
-`dotenv`
+### `dotenv`
 
 Bun reads `.env` files automatically, so `dotenv` and `dotenv-expand` are unnecessary.
 ## Reading environment variables
@@ -66,7 +71,8 @@ In TypeScript, all properties of`process.env` are typed as `string | undefined`.
 `AWESOME` property to `process.env` and `Bun.env`.
 ## Configuring Bun
 
-Bun reads these environment variables to configure aspects of its behavior.## Runtime transpiler caching
+Bun reads these environment variables to configure aspects of its behavior.
+## Runtime transpiler caching
 
 For files larger than 4 KB, Bun caches transpiled output into`$BUN_RUNTIME_TRANSPILER_CACHE_PATH` or the platform-specific cache directory. This makes CLIs using Bun load faster.
 The cache is global and shared across all projects, and it is content-addressable, so it never contains duplicate entries. It is safe to delete at any time, even while a Bun process is running.
@@ -76,7 +82,8 @@ Disable this cache when using ephemeral filesystems like Docker. Bun’s Docker 
 To disable the runtime transpiler cache, set`BUN_RUNTIME_TRANSPILER_CACHE_PATH` to an empty string or the string `"0"`.
 ### What does it cache?
 
-It caches:- The transpiled output of source files larger than 4 KB.
+It caches:
+- The transpiled output of source files larger than 4 KB.
 - The sourcemap for the transpiled output of the file
 
 `.pile` extension.

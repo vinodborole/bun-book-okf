@@ -3,7 +3,7 @@ type: Web Page
 title: Bindgen - Bun
 description: Bindgen for Bun
 resource: https://bun.sh/docs/project/bindgen
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 This document is for maintainers and contributors to Bun, and describes internal implementation details.
@@ -13,8 +13,8 @@ definitions, and generates glue code to interop between JavaScript and native
 code.
 There are other code generators and systems that achieve similar purposes;
 the following will all eventually be phased out in favor of this one:
-- “Classes generator”, converting `*.classes.ts`for custom classes.
-- “JS2Native”, allowing ad-hoc calls from `src/js`to native code.
+- “Classes generator”, converting `*.classes.ts` for custom classes.
+- “JS2Native”, allowing ad-hoc calls from `src/js` to native code.
 
 ## Creating JS Functions in Rust
 
@@ -36,11 +36,14 @@ callback constructor follows the same convention
 (`create_required_and_optional_arg_callback`).
 ## Strings
 
-To receive a string, use[,](https://webidl.spec.whatwg.org/#idl-DOMString)
+To receive a string, use
+[,](https://webidl.spec.whatwg.org/#idl-DOMString)
 
-`t.DOMString`[, or](https://webidl.spec.whatwg.org/#idl-ByteString)
+`t.DOMString`
+[, or](https://webidl.spec.whatwg.org/#idl-ByteString)
 
-`t.ByteString`[. These map directly to their WebIDL counterparts and have slightly different conversion logic. Bindgen passes](https://webidl.spec.whatwg.org/#idl-USVString)
+`t.ByteString`
+[. These map directly to their WebIDL counterparts and have slightly different conversion logic. Bindgen passes](https://webidl.spec.whatwg.org/#idl-USVString)
 
 `t.USVString``bun_core::String` to native code in all cases.
 When in doubt, use DOMString.
@@ -48,14 +51,14 @@ When in doubt, use DOMString.
 The native callback receives a `&[u8]` slice (WTF-8 data) that is
 freed after the function returns.
 TLDRs from the WebIDL spec:
-- ByteString can only contain valid latin1 characters. It is not safe to assume `bun_core::String`is already in 8-bit format, but it is extremely likely.
+- ByteString can only contain valid latin1 characters. It is not safe to assume `bun_core::String` is already in 8-bit format, but it is extremely likely.
 - USVString does not contain invalid surrogate pairs, so its text can be represented correctly in UTF-8.
 - DOMString is the loosest but also the most recommended strategy.
 
 ## Function Variants
 
 The`variants` key declares multiple variants (also known as overloads) of a function.
-`t.dictionary`
+## `t.dictionary`
 
 A `dictionary` describes a JavaScript object, typically a function input. For function outputs, prefer a class type so you can add methods and support destructuring.
 ## Enumerations
@@ -68,20 +71,20 @@ A `dictionary` describes a JavaScript object, typically a function input. For fu
 
 `t.stringEnum` values alphabetically`enum class`, so discriminants must match the generated header’s order, not
 the `.bind.ts` declaration order:
-`implNamespace`
+## `implNamespace`
 
 Setting `implNamespace: "foo"` on a `fn({...})` routes the generated call to
 `crate::<basename>::foo::fn_name` instead of `crate::<basename>::fn_name`. Use
 this to group related binding implementations under a submodule.
-`t.oneOf`
+## `t.oneOf`
 
 A `oneOf` is a union of two or more types. It is represented as a Rust
 `enum` with one variant per member type.
 ## Attributes
 
 Attributes can be chained onto`t.*` types. On all types:
-- `.required`, in dictionary parameters only
-- `.optional`, in function arguments only
+- `.required` , in dictionary parameters only
+- `.optional` , in function arguments only
 - `.default(T)`
 
 `.optional`, it is lowered to a Rust `Option<T>`:

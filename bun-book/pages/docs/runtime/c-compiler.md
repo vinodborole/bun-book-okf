@@ -3,7 +3,7 @@ type: Web Page
 title: C Compiler - Bun
 description: Compile and run C from JavaScript with low overhead
 resource: https://bun.sh/docs/runtime/c-compiler
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 `bun:ffi` has experimental support for compiling and running C from JavaScript with low overhead.
@@ -24,35 +24,37 @@ terminal
 
 `cc` supports the same `FFIType` values as [.](/docs/runtime/ffi)
 
-`dlopen`### Strings, objects, and non-primitive types
+`dlopen`
+### Strings, objects, and non-primitive types
 
 For strings, objects, and other non-primitive types that don’t map 1:1 to C types,`cc` supports N-API.
 Use `napi_value` to pass or receive JavaScript values from a C function without any type conversions.
 You can also pass a `napi_env` to receive the N-API environment used to call the JavaScript function.
 #### Returning a C string to JavaScript
 
-For example, to return a string from C to JavaScript:hello.ts
+For example, to return a string from C to JavaScript:
+hello.ts
 
 hello.c
 
 hello.c
 
-`cc` Reference
+### `cc` Reference
 
-`library: string[]`
+#### `library: string[]`
 
 Use the `library` array to specify the libraries to link with the C code.
-`symbols`
+#### `symbols`
 
 Use the `symbols` object to specify the functions and variables to expose to JavaScript.
-`source`
+#### `source`
 
 `source` is the path to the C code to compile and link with the JavaScript runtime.
-`flags: string | string[]`
+#### `flags: string | string[]`
 
 `flags` is an optional array of strings passed to the TinyCC compiler.
 `-I` for include directories and `-D` for preprocessor definitions.
-`define: Record<string, string>`
+#### `define: Record<string, string>`
 
 `define` is an optional object of preprocessor definitions passed to the TinyCC compiler.
 

@@ -3,31 +3,31 @@ type: Web Page
 title: bun add - Bun
 description: Add packages to your project with Bun's fast package manager
 resource: https://bun.sh/docs/pm/cli/add
-timestamp: '2026-07-27T09:26:27.222623+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 terminal
 
 terminal
 
-`--dev`
+## `--dev`
 
 **Alias**—
 
 `--development`, `-d`, `-D``"devDependencies"`):
 terminal
 
-`--optional`
+## `--optional`
 
 To add a package as an optional dependency (`"optionalDependencies"`):
 terminal
 
-`--peer`
+## `--peer`
 
 To add a package as a peer dependency (`"peerDependencies"`):
 terminal
 
-`--exact`
+## `--exact`
 
 **Alias**—
 
@@ -39,14 +39,14 @@ package.json
 
 terminal
 
-`--global`
+## `--global`
 
 **Alias**—
 
 `bun add --global`, `bun add -g`, `bun install --global` and `bun install -g``-g`/`--global` flag. This does not modify the `package.json` of your current project. Use it to install command-line tools.
 terminal
 
-Configuring global installation behavior
+## Configuring global installation behavior
 
 Configuring global installation behavior
 
@@ -61,13 +61,15 @@ package.json
 `my-trusted-package`.
 ## Git dependencies
 
-To add a dependency from a public or private git repository:terminal
+To add a dependency from a public or private git repository:
+terminal
 
 To install private repositories, your system needs the appropriate SSH credentials to access the repository.
 
 [,](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#github-urls)
 
-`github`[,](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#git-urls-as-dependencies)
+`github`
+[,](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#git-urls-as-dependencies)
 
 `git``git+ssh`, and `git+https`.
 package.json
@@ -88,51 +90,62 @@ boolean
 
 Don’t install devDependencies. Alias: 
 
-`-p`string
+`-p`
+string
 
 Exclude 
 
-`dev`, `optional`, or `peer` dependencies from installboolean
+`dev`, `optional`, or `peer` dependencies from install
+boolean
 
 Install globally. Alias: 
 
-`-g`boolean
+`-g`
+boolean
 
 Add dependency to 
 
-`devDependencies`. Alias: `-d`boolean
+`devDependencies`. Alias: `-d`
+boolean
 
 Add dependency to 
 
-`optionalDependencies`boolean
+`optionalDependencies`
+boolean
 
 Add dependency to 
 
-`peerDependencies`boolean
+`peerDependencies`
+boolean
 
 Add the exact version instead of the 
 
-`^` range. Alias: `-E`boolean
+`^` range. Alias: `-E`
+boolean
 
 Only add dependencies to 
 
-`package.json` if they are not already present### Project Files & Lockfiles
+`package.json` if they are not already present
+### Project Files & Lockfiles
 
 boolean
 
 Write a 
 
-`yarn.lock` file (yarn v1). Alias: `-y`boolean
+`yarn.lock` file (yarn v1). Alias: `-y`
+boolean
 
 Don’t update 
 
-`package.json` or save a lockfileboolean
+`package.json` or save a lockfile
+boolean
 
 default:"true"
 
 Save to 
 
-`package.json`boolean
+`package.json`
+boolean
 
 Disallow changes to lockfile
 
@@ -140,7 +153,8 @@ boolean
 
 Add to 
 
-`trustedDependencies` in the project’s `package.json` and install the package(s)boolean
+`trustedDependencies` in the project’s `package.json` and install the package(s)
+boolean
 
 Save a text-based lockfile
 
@@ -158,7 +172,8 @@ boolean
 
 Always request the latest versions from the registry & reinstall all dependencies. Alias: 
 
-`-f`boolean
+`-f`
+boolean
 
 Skip verifying integrity of newly downloaded packages
 
@@ -166,11 +181,13 @@ boolean
 
 Skip lifecycle scripts in the project’s 
 
-`package.json` (dependency scripts are never run)boolean
+`package.json` (dependency scripts are never run)
+boolean
 
 Recursively analyze & install dependencies of files passed as arguments (using Bun’s bundler). Alias:
 
-`-a`### Network & Registry
+`-a`
+### Network & Registry
 
 string
 
@@ -180,12 +197,14 @@ string
 
 Same as 
 
-`—ca`, but as a file path to the certificatestring
+`—ca`, but as a file path to the certificate
+string
 
 Use a specific registry by default, overriding 
 
 `.npmrc`, `bunfig.toml`, and environment
-variablesnumber
+variables
+number
 
 default:"48"
 
@@ -200,7 +219,8 @@ default:"clonefile"
 Platform-specific optimizations for installing dependencies. One of 
 
 `clonefile`, `hardlink`,
-`symlink`, or `copyfile`number
+`symlink`, or `copyfile`
+number
 
 Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
@@ -238,7 +258,8 @@ string
 
 Specify path to config file (
 
-`bunfig.toml`). Alias: `-c`string
+`bunfig.toml`). Alias: `-c`
+string
 
 Set a specific current working directory
 

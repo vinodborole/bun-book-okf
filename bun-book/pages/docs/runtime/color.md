@@ -3,23 +3,25 @@ type: Web Page
 title: Color - Bun
 description: Format colors as CSS, ANSI, numbers, hex strings, and more
 resource: https://bun.sh/docs/runtime/color
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 `Bun.color(input, outputFormat?)` uses Bun’s CSS parser to parse, normalize, and convert colors from user input to any of these output formats:
 Use it to:
 
-- Validate and normalize colors to persist in a database (`number`is the most database-friendly)
+- Validate and normalize colors to persist in a database (`number` is the most database-friendly)
 - Convert colors to different formats
-- Color terminal output beyond the basic 16 colors (use `ansi`to auto-detect terminal color support, or`ansi-16`,`ansi-256`, or`ansi-16m`to target a specific color depth)
+- Color terminal output beyond the basic 16 colors (use `ansi` to auto-detect terminal color support, or`ansi-16` ,`ansi-256` , or`ansi-16m` to target a specific color depth)
 - Format colors for use in CSS injected into HTML
-- Get the `r`,`g`,`b`, and`a`color components as JavaScript objects or numbers from a CSS color string
+- Get the `r` ,`g` ,`b` , and`a` color components as JavaScript objects or numbers from a CSS color string
 
 [and](https://github.com/Qix-/color)
 
-`color`[, with full support for parsing CSS color strings and zero dependencies.](https://github.com/bgrins/TinyColor)
+`color`
+[, with full support for parsing CSS color strings and zero dependencies.](https://github.com/bgrins/TinyColor)
 
-`tinycolor2`### Flexible input
+`tinycolor2`
+### Flexible input
 
 `Bun.color` accepts any of the following:
 - Standard CSS color names like `"red"`
@@ -53,7 +55,8 @@ It converts the input color to RGBA, then outputs that as an ANSI color.
 The `"ansi-256"` format approximates the input color to the nearest of the 256 ANSI colors supported by some terminals.
 [.](https://github.com/tmux/tmux/blob/dae2868d1227b95fd076fb4a5efa6256c7245943/colour.c#L44-L55)
 
-`tmux` uses#### 16 ANSI colors (`ansi-16`)
+`tmux` uses
+#### 16 ANSI colors (`ansi-16`)
 
 The `"ansi-16"` format approximates the input color to the nearest of the 16 ANSI colors supported by most terminals.
 `ansi-256`, then to the nearest of the 16 ANSI colors.
@@ -63,12 +66,12 @@ The`"number"` format outputs the color as a 24-bit number, a compact representat
 ### Get the red, green, blue, and alpha channels
 
 The`"{rgba}"`, `"{rgb}"`, `"[rgba]"`, and `"[rgb]"` formats return the red, green, blue, and alpha channels as objects or arrays.
-`{rgba}` object
+#### `{rgba}` object
 
 The `"{rgba}"` format outputs an object with the red, green, blue, and alpha channels.
 `a` channel is a decimal number between `0` and `1`.
 The `"{rgb}"` format is similar, but it doesn’t include the alpha channel.
-`[rgba]` array
+#### `[rgba]` array
 
 The `"[rgba]"` format outputs an array with the red, green, blue, and alpha channels.
 `"{rgba}"` format, the alpha channel is an integer between `0` and `255`. This is useful for typed arrays where each channel must be the same underlying type.

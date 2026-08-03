@@ -3,7 +3,7 @@ type: Web Page
 title: Building Windows - Bun
 description: Building Bun on Windows
 resource: https://bun.sh/docs/project/building-windows
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 [PowerShell 7 (](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4)instead of the default
@@ -14,9 +14,11 @@ timestamp: '2026-07-09T12:17:04.216670+00:00'
 
 ### Enable Scripts
 
-By default, running unverified scripts is blocked.### System Dependencies
+By default, running unverified scripts is blocked.
+### System Dependencies
 
-Bun v1.1 or later. The build uses Bun to run its own code generators.[Visual Studio](https://visualstudio.microsoft.com)with the “Desktop Development with C++” workload. While installing, also install Git if Git for Windows is not already installed. Install Visual Studio with the graphical wizard or through WinGet:
+Bun v1.1 or later. The build uses Bun to run its own code generators.
+[Visual Studio](https://visualstudio.microsoft.com)with the “Desktop Development with C++” workload. While installing, also install Git if Git for Windows is not already installed. Install Visual Studio with the graphical wizard or through WinGet:
 
 - LLVM 21.1.8
 - Go
@@ -28,7 +30,8 @@ Bun v1.1 or later. The build uses Bun to run its own code generators.[Visual Stu
 
 rustup installs the Rust nightly toolchain pinned in 
 
-`rust-toolchain.toml` on the first build.[Scoop](https://scoop.sh)to install these remaining tools.
+`rust-toolchain.toml` on the first build.
+[Scoop](https://scoop.sh)to install these remaining tools.
 
 Scoop (x64)
 
@@ -38,7 +41,8 @@ Do not install these with WinGet or another package manager: you will likely get
 minimal installation of Perl. Strawberry Perl adds many other utilities to 
 
 `$Env:PATH` that conflict with MSVC and
-break the build.Scoop
+break the build.
+Scoop
 
 ARM64 builds do not need Cygwin because WebKit is provided as a pre-built binary.
 
@@ -48,7 +52,8 @@ ARM64 builds do not need Cygwin because WebKit is provided as a pre-built binary
 Avoid installing 
 
 `ninja` / `cmake` into your global path: you may end up building Bun without `.\scripts\vs-shell.ps1`
-sourced.## Building
+sourced.
+## Building
 
 `bun-debug.exe` to the `build/debug` folder.
 `$Env:PATH`: open the Start menu, type “Path”, and use the environment variables menu to add `C:\.....\bun\build\debug` to the user environment variable `PATH`. Then restart your editor (if it still does not pick up the change, log out and log back in).
@@ -72,10 +77,10 @@ You cannot overwrite`bun-debug.exe` while it is open. You likely have a running 
 You can also build Windows binaries (both x64 and arm64) on a Linux host. The build uses the host LLVM’s`clang-cl`, `lld-link`, `llvm-lib` and `llvm-rc` (part of every LLVM distribution), plus an “xwin splat” of the MSVC CRT/STL and Windows SDK for headers and import libraries.
 ### Prerequisites
 
-- The same LLVM version a native build uses (see `scripts/bootstrap.sh``llvm_version_exact`), installed so that`clang-cl`,`lld-link`,`llvm-lib`and`llvm-rc`are available. On Debian/Ubuntu,`apt.llvm.org`packages provide all of them.
-- `nasm`(only needed for Windows x64; BoringSSL’s x64 assembly is NASM syntax).
-- Rust std for the Windows targets (`rust-toolchain.toml`lists them;`rustup target add x86_64-pc-windows-msvc aarch64-pc-windows-msvc`if missing).
-- A Windows sysroot: an [xwin](https://github.com/Jake-Shadle/xwin)splat of the MSVC CRT, Windows SDK, and ATL laid out like a Visual Studio install. Downloading these components means accepting Microsoft’s license terms for them.
+1. The same LLVM version a native build uses (see `scripts/bootstrap.sh``llvm_version_exact` ), installed so that`clang-cl` ,`lld-link` ,`llvm-lib` and`llvm-rc` are available. On Debian/Ubuntu,`apt.llvm.org` packages provide all of them.
+2. `nasm` (only needed for Windows x64; BoringSSL’s x64 assembly is NASM syntax).
+3. Rust std for the Windows targets (`rust-toolchain.toml` lists them;`rustup target add x86_64-pc-windows-msvc aarch64-pc-windows-msvc` if missing).
+4. A Windows sysroot: an [xwin](https://github.com/Jake-Shadle/xwin) splat of the MSVC CRT, Windows SDK, and ATL laid out like a Visual Studio install. Downloading these components means accepting Microsoft’s license terms for them.
 
 `/opt/winsysroot` (or `/opt/xwin`) automatically; elsewhere, set `WINDOWS_SYSROOT=<path>` or pass `--winsysroot=<path>` (a user-writable path also lets configure manage the aliases for you). Configure validates the splat at the start of every cross build. CI agents bake the same splat into their images (`.buildkite/Dockerfile`, `scripts/bootstrap.sh`); when an agent doesn’t have one, the build fetches it into its cache dir at configure time.
 ### Building

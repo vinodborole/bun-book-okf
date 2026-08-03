@@ -3,7 +3,7 @@ type: Web Page
 title: bun outdated - Bun
 description: Check for outdated dependencies
 resource: https://bun.sh/docs/pm/cli/outdated
-timestamp: '2026-07-27T09:26:27.222623+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 `bun outdated` displays a table of the dependencies in your project that have newer versions available.
@@ -11,13 +11,15 @@ terminal
 
 ## Version Information
 
-The output table shows three version columns:- **Current**: The version currently installed
-- **Update**: The latest version that satisfies your package.json version range
-- **Latest**: The latest version published to the registry
+The output table shows three version columns:
+- **Current** : The version currently installed
+- **Update** : The latest version that satisfies your package.json version range
+- **Latest** : The latest version published to the registry
 
 ### Dependency Filters
 
-To check a specific dependency, pass its name as a positional argument:terminal
+To check a specific dependency, pass its name as a positional argument:
+terminal
 
 terminal
 
@@ -52,7 +54,8 @@ string
 
 Specify path to config file (
 
-`bunfig.toml`)string
+`bunfig.toml`)
+string
 
 Set a specific cwd
 
@@ -92,7 +95,8 @@ string
 
 Exclude 
 
-`dev`, `optional`, or `peer` dependencies from installboolean
+`dev`, `optional`, or `peer` dependencies from install
+boolean
 
 Install globally
 
@@ -102,17 +106,20 @@ boolean
 
 Write a 
 
-`yarn.lock` file (yarn v1)boolean
+`yarn.lock` file (yarn v1)
+boolean
 
 Don’t update 
 
-`package.json` or save a lockfileboolean
+`package.json` or save a lockfile
+boolean
 
 default:"true"
 
 Save to 
 
-`package.json` (true by default)boolean
+`package.json` (true by default)
+boolean
 
 Disallow changes to lockfile
 
@@ -128,7 +135,8 @@ boolean
 
 Add to 
 
-`trustedDependencies` in the project’s `package.json` and install the package(s)### Network & Registry
+`trustedDependencies` in the project’s `package.json` and install the package(s)
+### Network & Registry
 
 string
 
@@ -138,11 +146,13 @@ string
 
 Same as 
 
-`—ca`, but as a file path to the certificatestring
+`—ca`, but as a file path to the certificate
+string
 
 Use a specific registry by default, overriding 
 
-`.npmrc`, `bunfig.toml` and environment variablesnumber
+`.npmrc`, `bunfig.toml` and environment variables
+number
 
 default:"48"
 
@@ -176,14 +186,16 @@ boolean
 
 Skip lifecycle scripts in the project’s 
 
-`package.json` (dependency scripts are never run)string
+`package.json` (dependency scripts are never run)
+string
 
 default:"clonefile"
 
 Platform-specific optimizations for installing dependencies. Possible values: 
 
 `clonefile` (default),
-`hardlink`, `symlink`, `copyfile`number
+`hardlink`, `symlink`, `copyfile`
+number
 
 Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 

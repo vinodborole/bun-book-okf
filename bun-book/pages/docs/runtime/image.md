@@ -3,7 +3,7 @@ type: Web Page
 title: Image - Bun
 description: Decode, transform, and encode images with a fast native pipeline
 resource: https://bun.sh/docs/runtime/image
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 `Bun.Image` is a chainable image pipeline for decoding, resizing, rotating, and re-encoding JPEG, PNG, WebP, HEIC, and AVIF — built on libjpeg-turbo, spng, libwebp, and SIMD geometry kernels, with zero npm dependencies and no native addon build step.
@@ -47,7 +47,7 @@ For a low-quality placeholder to inline in HTML before the real image loads,`.pl
 `img.width` and `img.height` reflect the *output*dimensions (they’re
 
 `-1` before).
-`Bun.serve` integration
+## `Bun.serve` integration
 
 A `Bun.Image` pipeline is a valid `Response` body and sets `Content-Type` automatically. To keep the encode off the JS thread in a server handler, await a terminal first:
 `new Response(img)`) also works, but runs the encode synchronously during body init.

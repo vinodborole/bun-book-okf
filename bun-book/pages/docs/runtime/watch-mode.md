@@ -3,13 +3,13 @@ type: Web Page
 title: Watch Mode - Bun
 description: Automatic reloading in Bun with --watch and --hot modes
 resource: https://bun.sh/docs/runtime/watch-mode
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
-- `--watch`mode, which hard restarts Bun’s process when imported files change.
-- `--hot`mode, which soft reloads the code (without restarting the process) when imported files change.
+- `--watch` mode, which hard restarts Bun’s process when imported files change.
+- `--hot` mode, which soft reloads the code (without restarting the process) when imported files change.
 
-`--watch` mode
+## `--watch` mode
 
 Watch mode works with `bun test` and when running TypeScript, JSX, and JavaScript files.
 To run a file in `--watch` mode:
@@ -34,7 +34,8 @@ The
 
 **flag, like TypeScript’s**`--no-clear-screen``--preserveWatchOutput`, keeps Bun from clearing the terminal in
 watch mode. Use it when running multiple `bun build --watch` commands at the same time with a tool like
-`concurrently`, where one instance clearing the screen could hide another’s errors: `bun build --watch   --no-clear-screen`.`--hot` mode
+`concurrently`, where one instance clearing the screen could hide another’s errors: `bun build --watch   --no-clear-screen`.
+## `--hot` mode
 
 Use `bun --hot` to enable hot reloading when executing code with Bun. Unlike `--watch` mode, Bun doesn’t hard-restart the entire process. It detects code changes and updates its internal module cache with the new code.
 This is not the same as hot reloading in the browser. Many frameworks provide a “hot reloading” experience, where you
@@ -42,7 +43,8 @@ can edit & save your frontend code (say, a React component) and see the changes 
 refreshing the page. Bun’s 
 
 `--hot` is the server-side equivalent of this experience. To get hot reloading in the
-browser, use a framework like [Vite](https://vite.dev).terminal
+browser, use a framework like [Vite](https://vite.dev).
+terminal
 
 `server.ts` in this example), Bun builds a registry of all imported source files (excluding those in `node_modules`) and watches them for changes. When a file changes, Bun performs a “soft reload”. All files are re-evaluated, but global state (notably, the `globalThis` object) persists.
 server.ts
@@ -53,17 +55,19 @@ terminal
 `nodemon` restart the entire process, so HTTP servers and other stateful objects are lost. By contrast, `bun --hot` reflects the updated code without restarting the process.
 ### HTTP servers
 
-You can update your HTTP request handler without shutting down the server: when you save the file, Bun reloads the server with the updated code without restarting the process. This results in seriously fast refresh speeds.server.ts
+You can update your HTTP request handler without shutting down the server: when you save the file, Bun reloads the server with the updated code without restarting the process. This results in seriously fast refresh speeds.
+server.ts
 
 Support for Vite’s 
 
-`import.meta.hot` is planned, to enable better lifecycle management for hot reloading and to align with the ecosystem.Implementation details
+`import.meta.hot` is planned, to enable better lifecycle management for hot reloading and to align with the ecosystem.
+## Implementation details
 
 Implementation details
 
 On hot reload, Bun:
 
-- Resets the internal `require`cache and ES module registry (`Loader.registry`)
+- Resets the internal `require` cache and ES module registry (`Loader.registry` )
 - Runs the garbage collector synchronously (to minimize memory leaks, at the cost of runtime performance)
 - Re-transpiles all of your code from scratch (including sourcemaps)
 - Re-evaluates the code with JavaScriptCore

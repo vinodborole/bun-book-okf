@@ -3,7 +3,7 @@ type: Web Page
 title: Cron - Bun
 description: Schedule and parse cron jobs with Bun
 resource: https://bun.sh/docs/runtime/cron
-timestamp: '2026-07-27T09:26:27.222623+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 ## Quickstart
@@ -14,7 +14,7 @@ timestamp: '2026-07-27T09:26:27.222623+00:00'
 
 **Register an OS-level cron job that runs a script on a schedule:**
 
-`Bun.cron.parse()`
+## `Bun.cron.parse()`
 
 Parse a cron expression and return the next matching `Date` in the system’s local time zone.
 ### Parameters
@@ -37,22 +37,24 @@ Month and weekday fields accept case-insensitive names:`0` and `7` mean Sunday i
 
 ### Time zone
 
-Schedules are interpreted in the system’s**local time zone**— the same way crontab, launchd, and Windows Task Scheduler read them. The OS-level form and the in-process callback form fire at the same wall-clock time. To override, pass an IANA time-zone name as
+Schedules are interpreted in the system’s
+**local time zone**— the same way crontab, launchd, and Windows Task Scheduler read them. The OS-level form and the in-process callback form fire at the same wall-clock time. To override, pass an IANA time-zone name as
 
 `{ tz }` to `Bun.cron.parse()` or the in-process `Bun.cron(schedule, handler, options)`:
-- **Spring-forward**— a schedule that lands in the missing hour fires that day, shifted forward by the gap (e.g.- `30 2 * * *`runs at 3:30 on the spring-forward day). For multi-minute patterns inside the gap (- `*/15 2 * * *`), only the first match fires.
-- **Fall-back**— a fixed-time schedule in the duplicated hour (- `30 1 * * *`) fires once, at the first occurrence. A schedule whose minute or hour field is- `*`(- `0 * * * *`,- `* * * * *`) fires through- **both**occurrences — once per real-time minute, matching crontab on Linux.
+- **Spring-forward** — a schedule that lands in the missing hour fires that day, shifted forward by the gap (e.g.`30 2 * * *` runs at 3:30 on the spring-forward day). For multi-minute patterns inside the gap (`*/15 2 * * *` ), only the first match fires.
+- **Fall-back** — a fixed-time schedule in the duplicated hour (`30 1 * * *` ) fires once, at the first occurrence. A schedule whose minute or hour field is`*` (`0 * * * *` ,`* * * * *` ) fires through**both** occurrences — once per real-time minute, matching crontab on Linux.
 
 ### Day-of-month and day-of-week interaction
 
-When**both**day-of-month and day-of-week are specified (neither is
+When
+**both**day-of-month and day-of-week are specified (neither is
 
 `*`), the expression matches when **either**condition is true. This follows the
 
 [POSIX cron](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html)standard.
 
 `*`), only that field is used for matching.
-`Bun.cron(schedule, handler)` — in-process
+## `Bun.cron(schedule, handler)` — in-process
 
 Run a callback on a cron schedule inside the current process.
 ### Parameters
@@ -69,11 +71,11 @@ The next fire time is computed only after the handler — including any returned
 ### Error handling
 
 Errors match`setTimeout` semantics:
-- A synchronous `throw`emits`process.on("uncaughtException")`.
-- A rejected returned `Promise`emits`process.on("unhandledRejection")`.
+- A synchronous `throw` emits`process.on("uncaughtException")` .
+- A rejected returned `Promise` emits`process.on("unhandledRejection")` .
 
 `1`. With a listener, the job keeps running — it does not stop on the first failure.
-`bun --hot`
+### `bun --hot`
 
 Under `bun --hot`, all in-process cron jobs are stopped immediately before the module graph re-evaluates. Every `Bun.cron()` call still in your source then re-registers. Editing the schedule, editing the handler, or deleting the line entirely all take effect on save without leaking timers.
 ### The `CronJob` handle
@@ -84,7 +86,7 @@ Under `bun --hot`, all in-process cron jobs are stopped immediately before the m
 ### Fake timers
 
 In-process cron honors`jest.useFakeTimers()`. `setSystemTime()`, `advanceTimersByTime()`, and `runAllTimers()` control when it fires, so you can test scheduled callbacks without waiting on the real clock.
-`Bun.cron(path, schedule, title)` — OS-level
+## `Bun.cron(path, schedule, title)` — OS-level
 
 Register an OS-level cron job that runs a JavaScript/TypeScript module on a schedule.
 ### Parameters
@@ -103,7 +105,8 @@ worker.ts
 
 ### Linux
 
-Bun uses[crontab](https://man7.org/linux/man-pages/man5/crontab.5.html)to register jobs. Each job is stored as a line in your user’s crontab with a
+Bun uses
+[crontab](https://man7.org/linux/man-pages/man5/crontab.5.html)to register jobs. Each job is stored as a line in your user’s crontab with a
 
 `# bun-cron: <title>` marker comment above it.
 The crontab entry looks like:
@@ -117,7 +120,8 @@ The crontab entry looks like:
 
 ### macOS
 
-Bun uses[launchd](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html)to register jobs. Each job is installed as a plist file at:
+Bun uses
+[launchd](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html)to register jobs. Each job is installed as a plist file at:
 
 `StartCalendarInterval` to define the schedule. Complex patterns with ranges, lists, or steps are supported — Bun expands them into multiple `StartCalendarInterval` dicts as a Cartesian product.
 **Viewing registered jobs:**
@@ -129,16 +133,19 @@ Bun uses[launchd](https://developer.apple.com/library/archive/documentation/MacO
 
 ### Windows
 
-Bun uses[Windows Task Scheduler](https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page)with XML-based task definitions. Each job is registered as a scheduled task named
+Bun uses
+[Windows Task Scheduler](https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page)with XML-based task definitions. Each job is registered as a scheduled task named
 
 `bun-cron-<title>` using [elements and](https://learn.microsoft.com/en-us/windows/win32/taskschd/taskschedulerschema-calendartrigger-triggergroup-element)
 
-`CalendarTrigger`[patterns. Most cron expressions are fully supported, including](https://learn.microsoft.com/en-us/windows/win32/taskschd/taskschedulerschema-repetition-triggerbasetype-element)
+`CalendarTrigger`
+[patterns. Most cron expressions are fully supported, including](https://learn.microsoft.com/en-us/windows/win32/taskschd/taskschedulerschema-repetition-triggerbasetype-element)
 
 `Repetition``@daily`, `@weekly`, `@monthly`, `@yearly`, ranges (`1-5`), lists (`1,15`), named days/months, and day-of-month patterns.
 #### User context
 
-Bun registers tasks with the[logon type, which runs jobs as the registering user even when not logged in — matching Linux](https://learn.microsoft.com/en-us/windows/win32/taskschd/taskschedulerschema-logontype-simpletype)
+Bun registers tasks with the
+[logon type, which runs jobs as the registering user even when not logged in — matching Linux](https://learn.microsoft.com/en-us/windows/win32/taskschd/taskschedulerschema-logontype-simpletype)
 
 `S4U` (Service-for-User)`crontab` behavior. No password is stored.
 TCP/IP networking (`fetch()`, HTTP, WebSocket, database connections) works normally. The only restriction is that S4U tasks cannot access [Windows-authenticated network resources](https://learn.microsoft.com/en-us/windows/win32/taskschd/security-contexts-for-running-tasks)(SMB file shares, mapped drives, Kerberos/NTLM services). On headless servers and CI environments where the current user’s
@@ -171,7 +178,7 @@ To work around it, simplify the expression or restrict the hour range:
 **Task Scheduler**(taskschd.msc), find the task named
 
 `bun-cron-<title>`, right-click, and delete it.
-`Bun.cron.remove()`
+## `Bun.cron.remove()`
 
 Remove a previously registered cron job by its title. Works on all platforms.
 `Bun.cron()` did:

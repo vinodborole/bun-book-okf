@@ -3,7 +3,7 @@ type: Web Page
 title: Workspaces - Bun
 description: Develop complex monorepos with multiple independent packages
 resource: https://bun.sh/docs/pm/workspaces
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 [in](https://docs.npmjs.com/cli/v9/using-npm/workspaces?v=true#description)
@@ -28,9 +28,9 @@ packages/pkg-a/package.json
 `bun install` installs dependencies for all workspaces in the monorepo, de-duplicating packages if possible. To install dependencies for specific workspaces only, use the `--filter` flag.
 `workspace:` versions with the package’s `package.json` version:
 `package.json` version:
-- **Code can be split into logical parts.**If one package relies on another, add it as a dependency in- `package.json`. If package- `b`depends on- `a`,- `bun install`installs your local- `packages/a`directory into- `node_modules`instead of downloading it from the npm registry.
-- **Dependencies can be de-duplicated.**If- `a`and- `b`share a common dependency, it is- *hoisted*to the root- `node_modules`directory. This saves disk space and minimizes the “dependency hell” of multiple versions of a package installed at once.
-- **Run scripts in multiple packages.**Use the- `--filter`flag- `package.json`scripts in several packages at once, or- `--workspaces`to run scripts across all workspaces.
+- **Code can be split into logical parts.** If one package relies on another, add it as a dependency in`package.json` . If package`b` depends on`a` ,`bun install` installs your local`packages/a` directory into`node_modules` instead of downloading it from the npm registry.
+- **Dependencies can be de-duplicated.** If`a` and`b` share a common dependency, it is*hoisted* to the root`node_modules` directory. This saves disk space and minimizes the “dependency hell” of multiple versions of a package installed at once.
+- **Run scripts in multiple packages.** Use the[`--filter` flag](/docs/pm/filter) to run`package.json` scripts in several packages at once, or`--workspaces` to run scripts across all workspaces.
 
 ## Share versions with Catalogs
 
@@ -40,8 +40,9 @@ references it. See [Catalogs](/docs/pm/catalogs).
 
 ⚡️ 
 
-**Speed**— Installs are fast, even for big monorepos. Bun installs the[Remix](https://github.com/remix-run/remix)monorepo in about`500ms` on Linux.- 28x faster than `npm install`
-- 12x faster than `yarn install`(v1)
+**Speed**— Installs are fast, even for big monorepos. Bun installs the[Remix](https://github.com/remix-run/remix)monorepo in about`500ms` on Linux.
+- 28x faster than `npm install`
+- 12x faster than `yarn install` (v1)
 - 8x faster than `pnpm install`
 
 # Citations

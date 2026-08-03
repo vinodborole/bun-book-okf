@@ -4,7 +4,7 @@ title: Debugging - Bun
 description: Debug your Bun code with an interactive debugger using WebKit Inspector
   Protocol
 resource: https://bun.sh/docs/runtime/debugger
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 [WebKit Inspector Protocol](https://github.com/oven-sh/bun/blob/main/packages/bun-inspector-protocol/src/protocol/jsc/index.d.ts), so you can debug your code with an interactive debugger. For demonstration purposes, consider the following web server.
@@ -13,24 +13,26 @@ timestamp: '2026-07-20T08:37:03.598151+00:00'
 
 server.ts
 
-`--inspect`
+### `--inspect`
 
 To enable debugging when running code with Bun, use the `--inspect` flag. This starts a WebSocket server on an available port for introspecting the running Bun process.
 terminal
 
-`--inspect-brk`
+### `--inspect-brk`
 
 The `--inspect-brk` flag behaves identically to `--inspect`, except it injects a breakpoint at the first line of the executed script. Use it to debug scripts that run quickly and exit immediately.
-`--inspect-wait`
+### `--inspect-wait`
 
 The `--inspect-wait` flag behaves identically to `--inspect`, except the code does not execute until a debugger attaches to the running process.
 ### Setting a port or URL for the debugger
 
-Regardless of which flag you use, you can specify a port number, URL prefix, or both.terminal
+Regardless of which flag you use, you can specify a port number, URL prefix, or both.
+terminal
 
 ## Debuggers
 
-Several debugging tools can connect to this server.`debug.bun.sh`
+Several debugging tools can connect to this server.
+### `debug.bun.sh`
 
 Bun hosts a web-based debugger at [debug.bun.sh](https://debug.bun.sh). It is a modified version of WebKit’s
 
@@ -41,14 +43,15 @@ Bun hosts a web-based debugger at [debug.bun.sh](https://debug.bun.sh). It is a 
 [in your web browser. The page never finishes loading because the program has paused at the breakpoint. Note how the UI has changed.](http://localhost:3000)
 
 `http://localhost:3000``req` here, to see its properties and methods.
-- *Continue script execution*— run until the next breakpoint or exception.
-- *Step over*— advance to the next line.
-- *Step into*— if the current statement contains a function call, enter the called function.
-- *Step out*— if the current statement is a function call, finish executing it, then return to the location where it was called.
+- *Continue script execution* — run until the next breakpoint or exception.
+- *Step over* — advance to the next line.
+- *Step into* — if the current statement contains a function call, enter the called function.
+- *Step out* — if the current statement is a function call, finish executing it, then return to the location where it was called.
 
 ### Visual Studio Code Debugger
 
-Visual Studio Code support for debugging Bun scripts is experimental. To use it, install the[Bun VSCode extension](/docs/guides/runtime/vscode-debugger).
+Visual Studio Code support for debugging Bun scripts is experimental. To use it, install the
+[Bun VSCode extension](/docs/guides/runtime/vscode-debugger).
 
 ## Debugging Network Requests
 
@@ -73,16 +76,17 @@ Bun prints a small source-code preview when an unhandled exception or rejection 
 Bun uses JavaScriptCore as its engine, but much of the Node.js ecosystem and npm expects V8, and JavaScript engines differ in how they format`error.stack`. Because Bun aims to be a drop-in replacement for Node.js, it formats `error.stack` the same way V8 does. This matters most when you use libraries that expect V8 stack traces.
 #### V8 Stack Trace API
 
-Bun implements the[V8 Stack Trace API](https://v8.dev/docs/stack-trace-api), a set of functions for manipulating stack traces.
+Bun implements the
+[V8 Stack Trace API](https://v8.dev/docs/stack-trace-api), a set of functions for manipulating stack traces.
 
-`Error.prepareStackTrace`
+##### `Error.prepareStackTrace`
 
 Define a global `Error.prepareStackTrace` function to customize the stack trace output. It receives the error object and an array of `CallSite` objects, and its return value becomes `error.stack`.
 `CallSite` object has the following methods:
 If the 
 
 `Function` object has already been garbage collected, some of these methods return `undefined`.
-`Error.captureStackTrace(error, startFn)`
+##### `Error.captureStackTrace(error, startFn)`
 
 `Error.captureStackTrace` captures a stack trace at a specific point in your code, rather than at the point where the error was thrown.
 This helps when callbacks or asynchronous code make it hard to tell where an error originated. The 2nd argument to `Error.captureStackTrace` is the function where you want the stack trace to start.

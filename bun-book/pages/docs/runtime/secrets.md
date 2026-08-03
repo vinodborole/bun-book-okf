@@ -3,7 +3,7 @@ type: Web Page
 title: Secrets - Bun
 description: Use Bun's Secrets API to store and retrieve sensitive credentials securely
 resource: https://bun.sh/docs/runtime/secrets
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 index.ts
@@ -11,52 +11,53 @@ index.ts
 ## Overview
 
 `Bun.secrets` provides a cross-platform API for managing sensitive credentials that CLI tools and development applications typically store in plaintext files like `~/.npmrc`, `~/.aws/credentials`, or `.env`. It uses:
-- **macOS**: Keychain Services
-- **Linux**: libsecret (GNOME Keyring, KWallet, and other secret service daemons)
-- **Windows**: Windows Credential Manager
+- **macOS** : Keychain Services
+- **Linux** : libsecret (GNOME Keyring, KWallet, and other secret service daemons)
+- **Windows** : Windows Credential Manager
 
 This API is mostly useful for local development tools. We may later add a 
 
 `provider` option for production deployment
-secrets.## API
+secrets.
+## API
 
-`Bun.secrets.get(options)`
+### `Bun.secrets.get(options)`
 
 Retrieve a stored credential.
 **Parameters:**
 
-- `options.service`(string, required) - The service or application name
-- `options.name`(string, required) - The username or account identifier
+- `options.service` (string, required) - The service or application name
+- `options.name` (string, required) - The username or account identifier
 
 **Returns:**
 
-- `Promise<string | null>`- The stored password, or- `null`if not found
+- `Promise<string | null>` - The stored password, or`null` if not found
 
-`Bun.secrets.set(options)`
+### `Bun.secrets.set(options)`
 
 Store or update a credential.
 **Parameters:**
 
-- `options.service`(string, required) - The service or application name
-- `options.name`(string, required) - The username or account identifier
-- `options.value`(string, required) - The password or secret to store
+- `options.service` (string, required) - The service or application name
+- `options.name` (string, required) - The username or account identifier
+- `options.value` (string, required) - The password or secret to store
 
 **Notes:**
 
 - If a credential already exists for the given service/name combination, it is replaced
 - The stored value is encrypted by the operating system
 
-`Bun.secrets.delete(options)`
+### `Bun.secrets.delete(options)`
 
 Delete a stored credential.
 **Parameters:**
 
-- `options.service`(string, required) - The service or application name
-- `options.name`(string, required) - The username or account identifier
+- `options.service` (string, required) - The service or application name
+- `options.name` (string, required) - The username or account identifier
 
 **Returns:**
 
-- `Promise<boolean>`-- `true`if a credential was deleted,- `false`if not found
+- `Promise<boolean>` -`true` if a credential was deleted,`false` if not found
 
 ## Examples
 
@@ -88,27 +89,26 @@ Delete a stored credential.
 
 - Credentials are stored in Windows Credential Manager
 - Visible in Control Panel → Credential Manager → Windows Credentials
-- Persisted with the `CRED_PERSIST_ENTERPRISE`flag, so they’re scoped per user
+- Persisted with the `CRED_PERSIST_ENTERPRISE` flag, so they’re scoped per user
 - Encrypted using Windows Data Protection API
 
 ## Security Considerations
 
-- **Encryption**: Credentials are encrypted by the operating system’s credential manager
-- **Access Control**: Only the user who stored the credential can retrieve it
-- **No Plain Text**: Passwords are never stored in plain text
-- **Memory Safety**: Bun zeros out password memory after use
-- **Process Isolation**: Credentials are isolated per user account
+1. **Encryption** : Credentials are encrypted by the operating system’s credential manager
+2. **Access Control** : Only the user who stored the credential can retrieve it
+3. **No Plain Text** : Passwords are never stored in plain text
+4. **Memory Safety** : Bun zeros out password memory after use
+5. **Process Isolation** : Credentials are isolated per user account
 
 ## Limitations
 
 - Maximum password length varies by platform (typically 2048-4096 bytes)
-- Keep `service`and`name`reasonably short (under 256 characters)
+- Keep `service` and`name` reasonably short (under 256 characters)
 - Some special characters may need escaping depending on the platform
 - Requires appropriate system services:
-- Linux: Secret service daemon must be running
-- macOS: Keychain Access must be available
-- Windows: Credential Manager service must be enabled
- 
+  - Linux: Secret service daemon must be running
+  - macOS: Keychain Access must be available
+  - Windows: Credential Manager service must be enabled
 
 ## Comparison with Environment Variables
 
@@ -123,15 +123,18 @@ Unlike environment variables,`Bun.secrets`:
 
 ## Best Practices
 
-- 
-**Use descriptive service names**: Match the tool or application name If you’re building a CLI for external use, use a UTI (Uniform Type Identifier) for the service name.
-- 
-**Credentials-only**: Don’t store application configuration in this API This API is slow; keep non-secret settings in a config file.
-- 
-**Use for local development tools**:- ✅ CLI tools (gh, npm, docker, kubectl)
-- ✅ Local development servers
-- ✅ Personal API keys for testing
-- ❌ Production servers (use proper secret management)
+1. 
+**Use descriptive service names** : Match the tool or application name
+If you’re building a CLI for external use, use a UTI (Uniform Type Identifier) for the service name.
+2. 
+**Credentials-only** : Don’t store application configuration in this API
+This API is slow; keep non-secret settings in a config file.
+3. 
+**Use for local development tools** :
+  - ✅ CLI tools (gh, npm, docker, kubectl)
+  - ✅ Local development servers
+  - ✅ Personal API keys for testing
+  - ❌ Production servers (use proper secret management)
 
 # Citations
 

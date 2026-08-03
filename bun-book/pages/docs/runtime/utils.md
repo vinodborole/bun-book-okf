@@ -3,41 +3,42 @@ type: Web Page
 title: Utils - Bun
 description: Use Bun's utility functions to work with the runtime
 resource: https://bun.sh/docs/runtime/utils
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
-`Bun.version`
+## `Bun.version`
 
 A `string` containing the version of the `bun` CLI that is currently running.
 terminal
 
-`Bun.revision`
+## `Bun.revision`
 
 The git commit of [Bun](https://github.com/oven-sh/bun)that was compiled to create the current
 
 `bun` CLI.
 terminal
 
-`Bun.env`
+## `Bun.env`
 
 An alias for `process.env`.
-`Bun.main`
+## `Bun.main`
 
 An absolute path to the entrypoint of the current program (the file that was executed with `bun run`).
 script.ts
 
 [in Node.js.](https://stackoverflow.com/questions/6398196/detect-if-called-through-require-or-directly-by-command-line)
 
-`require.main = module` trick`Bun.sleep()`
+`require.main = module` trick
+## `Bun.sleep()`
 
 `Bun.sleep(ms: number)`
 Returns a `Promise` that resolves after the given number of milliseconds.
 `Date` object to receive a `Promise` that resolves at that point in time.
-`Bun.sleepSync()`
+## `Bun.sleepSync()`
 
 `Bun.sleepSync(ms: number)`
 A blocking synchronous version of `Bun.sleep`.
-`Bun.which()`
+## `Bun.which()`
 
 `Bun.which(bin: string)`
 Returns the path to an executable, similar to typing `which` in your terminal.
@@ -45,7 +46,8 @@ Returns the path to an executable, similar to typing `which` in your terminal.
 `cwd` option to resolve the executable from within a specific directory.
 [npm package.](https://www.npmjs.com/package/which)
 
-`which``Bun.randomUUIDv7()`
+`which`
+## `Bun.randomUUIDv7()`
 
 `Bun.randomUUIDv7()` returns a [UUID v7](https://www.ietf.org/archive/id/draft-peabody-dispatch-new-uuid-format-01.html#name-uuidv7-layout-and-bit-order), which is monotonic and suitable for sorting and databases.
 
@@ -58,44 +60,46 @@ buffer.ts
 `base64` and `base64url` encodings are also supported when you want a slightly shorter string.
 base64.ts
 
-`Bun.peek()`
+## `Bun.peek()`
 
 `Bun.peek(prom: Promise)`
 Reads a promise’s result without `await` or `.then`, but only if the promise has already fulfilled or rejected.
 `peek.status` reads the status of a promise without resolving it.
-`Bun.openInEditor()`
+## `Bun.openInEditor()`
 
 Opens a file in your default editor. Bun auto-detects your editor from the `$VISUAL` or `$EDITOR` environment variables.
 `debug.editor` setting in your [.](/docs/runtime/bunfig)
 
-`bunfig.toml`bunfig.toml
+`bunfig.toml`
+bunfig.toml
 
 `editor` param. You can also specify a line and column number.
-`Bun.deepEquals()`
+## `Bun.deepEquals()`
 
 Recursively checks if two objects are equivalent. `expect().toEqual()` in `bun:test` uses this internally.
 `expect().toStrictEqual()` in the test runner uses this.
-`Bun.escapeHTML()`
+## `Bun.escapeHTML()`
 
 `Bun.escapeHTML(value: string | object | number | boolean): string`
 Escapes the following characters from an input string:
-- `"`becomes- `"`
-- `&`becomes- `&`
-- `'`becomes- `'`
-- `<`becomes- `<`
-- `>`becomes- `>`
+- `"` becomes`"`
+- `&` becomes`&`
+- `'` becomes`'`
+- `<` becomes`<`
+- `>` becomes`>`
 
-`Bun.stringWidth()`
+## `Bun.stringWidth()`
 
 ~6,756x faster 
 
-`string-width` alternative[In this benchmark](https://github.com/oven-sh/bun/blob/5147c0ba7379d85d4d1ed0714b84d6544af917eb/bench/snippets/string-width.mjs#L13),
+`string-width` alternative
+[In this benchmark](https://github.com/oven-sh/bun/blob/5147c0ba7379d85d4d1ed0714b84d6544af917eb/bench/snippets/string-width.mjs#L13),
 
 `Bun.stringWidth` is ~6,756x faster than the `string-width` npm package for input larger than about 500 characters. Big thanks to [sindresorhus](https://github.com/sindresorhus)for their work on
 
 `string-width`.
 `Bun.stringWidth` is implemented in native code with SIMD instructions and accounts for Latin1, UTF-16, and UTF-8 encodings. It passes `string-width`’s tests.
-View full benchmark
+## View full benchmark
 
 View full benchmark
 
@@ -105,61 +109,62 @@ terminal
 
 terminal
 
-`Bun.fileURLToPath()`
+## `Bun.fileURLToPath()`
 
 Converts a `file://` URL to an absolute path.
-`Bun.pathToFileURL()`
+## `Bun.pathToFileURL()`
 
 Converts an absolute path to a `file://` URL.
-`Bun.gzipSync()`
+## `Bun.gzipSync()`
 
 Compresses a `Uint8Array` using zlib’s GZIP algorithm.
-zlib compression options
+## zlib compression options
 
 zlib compression options
 
-`Bun.gunzipSync()`
+## `Bun.gunzipSync()`
 
 Decompresses a `Uint8Array` using zlib’s GUNZIP algorithm.
-`Bun.deflateSync()`
+## `Bun.deflateSync()`
 
 Compresses a `Uint8Array` using zlib’s DEFLATE algorithm.
 [.](#bun-gzipsync)
 
-`Bun.gzipSync``Bun.inflateSync()`
+`Bun.gzipSync`
+## `Bun.inflateSync()`
 
 Decompresses a `Uint8Array` using zlib’s INFLATE algorithm.
-`Bun.zstdCompress()` / `Bun.zstdCompressSync()`
+## `Bun.zstdCompress()` / `Bun.zstdCompressSync()`
 
 Compresses a `Uint8Array` using the Zstandard algorithm.
-`Bun.zstdDecompress()` / `Bun.zstdDecompressSync()`
+## `Bun.zstdDecompress()` / `Bun.zstdDecompressSync()`
 
 Decompresses a `Uint8Array` using the Zstandard algorithm.
-`Bun.inspect()`
+## `Bun.inspect()`
 
 Serializes an object to a `string` exactly as it would be printed by `console.log`.
-`Bun.inspect.custom`
+### `Bun.inspect.custom`
 
 The symbol Bun uses to implement `Bun.inspect`. Override it to customize how your objects are printed. It is identical to `util.inspect.custom` in Node.js.
-`Bun.inspect.table(tabularData, properties, options)`
+### `Bun.inspect.table(tabularData, properties, options)`
 
 Format tabular data into a string. Like [, except it returns a string rather than printing to the console.](https://developer.mozilla.org/en-US/docs/Web/API/console/table_static)
 
 `console.table``{ colors: true }` to enable ANSI colors.
-`Bun.nanoseconds()`
+## `Bun.nanoseconds()`
 
 Returns the number of nanoseconds since the current `bun` process started, as a `number`. Useful for high-precision timing and benchmarking.
-`Bun.readableStreamTo*()`
+## `Bun.readableStreamTo*()`
 
 Bun implements a set of convenience functions for asynchronously consuming the body of a `ReadableStream` and converting it to various binary formats.
-`Bun.resolveSync()`
+## `Bun.resolveSync()`
 
 Resolves a file path or module specifier using Bun’s internal [module resolution](/docs/runtime/module-resolution)algorithm. The first argument is the path to resolve, and the second argument is the “root”. If no match is found, it throws an
 
 `Error`.
 `process.cwd()` or `"."` as the root.
 `import.meta.dir`.
-`Bun.stripANSI()`
+## `Bun.stripANSI()`
 
 ~6-57x faster 
 
@@ -167,31 +172,35 @@ Resolves a file path or module specifier using Bun’s internal [module resoluti
 Strip ANSI escape codes from a string. Use it to remove colors and formatting from terminal output.
 `Bun.stripANSI` is faster than the [npm package:](https://www.npmjs.com/package/strip-ansi)
 
-`strip-ansi`terminal
+`strip-ansi`
+terminal
 
 terminal
 
-`Bun.wrapAnsi()`
+## `Bun.wrapAnsi()`
 
 Drop-in replacement for 
 
 `wrap-ansi` npm package`Bun.wrapAnsi(input: string, columns: number, options?: WrapAnsiOptions): string`
 Wrap text to a specified column width. It preserves ANSI escape codes and hyperlinks and handles Unicode/emoji width correctly. This is a native alternative to the [npm package.](https://www.npmjs.com/package/wrap-ansi)
 
-`wrap-ansi`### Options
+`wrap-ansi`
+### Options
 
 TypeScript definition:
 
-`serialize` & `deserialize` in `bun:jsc`
+## `serialize` & `deserialize` in `bun:jsc`
 
 To save a JavaScript value into a SharedArrayBuffer & back, use `serialize` and `deserialize` from the `"bun:jsc"` module.
 [and](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone)
 
-`structuredClone`[serialize and deserialize the same way. This exposes the underlying](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
+`structuredClone`
+[serialize and deserialize the same way. This exposes the underlying](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
 
-`postMessage`[HTML Structured Clone Algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)to JavaScript as a SharedArrayBuffer.
+`postMessage`
+[HTML Structured Clone Algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)to JavaScript as a SharedArrayBuffer.
 
-`estimateShallowMemoryUsageOf` in `bun:jsc`
+## `estimateShallowMemoryUsageOf` in `bun:jsc`
 
 The `estimateShallowMemoryUsageOf` function returns a best-effort estimate of the memory usage of an object in bytes, excluding the memory usage of properties or other objects it references. For accurate per-object memory usage, use `Bun.generateHeapSnapshot`.
 

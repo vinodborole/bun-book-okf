@@ -3,7 +3,7 @@ type: Web Page
 title: WebSockets - Bun
 description: Server-side WebSockets in Bun
 resource: https://bun.sh/docs/runtime/http/websockets
-timestamp: '2026-07-20T08:37:03.598151+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 `Bun.serve()` supports server-side WebSockets, with on-the-fly compression, TLS support, and a Bun-native publish-subscribe API.
@@ -13,7 +13,8 @@ timestamp: '2026-07-20T08:37:03.598151+00:00'
 
 [.](https://github.com/websockets/ws)
 
-`"ws"`Internally Bun’s WebSocket implementation is built on 
+`"ws"`
+Internally Bun’s WebSocket implementation is built on 
 
 [uWebSockets](https://github.com/uNetworking/uWebSockets).
 
@@ -26,19 +27,21 @@ server.ts
 
 server.ts
 
-An API designed for speed
+## An API designed for speed
 
 An API designed for speed
 
 In Bun, handlers are declared once per server, instead of per socket.You pass a single 
 
-`WebSocketHandler` object to `Bun.serve()` with methods for `open`, `message`, `close`, `drain`, and `error`. This is different from the client-side `WebSocket` class, which extends `EventTarget` (`onmessage`, `onopen`, `onclose`).Clients tend to have few socket connections open, so an event-based API makes sense there.But servers tend to have **many**socket connections open, which means:- Time spent adding/removing event listeners for each connection adds up
+`WebSocketHandler` object to `Bun.serve()` with methods for `open`, `message`, `close`, `drain`, and `error`. This is different from the client-side `WebSocket` class, which extends `EventTarget` (`onmessage`, `onopen`, `onclose`).Clients tend to have few socket connections open, so an event-based API makes sense there.But servers tend to have **many**socket connections open, which means:
+- Time spent adding/removing event listeners for each connection adds up
 - Extra memory spent on storing references to callback functions for each connection
 - Usually, people create new functions for each connection, which also means more memory
 
 `ServerWebSocket` instance handling the event. The `ServerWebSocket` class is a fast, Bun-native implementation of [with some additional features.](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
 
-`WebSocket`server.ts
+`WebSocket`
+server.ts
 
 ### Sending messages
 
@@ -65,7 +68,8 @@ browser.js
 
 **Identifying users**Cookies set on the page are sent with the WebSocket upgrade request and available on
 
-`req.headers` in the `fetch` handler. Parse them to identify the connecting user and set `data` accordingly.### Pub/Sub
+`req.headers` in the `fetch` handler. Parse them to identify the connecting user and set `data` accordingly.
+### Pub/Sub
 
 Bun’s`ServerWebSocket` includes a native publish-subscribe API for topic-based broadcasting. Individual sockets can `.subscribe()` to a topic (specified with a string identifier) and `.publish()` messages to all other subscribers to that topic (excluding itself). This topic-based broadcast API is similar to [MQTT](https://en.wikipedia.org/wiki/MQTT)and
 
@@ -78,7 +82,8 @@ server.ts
 `.publish()`. To send a message to all subscribers of a topic, use the `.publish()` method on the `Server` instance.
 ### Compression
 
-Enable per-message[compression](https://websockets.readthedocs.io/en/stable/topics/compression.html)with the
+Enable per-message
+[compression](https://websockets.readthedocs.io/en/stable/topics/compression.html)with the
 
 `perMessageDeflate` parameter.
 server.ts
@@ -89,9 +94,9 @@ server.ts
 ### Backpressure
 
 The`.send(message)` method of `ServerWebSocket` returns a `number` indicating the result of the operation.
-- `-1`— The message was enqueued but there is backpressure
-- `0`— The message was dropped due to a connection issue
-- `1+`— The number of bytes sent
+- `-1` — The message was enqueued but there is backpressure
+- `0` — The message was dropped due to a connection issue
+- `1+` — The number of bytes sent
 
 ### Timeouts and limits
 

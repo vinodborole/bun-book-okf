@@ -4,7 +4,7 @@ title: UDP - Bun
 description: Use Bun's UDP API to implement services with advanced real-time requirements,
   such as voice chat.
 resource: https://bun.sh/docs/runtime/networking/udp
-timestamp: '2026-07-07T10:59:41.879776+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 ## Bind a UDP socket (`Bun.udpSocket()`)
@@ -21,7 +21,8 @@ server.ts
 
 ### Connections
 
-UDP has no concept of a connection, but many UDP exchanges (especially as a client) involve only one peer. In that case you can connect the socket to that peer, which sets the destination address for every packet you send and restricts incoming packets to that peer.server.ts
+UDP has no concept of a connection, but many UDP exchanges (especially as a client) involve only one peer. In that case you can connect the socket to that peer, which sets the destination address for every packet you send and restricts incoming packets to that peer.
+server.ts
 
 ### Send many packets at once using `sendMany()`
 
@@ -37,12 +38,14 @@ server.ts
 as destinations and does not perform DNS resolution.
 ### Handle backpressure
 
-A packet you send may not fit into the operating system’s packet buffer. You can detect that this has happened when:- `send`returns- `false`
-- `sendMany`returns a number smaller than the number of packets you specified. In this case, Bun calls the- `drain`socket handler once the socket becomes writable again:
+A packet you send may not fit into the operating system’s packet buffer. You can detect that this has happened when:
+- `send` returns`false`
+- `sendMany` returns a number smaller than the number of packets you specified. In this case, Bun calls the`drain` socket handler once the socket becomes writable again:
 
 ### Socket options
 
-UDP sockets support setting various socket options:### Multicast
+UDP sockets support setting various socket options:
+### Multicast
 
 Bun supports multicast operations for UDP sockets. Use`addMembership` and `dropMembership` to join and leave multicast groups:
 `addSourceSpecificMembership` and `dropSourceSpecificMembership`:

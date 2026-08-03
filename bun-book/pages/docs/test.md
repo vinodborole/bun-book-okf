@@ -4,7 +4,7 @@ title: Test runner - Bun
 description: Bun's fast, built-in, Jest-compatible test runner with TypeScript support,
   lifecycle hooks, mocking, and watch mode
 resource: https://bun.sh/docs/test
-timestamp: '2026-07-27T09:26:27.222623+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 - TypeScript and JSX
@@ -16,7 +16,8 @@ timestamp: '2026-07-27T09:26:27.222623+00:00'
 
 Bun aims for compatibility with Jest, but not everything is implemented. To track compatibility, see 
 
-[this tracking issue](https://github.com/oven-sh/bun/issues/1825).## Run tests
+[this tracking issue](https://github.com/oven-sh/bun/issues/1825).
+## Run tests
 
 terminal
 
@@ -72,23 +73,24 @@ terminal
 
 ## Concurrent test execution
 
-By default, Bun runs all tests sequentially within each test file. Concurrent execution runs async tests in parallel, which speeds up test suites with independent tests.`--concurrent` flag
+By default, Bun runs all tests sequentially within each test file. Concurrent execution runs async tests in parallel, which speeds up test suites with independent tests.
+### `--concurrent` flag
 
 Use the `--concurrent` flag to run all tests concurrently within their respective files:
 terminal
 
 `test.serial`.
-`--max-concurrency` flag
+### `--max-concurrency` flag
 
 Control the maximum number of tests running simultaneously with the `--max-concurrency` flag:
 terminal
 
-`test.concurrent`
+### `test.concurrent`
 
 Mark individual tests to run concurrently, even when the `--concurrent` flag is not used:
 math.test.ts
 
-`test.serial`
+### `test.serial`
 
 Force tests to run sequentially, even when the `--concurrent` flag is enabled:
 math.test.ts
@@ -163,21 +165,26 @@ terminal
 
 ## UI & DOM testing
 
-Bun is compatible with popular UI testing libraries: See[DOM testing](/docs/test/dom).
+Bun is compatible with popular UI testing libraries: See
+[DOM testing](/docs/test/dom).
 
 ## Performance
 
-Bun’s test runner is fast.## AI Agent Integration
+Bun’s test runner is fast.
+## AI Agent Integration
 
-When you use Bun’s test runner with an AI coding assistant, you can enable quieter output that keeps failure details but drops the rest of the noise.### Environment Variables
+When you use Bun’s test runner with an AI coding assistant, you can enable quieter output that keeps failure details but drops the rest of the noise.
+### Environment Variables
 
-Set any of the following environment variables to enable AI-friendly output:- `CLAUDECODE=1`- For Claude Code
-- `REPL_ID=1`- For Replit
-- `AGENT=1`- Generic AI agent flag
+Set any of the following environment variables to enable AI-friendly output:
+- `CLAUDECODE=1` - For Claude Code
+- `REPL_ID=1` - For Replit
+- `AGENT=1` - Generic AI agent flag
 
 ### Behavior
 
-When an AI agent environment is detected:- Only test failures are displayed in detail
+When an AI agent environment is detected:
+- Only test failures are displayed in detail
 - Passing, skipped, and todo test indicators are hidden
 - Summary statistics remain intact
 
@@ -197,7 +204,8 @@ number
 
 Re-run each test file 
 
-`NUMBER` times to help catch certain bugsnumber
+`NUMBER` times to help catch certain bugs
+number
 
 Retry failed tests up to 
 
@@ -205,7 +213,8 @@ Retry failed tests up to
 
 Treat all tests as 
 
-`test.concurrent()` testsboolean
+`test.concurrent()` tests
+boolean
 
 Run tests in random order
 
@@ -219,7 +228,8 @@ default:"1"
 
 Exit the test suite after 
 
-`NUMBER` failures. If you do not specify a number, it defaults to 1.number
+`NUMBER` failures. If you do not specify a number, it defaults to 1.
+number
 
 default:"20"
 
@@ -231,18 +241,21 @@ boolean
 
 Include tests that are marked with 
 
-`test.todo()`string
+`test.todo()`
+string
 
 Run only tests with a name that matches the given regex. Alias: 
 
-`-t`### Reporting
+`-t`
+### Reporting
 
 string
 
 Test output reporter format. Available: 
 
 `junit` (requires —reporter-outfile), `dots`. Default:
-console output.string
+console output.
+string
 
 Output file path for the reporter format (required with —reporter)
 
@@ -262,21 +275,25 @@ default:"text"
 
 Report coverage in 
 
-`text` and/or `lcov`. Defaults to `text`string
+`text` and/or `lcov`. Defaults to `text`
+string
 
 default:"coverage"
 
 Directory for coverage files. Defaults to 
 
-`coverage`### Snapshots
+`coverage`
+### Snapshots
 
 boolean
 
 Update snapshot files. Alias: 
 
-`-u`## Examples
+`-u`
+## Examples
 
-Run all test files:terminal
+Run all test files:
+terminal
 
 terminal
 

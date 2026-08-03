@@ -4,7 +4,7 @@ title: Bun Runtime - Bun
 description: Execute JavaScript/TypeScript files, package.json scripts, and executable
   packages with Bun's fast runtime.
 resource: https://bun.sh/docs/runtime
-timestamp: '2026-07-27T09:26:27.222623+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 [JavaScriptCore engine](https://developer.apple.com/documentation/javascriptcore), developed by Apple for Safari. It usually starts and runs faster than V8, the engine used by Node.js and Chromium-based browsers. Bun’s transpiler and runtime are written in Rust. On Linux, Bun starts
@@ -25,14 +25,15 @@ terminal
 `run` keyword and use the “naked” command; it behaves identically.
 terminal
 
-`--watch`
+### `--watch`
 
 To run a file in watch mode, use the `--watch` flag.
 terminal
 
 When using Flags at the end of the command are ignored by 
 
-`bun run`, put Bun flags like `--watch` immediately after `bun`.`bun` and passed through to the `"dev"` script itself.## Run a `package.json` script
+`bun run`, put Bun flags like `--watch` immediately after `bun`.`bun` and passed through to the `"dev"` script itself.
+## Run a `package.json` script
 
 Compare to 
 
@@ -53,9 +54,9 @@ terminal
 terminal
 
 `bun run clean` runs `preclean` and `postclean`, if defined. If the `pre<script>` fails, Bun does not run the script itself.
-`--bun`
+### `--bun`
 
-It’s common for `package.json` scripts to reference locally-installed CLIs like `vite` or `next`. These CLIs are often JavaScript files marked with a [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix))to indicate that they should be executed with
+It’s common for `package.json` scripts to reference locally-installed CLIs like `vite` or `next`. These CLIs are often JavaScript files marked with a [shebang](<https://en.wikipedia.org/wiki/Shebang_(Unix)>)to indicate that they should be executed with
 
 `node`.
 cli.js
@@ -73,7 +74,8 @@ terminal
 `<script>` in both `bar` and `baz`, but not in `foo`.
 See [.](/docs/pm/filter#running-scripts-with-filter)
 
-`--filter``bun run -` to pipe code from stdin
+`--filter`
+## `bun run -` to pipe code from stdin
 
 `bun run -` reads JavaScript, TypeScript, TSX, or JSX from stdin and executes it without writing to a temporary file first.
 terminal
@@ -82,7 +84,7 @@ terminal
 terminal
 
 `bun run -` treats all input as TypeScript with JSX support.
-`bun run --console-depth`
+## `bun run --console-depth`
 
 Control the depth of object inspection in console output with the `--console-depth` flag.
 terminal
@@ -90,7 +92,7 @@ terminal
 `--console-depth` sets how deeply nested objects are displayed in `console.log()` output. The default depth is `2`. Higher values show more nested properties but may produce verbose output for complex objects.
 console.ts
 
-`bun run --smol`
+## `bun run --smol`
 
 In memory-constrained environments, use the `--smol` flag to reduce memory usage at a cost to performance.
 terminal
@@ -100,10 +102,10 @@ terminal
 
 Absolute paths and paths starting with`./` or `.\\` are always executed as source files. Unless you use `bun run`, a name with an allowed extension resolves to the file rather than a `package.json` script.
 When a `package.json` script and a file have the same name, `bun run` prefers the script. The full resolution order is:
-- `package.json`scripts:- `bun run build`
-- Source files: `bun run src/main.js`
-- Binaries from project packages: `bun add eslint && bun run eslint`
-- (`bun run`only) System commands:`bun run ls`
+1. `package.json` scripts:`bun run build`
+2. Source files: `bun run src/main.js`
+3. Binaries from project packages: `bun add eslint && bun run eslint`
+4. (`bun run` only) System commands:`bun run ls`
 
 # CLI Usage
 
@@ -121,15 +123,18 @@ string
 
 Evaluate argument as a script. Alias: 
 
-`-e`string
+`-e`
+string
 
 Evaluate argument as a script and print the result. Alias: 
 
-`-p`boolean
+`-p`
+boolean
 
 Display this menu and exit. Alias: 
 
-`-h`### Workspace Management
+`-h`
+### Workspace Management
 
 number
 
@@ -141,11 +146,13 @@ string
 
 Run a script in all workspace packages matching the pattern. Alias: 
 
-`-F`boolean
+`-F`
+boolean
 
 Run a script in all workspace packages (from the 
 
-`workspaces` field in `package.json`)boolean
+`workspaces` field in `package.json`)
+boolean
 
 Run multiple scripts or workspace scripts concurrently with prefixed output
 
@@ -157,24 +164,28 @@ boolean
 
 When using 
 
-`—parallel` or `—sequential`, continue running other scripts when one fails### Runtime & Process Control
+`—parallel` or `—sequential`, continue running other scripts when one fails
+### Runtime & Process Control
 
 boolean
 
 Force a script or package to use Bun’s runtime instead of Node.js (via symlinking node). Alias: 
 
-`-b`string
+`-b`
+string
 
 Control the shell used for 
 
-`package.json` scripts. Supports either `bun` or `system`boolean
+`package.json` scripts. Supports either `bun` or `system`
+boolean
 
 Open the Node.js-compatible REPL (
 
 `node:repl`). When combined with `-e`, starts the REPL and
 then evaluates the script. Under `—interactive`, `-e` is raw JavaScript (matching
 `node -i -e`); use `bun repl` for TypeScript. Distinct from `bun repl`, which is
-Bun’s native REPL.boolean
+Bun’s native REPL.
+boolean
 
 Use less memory, but run garbage collection more often
 
@@ -182,7 +193,8 @@ boolean
 
 Expose 
 
-`gc()` on the global object. Has no effect on `Bun.gc()`boolean
+`gc()` on the global object. Has no effect on `Bun.gc()`
+boolean
 
 Suppress all reporting of the custom deprecation
 
@@ -198,22 +210,26 @@ boolean
 
 Force 
 
-`Buffer.allocUnsafe(size)` to be zero-filledboolean
+`Buffer.allocUnsafe(size)` to be zero-filled
+boolean
 
 Throw an error if 
 
-`process.dlopen` is called, and disable export condition `node-addons`string
+`process.dlopen` is called, and disable export condition `node-addons`
+string
 
 One of 
 
 `strict`, `throw`, `warn`, `none`, or
-`warn-with-error-code`number
+`warn-with-error-code`
+number
 
 default:"2"
 
 Set the default depth for 
 
-`console.log` object inspection (default: 2)### Development Workflow
+`console.log` object inspection (default: 2)
+### Development Workflow
 
 boolean
 
@@ -247,7 +263,8 @@ string
 
 Import a module before other modules are loaded. Alias: 
 
-`-r`string
+`-r`
+string
 
 Alias of —preload, for Node.js compatibility
 
@@ -266,7 +283,8 @@ default:"auto"
 Configure auto-install behavior. One of 
 
 `auto` (default, auto-installs when no node_modules),
-`fallback` (missing packages only), `force` (always)boolean
+`fallback` (missing packages only), `force` (always)
+boolean
 
 Auto-install dependencies during execution. Equivalent to —install=fallback
 
@@ -286,7 +304,8 @@ string
 
 Main fields to lookup in 
 
-`package.json`. Defaults to —target dependentboolean
+`package.json`. Defaults to —target dependent
+boolean
 
 Preserve symlinks when resolving files
 
@@ -300,28 +319,33 @@ default:".tsx,.ts,.jsx,.js,.json"
 
 Defaults to: 
 
-`.tsx,.ts,.jsx,.js,.json`### Transpilation & Language Features
+`.tsx,.ts,.jsx,.js,.json`
+### Transpilation & Language Features
 
 string
 
 Specify custom 
 
-`tsconfig.json`. Default `$cwd/tsconfig.json`string
+`tsconfig.json`. Default `$cwd/tsconfig.json`
+string
 
 Substitute K:V while parsing, e.g. 
 
 `—define process.env.NODE_ENV:“development”`. Values are parsed as
-JSON. Alias: `-d`string
+JSON. Alias: `-d`
+string
 
 Remove function calls, e.g. 
 
-`—drop=console` removes all `console.*` callsstring
+`—drop=console` removes all `console.*` calls
+string
 
 Parse files with 
 
 `.ext:loader`, e.g. `—loader .js:jsx`. Valid loaders: `js`,
 `jsx`, `ts`, `tsx`, `json`, `toml`, `text`,
-`file`, `wasm`, `napi`. Alias: `-l`boolean
+`file`, `wasm`, `napi`. Alias: `-l`
+boolean
 
 Disable macros from being executed in the bundler, transpiler and runtime
 
@@ -339,11 +363,13 @@ default:"react"
 
 Declares the module specifier used to import the jsx and jsxs factory functions. Default: 
 
-`react`string
+`react`
+string
 
 default:"automatic"
 
-`automatic` (default) or `classic`boolean
+`automatic` (default) or `classic`
+boolean
 
 Treat JSX elements as having side effects (disable pure annotations)
 
@@ -351,13 +377,15 @@ boolean
 
 Ignore tree-shaking annotations such as 
 
-`@`**PURE**### Networking & Security
+`@`**PURE**
+### Networking & Security
 
 number
 
 Set the default port for 
 
-`Bun.serve`string
+`Bun.serve`
+string
 
 Preconnect to a URL while code is loading
 
@@ -374,7 +402,8 @@ default:"verbatim"
 Set the default order of DNS lookup results. Valid orders: 
 
 `verbatim` (default), `ipv4first`,
-`ipv6first`boolean
+`ipv6first`
+boolean
 
 Use the system’s trusted certificate authorities
 
@@ -390,7 +419,8 @@ boolean
 
 Preconnect to 
 
-`$REDIS_URL` at startupboolean
+`$REDIS_URL` at startup
+boolean
 
 Preconnect to PostgreSQL at startup
 

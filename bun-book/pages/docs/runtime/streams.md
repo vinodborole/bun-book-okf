@@ -4,14 +4,16 @@ title: Streams - Bun
 description: Use Bun's streams API to work with binary data without loading it all
   into memory at once
 resource: https://bun.sh/docs/runtime/streams
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 [and](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)
 
-`ReadableStream`[.](https://developer.mozilla.org/en-US/docs/Web/API/WritableStream)
+`ReadableStream`
+[.](https://developer.mozilla.org/en-US/docs/Web/API/WritableStream)
 
-`WritableStream`Bun also implements the 
+`WritableStream`
+Bun also implements the 
 
 `node:stream` module, including
 [,](https://nodejs.org/api/stream.html#stream_readable_streams)`Readable`[, and](https://nodejs.org/api/stream.html#stream_writable_streams)`Writable`[. For complete documentation, refer to the](https://nodejs.org/api/stream.html#stream_duplex_and_transform_streams)`Duplex`[Node.js docs](https://nodejs.org/api/stream.html).`ReadableStream`:
@@ -25,16 +27,17 @@ With a traditional `ReadableStream`, chunks of data are *enqueued*. Each chunk i
 `ReadableStream`, the destination handles all chunk queueing. The consumer of the stream receives exactly what is passed to `controller.write()`, without any encoding or modification.
 ### Handling backpressure
 
-`controller.write()` returns the number of bytes written. When the destination’s internal buffer is full (for example, a slow HTTP client), it returns a **negative number**instead. The chunk is still accepted — the negative return is a signal to pause and wait for the destination to drain. To wait for the drain,
+`controller.write()` returns the number of bytes written, or a **pending**when the destination’s internal buffer is full (for example, a slow HTTP client). The chunk is accepted either way; the promise resolves once the destination has drained, so
 
-`await controller.flush(true)`:
-`direct`) `ReadableStream`s and async-generator response bodies, Bun applies this backpressure automatically — the producer is paused while the destination is backed up.
+`Promise<number>``await`ing the result is enough:
+`await controller.flush(true)` is equivalent and can be used after a write returns a `Promise`.
+For default (non-`direct`) `ReadableStream`s and async-generator response bodies, Bun applies this backpressure automatically — the producer is paused while the destination is backed up.
 ## Async generator streams
 
 Bun also supports async generator functions as a source for`Response` and `Request`. Use async generators to create a `ReadableStream` that fetches data from an asynchronous source.
 `[Symbol.asyncIterator]` directly.
 `yield` returns the direct `ReadableStream` controller.
-`Bun.ArrayBufferSink`
+## `Bun.ArrayBufferSink`
 
 The `Bun.ArrayBufferSink` class is a fast incremental writer for constructing an `ArrayBuffer` of unknown size.
 `Uint8Array`, pass the `asUint8Array` option to the `start` method.

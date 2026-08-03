@@ -5,7 +5,7 @@ description: Use Bun's native TCP API to implement performance-sensitive systems
   database clients, game servers, or anything that needs to communicate over TCP (instead
   of HTTP)
 resource: https://bun.sh/docs/runtime/networking/tcp
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 ## Start a server (`Bun.listen()`)
@@ -13,13 +13,14 @@ timestamp: '2026-07-09T12:17:04.216670+00:00'
 Start a TCP server with `Bun.listen`:
 server.ts
 
-An API designed for speed
+## An API designed for speed
 
 An API designed for speed
 
 In Bun, you declare one set of handlers per server instead of assigning callbacks to each socket, as with Node.js For performance-sensitive servers, assigning listeners to each socket can cause significant garbage collector pressure and increase memory usage. By contrast, Bun only allocates one handler function for each event and shares it among all sockets. This is a small optimization, but it adds up.
 
-`EventEmitters` or the web-standard `WebSocket` API.server.ts
+`EventEmitters` or the web-standard `WebSocket` API.
+server.ts
 
 `open` handler.
 server.ts
@@ -43,7 +44,8 @@ server.ts
 `tls: true`.
 ## Hot reloading
 
-Both TCP servers and sockets can be hot reloaded with new handlers.## Buffering
+Both TCP servers and sockets can be hot reloaded with new handlers.
+## Buffering
 
 TCP sockets in Bun do not buffer data, so performance-sensitive code should buffer writes itself. For example, this:`ArrayBufferSink` with the `{stream: true}` option:
 server.ts

@@ -3,76 +3,79 @@ type: Web Page
 title: bun update - Bun
 description: Update dependencies to latest versions
 resource: https://bun.sh/docs/pm/cli/update
-timestamp: '2026-07-27T09:26:27.222623+00:00'
+timestamp: '2026-08-03T08:59:43.078871+00:00'
 ---
 
 To upgrade your Bun CLI version, see 
 
-[.](/docs/installation#upgrading)`bun upgrade`terminal
+[.](/docs/installation#upgrading)`bun upgrade`
+terminal
 
 terminal
 
-`--interactive`
+## `--interactive`
 
 Use the `--interactive` flag to choose which packages to update:
 terminal
 
 ### Interactive Interface
 
-The interface displays packages grouped by dependency type:**Sections:**
+The interface displays packages grouped by dependency type:
+**Sections:**
 
-- Packages are grouped under section headers: `dependencies`,`devDependencies`,`peerDependencies`,`optionalDependencies`
+- Packages are grouped under section headers: `dependencies` ,`devDependencies` ,`peerDependencies` ,`optionalDependencies`
 - Each section shows column headers aligned with the package data
 
 **Columns:**
 
-- **Package**: Package name (may have a suffix such as- `dev`,- `peer`, or- `optional`)
-- **Current**: Currently installed version
-- **Target**: Version that would be installed (respects semver constraints)
-- **Latest**: Latest available version
+- **Package** : Package name (may have a suffix such as `dev` , `peer` , or `optional` )
+- **Current** : Currently installed version
+- **Target** : Version that would be installed (respects semver constraints)
+- **Latest** : Latest available version
 
 ### Keyboard Controls
 
 **Selection:**
 
-- **Space**: Toggle package selection
-- **Enter**: Confirm selections and update
-- **a/A**: Select all packages
-- **n/N**: Select none
-- **i/I**: Invert selection
+- **Space** : Toggle package selection
+- **Enter** : Confirm selections and update
+- **a/A** : Select all packages
+- **n/N** : Select none
+- **i/I** : Invert selection
 
 **Navigation:**
 
-- **↑/↓ Arrow keys**or- **j/k**: Move cursor
-- **l/L**: Toggle between target and latest version for current package
+- **↑/↓ Arrow keys** or**j/k** : Move cursor
+- **l/L** : Toggle between target and latest version for current package
 
 **Exit:**
 
-- **Ctrl+C**or- **Ctrl+D**: Cancel without updating
+- **Ctrl+C** or**Ctrl+D** : Cancel without updating
 
 ### Visual Indicators
 
-- **■**Selected packages (will be updated)
-- **□**Unselected packages
-- **❯**Current cursor position
-- **Colors**: Red (major), yellow (minor), green (patch) version changes
-- **Underlined**: Currently selected update target
+- **■** Selected packages (will be updated)
+- **□** Unselected packages
+- **❯** Current cursor position
+- **Colors** : Red (major), yellow (minor), green (patch) version changes
+- **Underlined** : Currently selected update target
 
 ### Package Grouping
 
-Packages are organized in sections by dependency type:- **dependencies**- Regular runtime dependencies
-- **devDependencies**- Development dependencies
-- **peerDependencies**- Peer dependencies
-- **optionalDependencies**- Optional dependencies
+Packages are organized in sections by dependency type:
+- **dependencies** - Regular runtime dependencies
+- **devDependencies** - Development dependencies
+- **peerDependencies** - Peer dependencies
+- **optionalDependencies** - Optional dependencies
 
-` dev`, ` peer`, ` optional`).
-`--recursive`
+ `dev`,  `peer`,  `optional`).
+## `--recursive`
 
 Use the `--recursive` flag with `--interactive` to update dependencies across all workspaces in a monorepo:
 terminal
 
 `--recursive`, the interface adds a “Workspace” column showing which workspace each dependency belongs to.
-`--latest`
+## `--latest`
 
 By default, `bun update` updates each dependency to the latest version that satisfies the version range in your `package.json`.
 To update to the latest version regardless of whether it satisfies that range, use the `--latest` flag:
@@ -83,8 +86,8 @@ terminal
 `package.json`:
 package.json
 
-- `bun update`would update to a version that matches- `17.x`.
-- `bun update --latest`would update to a version that matches- `18.x`or later.
+- `bun update` would update to a version that matches`17.x` .
+- `bun update --latest` would update to a version that matches`18.x` or later.
 
 ## CLI Usage
 
@@ -96,7 +99,8 @@ boolean
 
 Always request the latest versions from the registry & reinstall all dependencies. Alias: 
 
-`-f`boolean
+`-f`
+boolean
 
 Update packages to their latest versions
 
@@ -106,31 +110,37 @@ boolean
 
 Don’t install devDependencies. Alias: 
 
-`-p`boolean
+`-p`
+boolean
 
 Install globally. Alias: 
 
-`-g`string
+`-g`
+string
 
 Exclude 
 
-`dev`, `optional`, or `peer` dependencies from install### Project File Management
+`dev`, `optional`, or `peer` dependencies from install
+### Project File Management
 
 boolean
 
 Write a 
 
-`yarn.lock` file (yarn v1). Alias: `-y`boolean
+`yarn.lock` file (yarn v1). Alias: `-y`
+boolean
 
 Don’t update 
 
-`package.json` or save a lockfileboolean
+`package.json` or save a lockfile
+boolean
 
 default:"true"
 
 Save to 
 
-`package.json` (true by default)boolean
+`package.json` (true by default)
+boolean
 
 Disallow changes to lockfile
 
@@ -152,11 +162,13 @@ string
 
 Same as 
 
-`—ca`, but as a file path to the certificatestring
+`—ca`, but as a file path to the certificate
+string
 
 Use a specific registry by default, overriding 
 
-`.npmrc`, `bunfig.toml` and environment variablesnumber
+`.npmrc`, `bunfig.toml` and environment variables
+number
 
 default:"48"
 
@@ -196,7 +208,8 @@ boolean
 
 Skip lifecycle scripts in the project’s 
 
-`package.json` (dependency scripts are never run)number
+`package.json` (dependency scripts are never run)
+number
 
 Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
@@ -210,20 +223,23 @@ boolean
 
 Add to 
 
-`trustedDependencies` in the project’s `package.json` and install the package(s)string
+`trustedDependencies` in the project’s `package.json` and install the package(s)
+string
 
 default:"clonefile"
 
 Platform-specific optimizations for installing dependencies. Possible values: 
 
 `clonefile` (default),
-`hardlink`, `symlink`, `copyfile`### General & Environment
+`hardlink`, `symlink`, `copyfile`
+### General & Environment
 
 string
 
 Specify path to config file (
 
-`bunfig.toml`). Alias: `-c`boolean
+`bunfig.toml`). Alias: `-c`
+boolean
 
 Don’t install anything
 
