@@ -2,7 +2,7 @@
   "generator": "okf-kit",
   "okf_version": "0.1",
   "root_url": "https://bun.sh/docs",
-  "updated_at": "2026-08-03T08:59:45.450674+00:00",
+  "updated_at": "2026-08-10T07:07:25.287591+00:00",
   "config": {
     "max_depth": 3,
     "max_pages": 90,
@@ -40,7 +40,7 @@
       "path": "pages/docs/installation.md",
       "url": "https://bun.sh/docs/installation",
       "title": "Installation - Bun",
-      "hash": "5d48b2a75c2242655e03f9bbd235e964ff08045502fbd60b3c030447c4b18a24"
+      "hash": "253178fde28957326cd7b1073b7bd0f2aeecca5bb8c70ece7dd23f874e190568"
     },
     {
       "path": "pages/docs/pm/bunx.md",
@@ -77,12 +77,6 @@
       "url": "https://bun.sh/docs/pm/cli/install",
       "title": "bun install - Bun",
       "hash": "8ec1ff96db3b5097b9c9ea35ddd7ef4e2336ea8bcf70cf0cfa01999c1590ddb2"
-    },
-    {
-      "path": "pages/docs/pm/cli/link.md",
-      "url": "https://bun.sh/docs/pm/cli/link",
-      "title": "bun link - Bun",
-      "hash": "c5a17dc79820ffd898d01574e463cf77906f9a082a2ebbf10a5f0db1e665a7c5"
     },
     {
       "path": "pages/docs/pm/cli/outdated.md",
@@ -124,7 +118,7 @@
       "path": "pages/docs/project/benchmarking.md",
       "url": "https://bun.sh/docs/project/benchmarking",
       "title": "Benchmarking - Bun",
-      "hash": "9a0d809c39d6d35816da3ac5a06b3a11a9b330512965e32dbf08e7291c235613"
+      "hash": "dbee069bff6747293f92d45f8c08b372af9c3dcc8d0e510d1f01e9914a424a8e"
     },
     {
       "path": "pages/docs/project/bindgen.md",
@@ -166,7 +160,7 @@
       "path": "pages/docs/runtime.md",
       "url": "https://bun.sh/docs/runtime",
       "title": "Bun Runtime - Bun",
-      "hash": "4fffa79e76d2a0ae3192686a4cfe196bf9e8b458b4cb6609f55e4e6a81cde720"
+      "hash": "b72600529d543196d9db97c93cd6a478427f89cc5c293dbf262ba0c41223b50e"
     },
     {
       "path": "pages/docs/runtime/archive.md",
@@ -196,7 +190,7 @@
       "path": "pages/docs/runtime/bunfig.md",
       "url": "https://bun.sh/docs/runtime/bunfig",
       "title": "bunfig.toml - Bun",
-      "hash": "5917a9d2cc62d351a560bae3af59a93d08176030e53f931f5e84d6067eed3a40"
+      "hash": "79d92baf42c474962d27955a9497651bf46d4c74d62baaaf898ba29d6c303dcd"
     },
     {
       "path": "pages/docs/runtime/c-compiler.md",
@@ -274,7 +268,7 @@
       "path": "pages/docs/runtime/file-types.md",
       "url": "https://bun.sh/docs/runtime/file-types",
       "title": "File Types - Bun",
-      "hash": "30f68bfa967b2099b2065a0d60a31f9d076cbc331999831e0563e4334c3b0f55"
+      "hash": "41a38c087147b0166095afeff695ff0fca2825371595febc9f768b60a0d2a428"
     },
     {
       "path": "pages/docs/runtime/glob.md",
@@ -298,7 +292,7 @@
       "path": "pages/docs/runtime/html-rewriter.md",
       "url": "https://bun.sh/docs/runtime/html-rewriter",
       "title": "HTMLRewriter - Bun",
-      "hash": "3cc72b359a9afc8a849ccfc2c0a9820497fa7c10302018a65814ff56f4fa52e2"
+      "hash": "4612a2c9aef1e8261f72df4a5005d9b9964fac38c2b9aecf3fc9537e269d6fe0"
     },
     {
       "path": "pages/docs/runtime/http/cookies.md",
@@ -328,7 +322,7 @@
       "path": "pages/docs/runtime/http/server.md",
       "url": "https://bun.sh/docs/runtime/http/server",
       "title": "Server - Bun",
-      "hash": "da34d405f93770abc9dc07c3dc43a4dbc5699fff38b95a71c869a291950c0637"
+      "hash": "2e03f0df1c56beca69ce7c633475547e589885bb20679e60a64f4d3d116a7797"
     },
     {
       "path": "pages/docs/runtime/http/tls.md",
@@ -508,7 +502,7 @@
       "path": "pages/docs/runtime/watch-mode.md",
       "url": "https://bun.sh/docs/runtime/watch-mode",
       "title": "Watch Mode - Bun",
-      "hash": "e03c418590d0340b9c5e3a860edcef3ae7e12b7ea7e13c9fd0c9e8beeb6eeb09"
+      "hash": "73c101f645ba6ab340beb3f37fa356ab2aed4ca81b460e5b554dd193f90aef54"
     },
     {
       "path": "pages/docs/runtime/web-apis.md",
@@ -529,16 +523,22 @@
       "hash": "0dec4d3fa9f403054aeb2f3e322ff060fa09256bc8f1d5c7437979a4cdbc7e0b"
     },
     {
+      "path": "pages/docs/runtime/xml.md",
+      "url": "https://bun.sh/docs/runtime/xml",
+      "title": "XML - Bun",
+      "hash": "7c16e127754a84a143b57851820b00b9825913b5120ca2597c5e083471a6d2ac"
+    },
+    {
       "path": "pages/docs/runtime/yaml.md",
       "url": "https://bun.sh/docs/runtime/yaml",
       "title": "YAML - Bun",
-      "hash": "836f4dbf3ac8ebc80ee4da85baf5e0bf9c8d615a53be7a3613ef1d7a3222009d"
+      "hash": "6f563681fb8799c3a47c96ae41a51dfb1ff737bf36a98695d967144be56f7d5a"
     },
     {
       "path": "pages/docs/test.md",
       "url": "https://bun.sh/docs/test",
       "title": "Test runner - Bun",
-      "hash": "365796fb4ba3bb3f80964e4f28fb379decd9216f637c46aa78301de3244ae7ba"
+      "hash": "692021cf4ea15d92cdafe02c1d176a63db8bb05ce1c7b475a2373bac6a94a809"
     },
     {
       "path": "pages/docs/typescript-6.md",
@@ -556,61 +556,9 @@
   "edges": [
     [
       "pages/docs.md",
-      "pages/docs/installation.md"
-    ],
-    [
-      "pages/docs.md",
       "pages/docs/runtime/nodejs-compat.md"
     ],
     [
-      "pages/docs/installation.md",
-      "pages/docs.md"
-    ],
-    [
-      "pages/docs/installation.md",
-      "pages/docs/quickstart.md"
-    ],
-    [
-      "pages/docs/pm/bunx.md",
-      "pages/docs/pm/cli/publish.md"
-    ],
-    [
-      "pages/docs/pm/bunx.md",
-      "pages/docs/pm/cli/update.md"
-    ],
-    [
-      "pages/docs/pm/catalogs.md",
-      "pages/docs/pm/cli/link.md"
-    ],
-    [
-      "pages/docs/pm/catalogs.md",
-      "pages/docs/pm/workspaces.md"
-    ],
-    [
-      "pages/docs/pm/cli/add.md",
-      "pages/docs/pm/cli/install.md"
-    ],
-    [
-      "pages/docs/pm/cli/add.md",
-      "pages/docs/pm/cli/remove.md"
-    ],
-    [
-      "pages/docs/pm/cli/audit.md",
-      "pages/docs/pm/cli/info.md"
-    ],
-    [
-      "pages/docs/pm/cli/audit.md",
-      "pages/docs/pm/cli/why.md"
-    ],
-    [
-      "pages/docs/pm/cli/info.md",
-      "pages/docs/pm/cli/audit.md"
-    ],
-    [
-      "pages/docs/pm/cli/info.md",
-      "pages/docs/pm/workspaces.md"
-    ],
-    [
       "pages/docs/pm/cli/install.md",
       "pages/docs/pm/cli/add.md"
     ],
@@ -619,64 +567,16 @@
       "pages/docs/pm/workspaces.md"
     ],
     [
-      "pages/docs/pm/cli/link.md",
-      "pages/docs/pm/catalogs.md"
-    ],
-    [
       "pages/docs/pm/cli/outdated.md",
       "pages/docs/pm/catalogs.md"
-    ],
-    [
-      "pages/docs/pm/cli/outdated.md",
-      "pages/docs/pm/cli/publish.md"
-    ],
-    [
-      "pages/docs/pm/cli/outdated.md",
-      "pages/docs/pm/cli/why.md"
-    ],
-    [
-      "pages/docs/pm/cli/publish.md",
-      "pages/docs/pm/bunx.md"
-    ],
-    [
-      "pages/docs/pm/cli/publish.md",
-      "pages/docs/pm/cli/outdated.md"
-    ],
-    [
-      "pages/docs/pm/cli/remove.md",
-      "pages/docs/pm/cli/add.md"
-    ],
-    [
-      "pages/docs/pm/cli/remove.md",
-      "pages/docs/pm/cli/update.md"
     ],
     [
       "pages/docs/pm/cli/update.md",
       "pages/docs/installation.md"
     ],
     [
-      "pages/docs/pm/cli/update.md",
-      "pages/docs/pm/bunx.md"
-    ],
-    [
-      "pages/docs/pm/cli/update.md",
-      "pages/docs/pm/cli/remove.md"
-    ],
-    [
-      "pages/docs/pm/cli/why.md",
-      "pages/docs/pm/cli/audit.md"
-    ],
-    [
-      "pages/docs/pm/cli/why.md",
-      "pages/docs/pm/cli/outdated.md"
-    ],
-    [
       "pages/docs/pm/workspaces.md",
       "pages/docs/pm/catalogs.md"
-    ],
-    [
-      "pages/docs/pm/workspaces.md",
-      "pages/docs/pm/cli/info.md"
     ],
     [
       "pages/docs/pm/workspaces.md",
@@ -684,59 +584,15 @@
     ],
     [
       "pages/docs/project/benchmarking.md",
-      "pages/docs/project/contributing.md"
-    ],
-    [
-      "pages/docs/project/benchmarking.md",
-      "pages/docs/project/roadmap.md"
-    ],
-    [
-      "pages/docs/project/benchmarking.md",
       "pages/docs/runtime/debugger.md"
     ],
     [
-      "pages/docs/project/bindgen.md",
-      "pages/docs/project/building-windows.md"
-    ],
-    [
-      "pages/docs/project/bindgen.md",
-      "pages/docs/project/license.md"
-    ],
-    [
-      "pages/docs/project/building-windows.md",
-      "pages/docs/project/bindgen.md"
-    ],
-    [
-      "pages/docs/project/building-windows.md",
-      "pages/docs/project/contributing.md"
-    ],
-    [
-      "pages/docs/project/contributing.md",
-      "pages/docs/project/benchmarking.md"
-    ],
-    [
       "pages/docs/project/contributing.md",
       "pages/docs/project/building-windows.md"
-    ],
-    [
-      "pages/docs/project/license.md",
-      "pages/docs/project/bindgen.md"
-    ],
-    [
-      "pages/docs/project/roadmap.md",
-      "pages/docs/project/benchmarking.md"
-    ],
-    [
-      "pages/docs/project/roadmap.md",
-      "pages/docs/runtime/nodejs-compat.md"
     ],
     [
       "pages/docs/quickstart.md",
       "pages/docs/installation.md"
-    ],
-    [
-      "pages/docs/quickstart.md",
-      "pages/docs/typescript.md"
     ],
     [
       "pages/docs/runtime.md",
@@ -744,39 +600,11 @@
     ],
     [
       "pages/docs/runtime.md",
-      "pages/docs/runtime/templating/create.md"
-    ],
-    [
-      "pages/docs/runtime.md",
       "pages/docs/runtime/transpiler.md"
-    ],
-    [
-      "pages/docs/runtime.md",
-      "pages/docs/runtime/watch-mode.md"
-    ],
-    [
-      "pages/docs/runtime/archive.md",
-      "pages/docs/runtime/binary-data.md"
-    ],
-    [
-      "pages/docs/runtime/archive.md",
-      "pages/docs/runtime/sql.md"
     ],
     [
       "pages/docs/runtime/auto-install.md",
       "pages/docs/pm/cli/install.md"
-    ],
-    [
-      "pages/docs/runtime/auto-install.md",
-      "pages/docs/runtime/jsx.md"
-    ],
-    [
-      "pages/docs/runtime/auto-install.md",
-      "pages/docs/runtime/plugins.md"
-    ],
-    [
-      "pages/docs/runtime/binary-data.md",
-      "pages/docs/runtime/archive.md"
     ],
     [
       "pages/docs/runtime/binary-data.md",
@@ -820,10 +648,6 @@
     ],
     [
       "pages/docs/runtime/bun-apis.md",
-      "pages/docs/runtime/globals.md"
-    ],
-    [
-      "pages/docs/runtime/bun-apis.md",
       "pages/docs/runtime/hashing.md"
     ],
     [
@@ -900,15 +724,15 @@
     ],
     [
       "pages/docs/runtime/bun-apis.md",
-      "pages/docs/runtime/web-apis.md"
-    ],
-    [
-      "pages/docs/runtime/bun-apis.md",
       "pages/docs/runtime/webview.md"
     ],
     [
       "pages/docs/runtime/bun-apis.md",
       "pages/docs/runtime/workers.md"
+    ],
+    [
+      "pages/docs/runtime/bun-apis.md",
+      "pages/docs/runtime/xml.md"
     ],
     [
       "pages/docs/runtime/bun-apis.md",
@@ -923,84 +747,12 @@
       "pages/docs/runtime/auto-install.md"
     ],
     [
-      "pages/docs/runtime/bunfig.md",
-      "pages/docs/runtime/file-types.md"
-    ],
-    [
-      "pages/docs/runtime/bunfig.md",
-      "pages/docs/runtime/repl.md"
-    ],
-    [
       "pages/docs/runtime/c-compiler.md",
       "pages/docs/runtime/ffi.md"
     ],
     [
-      "pages/docs/runtime/c-compiler.md",
-      "pages/docs/runtime/transpiler.md"
-    ],
-    [
-      "pages/docs/runtime/child-process.md",
-      "pages/docs/runtime/shell.md"
-    ],
-    [
-      "pages/docs/runtime/child-process.md",
-      "pages/docs/runtime/webview.md"
-    ],
-    [
-      "pages/docs/runtime/color.md",
-      "pages/docs/runtime/semver.md"
-    ],
-    [
-      "pages/docs/runtime/color.md",
-      "pages/docs/runtime/utils.md"
-    ],
-    [
-      "pages/docs/runtime/console.md",
-      "pages/docs/runtime/secrets.md"
-    ],
-    [
-      "pages/docs/runtime/console.md",
-      "pages/docs/runtime/toml.md"
-    ],
-    [
-      "pages/docs/runtime/cookies.md",
-      "pages/docs/runtime/file-io.md"
-    ],
-    [
-      "pages/docs/runtime/cookies.md",
-      "pages/docs/runtime/networking/dns.md"
-    ],
-    [
-      "pages/docs/runtime/cron.md",
-      "pages/docs/runtime/node-api.md"
-    ],
-    [
-      "pages/docs/runtime/cron.md",
-      "pages/docs/runtime/webview.md"
-    ],
-    [
-      "pages/docs/runtime/csrf.md",
-      "pages/docs/runtime/secrets.md"
-    ],
-    [
-      "pages/docs/runtime/csrf.md",
-      "pages/docs/runtime/transpiler.md"
-    ],
-    [
-      "pages/docs/runtime/debugger.md",
-      "pages/docs/runtime/repl.md"
-    ],
-    [
-      "pages/docs/runtime/debugger.md",
-      "pages/docs/runtime/watch-mode.md"
-    ],
-    [
       "pages/docs/runtime/environment-variables.md",
       "pages/docs/runtime/shell.md"
-    ],
-    [
-      "pages/docs/runtime/environment-variables.md",
-      "pages/docs/runtime/workers.md"
     ],
     [
       "pages/docs/runtime/ffi.md",
@@ -1012,35 +764,11 @@
     ],
     [
       "pages/docs/runtime/file-io.md",
-      "pages/docs/runtime/cookies.md"
-    ],
-    [
-      "pages/docs/runtime/file-io.md",
       "pages/docs/runtime/nodejs-compat.md"
-    ],
-    [
-      "pages/docs/runtime/file-io.md",
-      "pages/docs/runtime/streams.md"
-    ],
-    [
-      "pages/docs/runtime/file-system-router.md",
-      "pages/docs/runtime/http/server.md"
-    ],
-    [
-      "pages/docs/runtime/file-system-router.md",
-      "pages/docs/runtime/plugins.md"
     ],
     [
       "pages/docs/runtime/file-types.md",
       "pages/docs/bundler.md"
-    ],
-    [
-      "pages/docs/runtime/file-types.md",
-      "pages/docs/runtime/bunfig.md"
-    ],
-    [
-      "pages/docs/runtime/file-types.md",
-      "pages/docs/runtime/module-resolution.md"
     ],
     [
       "pages/docs/runtime/file-types.md",
@@ -1051,16 +779,8 @@
       "pages/docs/runtime/sqlite.md"
     ],
     [
-      "pages/docs/runtime/glob.md",
-      "pages/docs/runtime/hashing.md"
-    ],
-    [
-      "pages/docs/runtime/glob.md",
-      "pages/docs/runtime/semver.md"
-    ],
-    [
-      "pages/docs/runtime/globals.md",
-      "pages/docs/runtime/bun-apis.md"
+      "pages/docs/runtime/file-types.md",
+      "pages/docs/runtime/xml.md"
     ],
     [
       "pages/docs/runtime/globals.md",
@@ -1071,60 +791,8 @@
       "pages/docs/runtime/nodejs-compat.md"
     ],
     [
-      "pages/docs/runtime/globals.md",
-      "pages/docs/runtime/utils.md"
-    ],
-    [
-      "pages/docs/runtime/hashing.md",
-      "pages/docs/runtime/glob.md"
-    ],
-    [
-      "pages/docs/runtime/hashing.md",
-      "pages/docs/runtime/image.md"
-    ],
-    [
-      "pages/docs/runtime/html-rewriter.md",
-      "pages/docs/runtime/image.md"
-    ],
-    [
-      "pages/docs/runtime/html-rewriter.md",
-      "pages/docs/runtime/jsonl.md"
-    ],
-    [
-      "pages/docs/runtime/http/cookies.md",
-      "pages/docs/runtime/http/routing.md"
-    ],
-    [
-      "pages/docs/runtime/http/cookies.md",
-      "pages/docs/runtime/http/tls.md"
-    ],
-    [
       "pages/docs/runtime/http/error-handling.md",
       "pages/docs/runtime/debugger.md"
-    ],
-    [
-      "pages/docs/runtime/http/error-handling.md",
-      "pages/docs/runtime/http/metrics.md"
-    ],
-    [
-      "pages/docs/runtime/http/error-handling.md",
-      "pages/docs/runtime/http/tls.md"
-    ],
-    [
-      "pages/docs/runtime/http/metrics.md",
-      "pages/docs/runtime/http/error-handling.md"
-    ],
-    [
-      "pages/docs/runtime/http/metrics.md",
-      "pages/docs/runtime/networking/fetch.md"
-    ],
-    [
-      "pages/docs/runtime/http/routing.md",
-      "pages/docs/runtime/http/cookies.md"
-    ],
-    [
-      "pages/docs/runtime/http/routing.md",
-      "pages/docs/runtime/http/server.md"
     ],
     [
       "pages/docs/runtime/http/server.md",
@@ -1132,99 +800,11 @@
     ],
     [
       "pages/docs/runtime/http/server.md",
-      "pages/docs/runtime/file-system-router.md"
-    ],
-    [
-      "pages/docs/runtime/http/server.md",
-      "pages/docs/runtime/http/routing.md"
-    ],
-    [
-      "pages/docs/runtime/http/server.md",
       "pages/docs/runtime/http/tls.md"
-    ],
-    [
-      "pages/docs/runtime/http/tls.md",
-      "pages/docs/runtime/http/cookies.md"
-    ],
-    [
-      "pages/docs/runtime/http/tls.md",
-      "pages/docs/runtime/http/error-handling.md"
-    ],
-    [
-      "pages/docs/runtime/http/websockets.md",
-      "pages/docs/runtime/networking/fetch.md"
-    ],
-    [
-      "pages/docs/runtime/http/websockets.md",
-      "pages/docs/runtime/networking/tcp.md"
-    ],
-    [
-      "pages/docs/runtime/image.md",
-      "pages/docs/runtime/hashing.md"
-    ],
-    [
-      "pages/docs/runtime/image.md",
-      "pages/docs/runtime/html-rewriter.md"
-    ],
-    [
-      "pages/docs/runtime/json5.md",
-      "pages/docs/runtime/jsonl.md"
-    ],
-    [
-      "pages/docs/runtime/json5.md",
-      "pages/docs/runtime/markdown.md"
-    ],
-    [
-      "pages/docs/runtime/jsonl.md",
-      "pages/docs/runtime/html-rewriter.md"
-    ],
-    [
-      "pages/docs/runtime/jsonl.md",
-      "pages/docs/runtime/json5.md"
-    ],
-    [
-      "pages/docs/runtime/jsx.md",
-      "pages/docs/runtime/auto-install.md"
     ],
     [
       "pages/docs/runtime/jsx.md",
       "pages/docs/runtime/bunfig.md"
-    ],
-    [
-      "pages/docs/runtime/jsx.md",
-      "pages/docs/runtime/module-resolution.md"
-    ],
-    [
-      "pages/docs/runtime/markdown.md",
-      "pages/docs/runtime/json5.md"
-    ],
-    [
-      "pages/docs/runtime/markdown.md",
-      "pages/docs/runtime/yaml.md"
-    ],
-    [
-      "pages/docs/runtime/module-resolution.md",
-      "pages/docs/runtime/file-types.md"
-    ],
-    [
-      "pages/docs/runtime/module-resolution.md",
-      "pages/docs/runtime/jsx.md"
-    ],
-    [
-      "pages/docs/runtime/networking/dns.md",
-      "pages/docs/runtime/cookies.md"
-    ],
-    [
-      "pages/docs/runtime/networking/dns.md",
-      "pages/docs/runtime/networking/udp.md"
-    ],
-    [
-      "pages/docs/runtime/networking/fetch.md",
-      "pages/docs/runtime/http/metrics.md"
-    ],
-    [
-      "pages/docs/runtime/networking/fetch.md",
-      "pages/docs/runtime/http/websockets.md"
     ],
     [
       "pages/docs/runtime/networking/fetch.md",
@@ -1233,30 +813,6 @@
     [
       "pages/docs/runtime/networking/fetch.md",
       "pages/docs/runtime/s3.md"
-    ],
-    [
-      "pages/docs/runtime/networking/tcp.md",
-      "pages/docs/runtime/http/websockets.md"
-    ],
-    [
-      "pages/docs/runtime/networking/tcp.md",
-      "pages/docs/runtime/networking/udp.md"
-    ],
-    [
-      "pages/docs/runtime/networking/udp.md",
-      "pages/docs/runtime/networking/dns.md"
-    ],
-    [
-      "pages/docs/runtime/networking/udp.md",
-      "pages/docs/runtime/networking/tcp.md"
-    ],
-    [
-      "pages/docs/runtime/node-api.md",
-      "pages/docs/runtime/cron.md"
-    ],
-    [
-      "pages/docs/runtime/node-api.md",
-      "pages/docs/runtime/ffi.md"
     ],
     [
       "pages/docs/runtime/nodejs-compat.md",
@@ -1264,15 +820,7 @@
     ],
     [
       "pages/docs/runtime/nodejs-compat.md",
-      "pages/docs/project/roadmap.md"
-    ],
-    [
-      "pages/docs/runtime/nodejs-compat.md",
       "pages/docs/runtime/plugins.md"
-    ],
-    [
-      "pages/docs/runtime/nodejs-compat.md",
-      "pages/docs/runtime/web-apis.md"
     ],
     [
       "pages/docs/runtime/nodejs-compat.md",
@@ -1280,91 +828,11 @@
     ],
     [
       "pages/docs/runtime/plugins.md",
-      "pages/docs/runtime/auto-install.md"
-    ],
-    [
-      "pages/docs/runtime/plugins.md",
-      "pages/docs/runtime/file-system-router.md"
-    ],
-    [
-      "pages/docs/runtime/plugins.md",
       "pages/docs/runtime/node-api.md"
     ],
     [
-      "pages/docs/runtime/redis.md",
-      "pages/docs/runtime/s3.md"
-    ],
-    [
-      "pages/docs/runtime/redis.md",
-      "pages/docs/runtime/workers.md"
-    ],
-    [
-      "pages/docs/runtime/repl.md",
-      "pages/docs/runtime/bunfig.md"
-    ],
-    [
-      "pages/docs/runtime/repl.md",
-      "pages/docs/runtime/debugger.md"
-    ],
-    [
       "pages/docs/runtime/s3.md",
       "pages/docs/runtime/environment-variables.md"
-    ],
-    [
-      "pages/docs/runtime/s3.md",
-      "pages/docs/runtime/redis.md"
-    ],
-    [
-      "pages/docs/runtime/s3.md",
-      "pages/docs/runtime/sqlite.md"
-    ],
-    [
-      "pages/docs/runtime/secrets.md",
-      "pages/docs/runtime/console.md"
-    ],
-    [
-      "pages/docs/runtime/secrets.md",
-      "pages/docs/runtime/csrf.md"
-    ],
-    [
-      "pages/docs/runtime/semver.md",
-      "pages/docs/runtime/color.md"
-    ],
-    [
-      "pages/docs/runtime/semver.md",
-      "pages/docs/runtime/glob.md"
-    ],
-    [
-      "pages/docs/runtime/shell.md",
-      "pages/docs/runtime/child-process.md"
-    ],
-    [
-      "pages/docs/runtime/shell.md",
-      "pages/docs/runtime/environment-variables.md"
-    ],
-    [
-      "pages/docs/runtime/sql.md",
-      "pages/docs/runtime/archive.md"
-    ],
-    [
-      "pages/docs/runtime/sql.md",
-      "pages/docs/runtime/sqlite.md"
-    ],
-    [
-      "pages/docs/runtime/sqlite.md",
-      "pages/docs/runtime/s3.md"
-    ],
-    [
-      "pages/docs/runtime/sqlite.md",
-      "pages/docs/runtime/sql.md"
-    ],
-    [
-      "pages/docs/runtime/streams.md",
-      "pages/docs/runtime/binary-data.md"
-    ],
-    [
-      "pages/docs/runtime/streams.md",
-      "pages/docs/runtime/file-io.md"
     ],
     [
       "pages/docs/runtime/templating/create.md",
@@ -1376,35 +844,7 @@
     ],
     [
       "pages/docs/runtime/templating/create.md",
-      "pages/docs/runtime.md"
-    ],
-    [
-      "pages/docs/runtime/templating/create.md",
       "pages/docs/runtime/templating/init.md"
-    ],
-    [
-      "pages/docs/runtime/templating/init.md",
-      "pages/docs/runtime/templating/create.md"
-    ],
-    [
-      "pages/docs/runtime/templating/init.md",
-      "pages/docs/typescript-6.md"
-    ],
-    [
-      "pages/docs/runtime/toml.md",
-      "pages/docs/runtime/console.md"
-    ],
-    [
-      "pages/docs/runtime/toml.md",
-      "pages/docs/runtime/yaml.md"
-    ],
-    [
-      "pages/docs/runtime/transpiler.md",
-      "pages/docs/runtime/c-compiler.md"
-    ],
-    [
-      "pages/docs/runtime/transpiler.md",
-      "pages/docs/runtime/csrf.md"
     ],
     [
       "pages/docs/runtime/utils.md",
@@ -1412,67 +852,7 @@
     ],
     [
       "pages/docs/runtime/utils.md",
-      "pages/docs/runtime/color.md"
-    ],
-    [
-      "pages/docs/runtime/utils.md",
-      "pages/docs/runtime/globals.md"
-    ],
-    [
-      "pages/docs/runtime/utils.md",
       "pages/docs/runtime/module-resolution.md"
-    ],
-    [
-      "pages/docs/runtime/watch-mode.md",
-      "pages/docs/runtime.md"
-    ],
-    [
-      "pages/docs/runtime/watch-mode.md",
-      "pages/docs/runtime/debugger.md"
-    ],
-    [
-      "pages/docs/runtime/web-apis.md",
-      "pages/docs/runtime/bun-apis.md"
-    ],
-    [
-      "pages/docs/runtime/web-apis.md",
-      "pages/docs/runtime/nodejs-compat.md"
-    ],
-    [
-      "pages/docs/runtime/webview.md",
-      "pages/docs/runtime/child-process.md"
-    ],
-    [
-      "pages/docs/runtime/webview.md",
-      "pages/docs/runtime/cron.md"
-    ],
-    [
-      "pages/docs/runtime/workers.md",
-      "pages/docs/runtime/environment-variables.md"
-    ],
-    [
-      "pages/docs/runtime/workers.md",
-      "pages/docs/runtime/redis.md"
-    ],
-    [
-      "pages/docs/runtime/yaml.md",
-      "pages/docs/runtime/markdown.md"
-    ],
-    [
-      "pages/docs/runtime/yaml.md",
-      "pages/docs/runtime/toml.md"
-    ],
-    [
-      "pages/docs/typescript-6.md",
-      "pages/docs/runtime/templating/init.md"
-    ],
-    [
-      "pages/docs/typescript-6.md",
-      "pages/docs/typescript.md"
-    ],
-    [
-      "pages/docs/typescript.md",
-      "pages/docs/quickstart.md"
     ],
     [
       "pages/docs/typescript.md",
@@ -1480,10 +860,10 @@
     ]
   ],
   "last_sync": {
-    "synced_at": "2026-08-03T08:59:45.424025+00:00",
-    "added": 0,
-    "changed": 83,
-    "removed": 0,
+    "synced_at": "2026-08-10T07:07:25.244641+00:00",
+    "added": 1,
+    "changed": 10,
+    "removed": 1,
     "pages": 90
   }
 }

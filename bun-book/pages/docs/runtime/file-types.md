@@ -3,10 +3,10 @@ type: Web Page
 title: File Types - Bun
 description: File types and loaders supported by Bun's bundler and runtime
 resource: https://bun.sh/docs/runtime/file-types
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-10T07:07:25.236908+00:00'
 ---
 
-`.js` `.cjs` `.mjs` `.mts` `.cts` `.ts` `.tsx` `.jsx` `.css` `.json` `.jsonc` `.json5` `.toml` `.yaml` `.yml` `.txt` `.wasm` `.node` `.html` `.sh`
+`.js` `.cjs` `.mjs` `.mts` `.cts` `.ts` `.tsx` `.jsx` `.css` `.json` `.jsonc` `.json5` `.toml` `.yaml` `.yml` `.xml` `.txt` `.wasm` `.node` `.html` `.sh`
 Bun uses the file extension to pick the built-in *loader*that parses the file. Every loader has a name, such as
 
 `js`, `tsx`, or `json`. These names are used when building [plugins](/docs/bundler/plugins)that extend Bun with custom loaders. To specify a loader explicitly, use the
@@ -76,6 +76,15 @@ YAML files can be directly imported. Bun parses them with its fast native YAML p
 `.json5`.
 JSON5 files can be directly imported. Bun parses them with its fast native JSON5 parser. JSON5 is a superset of JSON that adds comments, trailing commas, unquoted keys, single-quoted strings, and more.
 `.json5` file is passed as an entrypoint, it is converted to a `.js` module that `export default`s the parsed object.
+### `xml`
+
+**XML loader**. Default for
+
+`.xml`.
+XML files can be directly imported. Bun parses them with its native XML 1.0 parser into the compact object shape of [: one key for the root element,](/docs/runtime/xml)
+
+`Bun.XML.parse``"@name"` keys for attributes, arrays for repeated child elements, `"#text"` for text next to attributes or children, and every value a string.
+`.xml` file is passed as an entrypoint, it is converted to a `.js` module that `export default`s the parsed object.
 ### `text`
 
 **Text loader**. Default for

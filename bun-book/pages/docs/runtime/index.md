@@ -50,4 +50,5 @@
 - [Web APIs - Bun](/pages/docs/runtime/web-apis.md)
 - [WebView - Bun](/pages/docs/runtime/webview.md)
 - [Workers - Bun](/pages/docs/runtime/workers.md)
+- [XML - Bun](/pages/docs/runtime/xml.md)
 - [YAML - Bun](/pages/docs/runtime/yaml.md)

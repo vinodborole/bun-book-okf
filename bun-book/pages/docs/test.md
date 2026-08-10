@@ -4,7 +4,7 @@ title: Test runner - Bun
 description: Bun's fast, built-in, Jest-compatible test runner with TypeScript support,
   lifecycle hooks, mocking, and watch mode
 resource: https://bun.sh/docs/test
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-10T07:07:25.236908+00:00'
 ---
 
 - TypeScript and JSX
@@ -43,8 +43,11 @@ terminal
 `./` or `/` to distinguish it from a filter name.
 terminal
 
-`--preload` scripts (see [Lifecycle](/docs/test/lifecycle)), then runs all tests. If a test fails, the test runner exits with a non-zero exit code.
+`--preload` scripts (see [Lifecycle](/docs/test/lifecycle)), then runs every file in one shared global. Pass
 
+[to spread files across CPU cores instead. If a test fails, the test runner exits with a non-zero exit code.](/docs/test/parallel)
+
+`--parallel`
 ## CI/CD integration
 
 `bun test` supports a variety of CI/CD integrations.
@@ -73,7 +76,14 @@ terminal
 
 ## Concurrent test execution
 
-By default, Bun runs all tests sequentially within each test file. Concurrent execution runs async tests in parallel, which speeds up test suites with independent tests.
+To run test
+**files**across CPU cores, see
+
+[. The flags below control concurrency of tests](/docs/test/parallel)
+
+`--parallel`
+*within*a file. By default, Bun runs all tests sequentially within each test file. Concurrent execution runs async tests in parallel, which speeds up test suites with independent tests.
+
 ### `--concurrent` flag
 
 Use the `--concurrent` flag to run all tests concurrently within their respective files:
@@ -168,6 +178,37 @@ terminal
 Bun is compatible with popular UI testing libraries: See
 [DOM testing](/docs/test/dom).
 
+## Large codebases
+
+For a suite with thousands of test files,`bun test` has several knobs that stack — worker processes, isolation level, sharding across machines, and duration-aware scheduling. Each is covered in depth on [Parallel & isolated test runs](/docs/test/parallel); here is how they fit together, roughly in order of payoff:
+
+**1. Use every core:**One worker per core, files handed out one at a time.
+
+[.](/docs/test/parallel#--parallel)`--parallel`
+**2. Decide how much isolation you need.**
+
+`--parallel` gives every file a fresh global, which is the safe default and what Jest/Vitest do. If your files don’t leak state into each other (they already pass under plain `bun test`, which shares one global), [lets each worker evaluate your imports and preloads once instead of once per file. On suites made of many small files that is the single biggest win — see](/docs/test/parallel#every-file-is-isolated-unless-you-opt-out)
+
+`--parallel --no-isolate`
+[how it compares](/docs/test/parallel#how-it-compares).
+
+**3. Split across machines:**Deterministic, no coordinator; each CI job runs one slice, and each slice still uses
+
+[.](/docs/test/parallel#splitting-a-suite-across-ci-machines-with---shard)`--shard=i/n``--parallel` locally.
+**4. Balance by time, not count:**With recorded durations, shards are cut so each gets about the same total time (longest-processing-time style, but keeping path-neighbours together so a worker’s module cache stays warm), each worker starts its slowest file first, and idle workers steal the slowest remaining file — so the run isn’t held up by one long file that happened to start last.
+
+[.](/docs/test/parallel#balancing-with---timings)`--timings`
+**5. Keep the timings fresh automatically:**Each shard writes the durations of the files it ran; the next run reads all of them. In GitHub Actions that looks like:
+
+`--update-timings`.
+.github/workflows/test.yml
+
+*same set*of timings files for the shards to add up to the whole suite, which is why a run reads the previous run’s files (restored from the cache) and writes its own where sibling shards still in flight won’t pick them up (
+
+`next/` above). Add `--no-isolate` to the `bun test` line if step 2 applies to you.
+**6. Within a file:**for I/O-bound tests that spend their time awaiting.
+
+`test.concurrent`
 ## Performance
 
 Bun’s test runner is fast.

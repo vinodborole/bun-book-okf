@@ -4,7 +4,7 @@ title: YAML - Bun
 description: Use Bun's built-in support for YAML files through both runtime APIs and
   bundler integration
 resource: https://bun.sh/docs/runtime/yaml
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-10T07:07:25.236908+00:00'
 ---
 
 - Parse YAML strings with `Bun.YAML.parse`
@@ -27,7 +27,7 @@ When parsing YAML with multiple documents (separated by`---`), `Bun.YAML.parse()
 Bun’s YAML parser supports the full YAML 1.2 specification, including:
 - **Scalars** : strings, numbers, booleans, null values
 - **Collections** : sequences (arrays) and mappings (objects)
-- **Anchors and Aliases** : reusable nodes with`&` and`*`
+- **Anchors and Aliases** : reusable nodes with`&` and`*` . Aliased collections share identity, and an alias may refer to a collection that contains it, so`Bun.YAML.parse` can return cyclic objects (YAML imported as a module cannot be cyclic).
 - **Tags** : type hints like`!!str` ,`!!int` ,`!!float` ,`!!bool` ,`!!null`
 - **Multi-line strings** : literal (`|` ) and folded (`>` ) scalars
 - **Comments** : using`#`

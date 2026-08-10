@@ -3,7 +3,7 @@ type: Web Page
 title: Watch Mode - Bun
 description: Automatic reloading in Bun with --watch and --hot modes
 resource: https://bun.sh/docs/runtime/watch-mode
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-10T07:07:25.236908+00:00'
 ---
 
 - `--watch` mode, which hard restarts Bun’s process when imported files change.
@@ -35,6 +35,10 @@ The
 **flag, like TypeScript’s**`--no-clear-screen``--preserveWatchOutput`, keeps Bun from clearing the terminal in
 watch mode. Use it when running multiple `bun build --watch` commands at the same time with a tool like
 `concurrently`, where one instance clearing the screen could hide another’s errors: `bun build --watch   --no-clear-screen`.
+Before each restart, 
+
+`bun run --watch` runs the handlers your script registered for the kill signal (default
+`SIGTERM`, matching the signal Node.js sends its watched process). Use **to pick a different signal, e.g.**`--watch-kill-signal``bun --watch --watch-kill-signal SIGINT index.ts`.
 ## `--hot` mode
 
 Use `bun --hot` to enable hot reloading when executing code with Bun. Unlike `--watch` mode, Bun doesn’t hard-restart the entire process. It detects code changes and updates its internal module cache with the new code.

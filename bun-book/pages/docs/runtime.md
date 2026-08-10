@@ -4,7 +4,7 @@ title: Bun Runtime - Bun
 description: Execute JavaScript/TypeScript files, package.json scripts, and executable
   packages with Bun's fast runtime.
 resource: https://bun.sh/docs/runtime
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-10T07:07:25.236908+00:00'
 ---
 
 [JavaScriptCore engine](https://developer.apple.com/documentation/javascriptcore), developed by Apple for Safari. It usually starts and runs faster than V8, the engine used by Node.js and Chromium-based browsers. Bun’s transpiler and runtime are written in Rust. On Linux, Bun starts
@@ -234,6 +234,12 @@ Set the default depth for
 boolean
 
 Automatically restart the process on file change
+
+string
+
+default:"SIGTERM"
+
+Signal whose handlers run when —watch restarts the process
 
 boolean
 

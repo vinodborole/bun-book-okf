@@ -3,7 +3,7 @@ type: Web Page
 title: Benchmarking - Bun
 description: How to benchmark Bun
 resource: https://bun.sh/docs/project/benchmarking
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-10T07:07:25.236908+00:00'
 ---
 
 [directory of the Bun repo.](https://github.com/oven-sh/bun/tree/main/bench)
@@ -66,10 +66,16 @@ terminal
 
 ## Heap profiling
 
-Generate heap snapshots on exit to analyze memory usage and find memory leaks.
+Write a heap profile on exit to analyze memory usage and find memory leaks.
 terminal
 
-`--heap-prof` writes a V8 `.heapsnapshot` file you can load in Chrome DevTools (Memory tab → Load).
+`--heap-prof` writes a full V8-format heap snapshot on exit, using Node.js’s
+diagnostic filename format
+(`Heap.<yyyymmdd>.<hhmmss>.<pid>.<tid>.<seq>.heapprofile`). The content is the
+same as `v8.writeHeapSnapshot()` / `Bun.generateHeapSnapshot("v8")`: load it in
+Chrome DevTools via Memory tab → Load (pick “All Files” or rename to
+`.heapsnapshot` — the extension follows Node’s `--heap-prof` filename contract,
+which the harness and tooling key on).
 ### Markdown output
 
 Use`--heap-prof-md` to generate a markdown heap profile for CLI analysis:

@@ -3,7 +3,7 @@ type: Web Page
 title: bunfig.toml - Bun
 description: Configure Bun's behavior using its configuration file bunfig.toml
 resource: https://bun.sh/docs/runtime/bunfig
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-10T07:07:25.236908+00:00'
 ---
 
 `bunfig.toml` is Bun’s configuration file.
@@ -347,7 +347,13 @@ bunfig.toml
 
 ### `install.hoistPattern`
 
-When using the `"isolated"` linker, packages matching these glob patterns are hoisted to the virtual store root (`node_modules/.bun`) so they can be resolved by other packages in the virtual store. Default `[]`. Similar to pnpm’s `hoist-pattern`.
+When using the `"isolated"` linker, packages matching these glob patterns are hoisted to a fallback directory inside the virtual store (`node_modules/.bun/node_modules`) so they can be resolved by other packages in the virtual store. By default every package is hoisted there, equivalent to `["*"]`. Similar to pnpm’s `hoist-pattern`.
+bunfig.toml
+
+### `install.hoist`
+
+When using the `"isolated"` linker, Bun creates `node_modules/.bun/node_modules`, a fallback directory containing a symlink to every installed package (or only the packages matching `install.hoistPattern`, when one is set). It sits on the upward resolution path of every package in the store, so a package can still resolve dependencies it never declared (“phantom dependencies”). Set `hoist = false` to skip creating this directory entirely: an undeclared import from a store package then fails unless that package is linked at the project root `node_modules` (a direct dependency, a `publicHoistPattern` match, or a workspace package), which stays on the resolution path because `.bun` lives inside it. The project’s own `node_modules` symlinks are unchanged. Default `true`. Equivalent to pnpm’s `hoist` setting, including this root-`node_modules` caveat; takes precedence over `install.hoistPattern`.
+This setting only applies to the `"isolated"` linker. Hoisted installs are unaffected: there the flat `node_modules` tree is the layout itself, not something this switch controls.
 bunfig.toml
 
 ### `install.logLevel`

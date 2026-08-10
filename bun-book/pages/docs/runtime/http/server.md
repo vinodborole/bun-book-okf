@@ -3,7 +3,7 @@ type: Web Page
 title: Server - Bun
 description: Use Bun.serve to start a high-performance HTTP server in Bun
 resource: https://bun.sh/docs/runtime/http/server
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-10T07:07:25.236908+00:00'
 ---
 
 ## Basic Setup
@@ -90,7 +90,11 @@ Update routes without server restarts using`server.reload()`:
 ### `server.stop()`
 
 To stop the server from accepting new connections:
-`stop()` allows in-flight requests and WebSocket connections to complete. Pass `true` to immediately terminate all connections.
+`stop()` allows in-flight requests and WebSocket connections to complete. Idle keep-alive connections are closed immediately, and connections with a request in flight close once their response has been sent. Pass `true` to immediately terminate all connections instead. The returned promise resolves once every connection has closed.
+### `server.closeIdleConnections()`
+
+To close keep-alive connections that are not currently serving a request, without stopping the server:
+`node:http`’s `server.closeIdleConnections()`, which returns nothing.
 ### `server.ref()` and `server.unref()`
 
 Control whether the server keeps the Bun process alive:

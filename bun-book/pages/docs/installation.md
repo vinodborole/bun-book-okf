@@ -3,7 +3,7 @@ type: Web Page
 title: Installation - Bun
 description: Install Bun with npm, Homebrew, Docker, or the official script.
 resource: https://bun.sh/docs/installation
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-10T07:07:25.236908+00:00'
 ---
 
 ## Overview
@@ -16,7 +16,7 @@ Bun ships as a single, dependency-free executable. Install it with the install s
 - Package Managers
 - Docker
 
-**Linux users**The
+**Linux users:**The
 
 `unzip` package is required to install Bun (`sudo apt install unzip`). Kernel version 5.6 or higher is recommended; Bun runs on kernels as old as 3.10 (RHEL 7) with graceful degradation of newer syscalls. Use `uname -r` to check your kernel version.
 terminal
