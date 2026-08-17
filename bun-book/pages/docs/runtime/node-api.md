@@ -1,28 +1,26 @@
 ---
 type: Web Page
-title: Node-API - Bun
+title: Node-API | Bun Docs
 description: Use Bun's Node-API module to build native add-ons to Node.js
 resource: https://bun.sh/docs/runtime/node-api
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
 
-Documentation IndexFetch the complete documentation index at: /docs/llms.txtUse this file to discover all available pages before exploring further.
+# Node-API
 
-Use Bun’s Node-API module to build native add-ons to Node.js
+Use Bun's Node-API module to build native add-ons to Node.js
 
-require()
+Node-API is an interface for building native add-ons to Node.js. Bun implements this interface from scratch, so most existing Node-API extensions work with Bun out of the box.
 
-.node
+As in Node.js, you can `require()` `.node` files (Node-API modules) directly.
 
-const napi = require("./my-node-module.node");
+`const napi = require("./my-node-module.node");`
+Alternatively, use `process.dlopen`:
 
-const napi = require("./my-node-module.node");
-
-process.dlopen
-
-let mod = { exports: {} }; process.dlopen(mod, "./my-node-module.node");
-
-Was this page helpful?
+```
+let mod = { exports: {} };
+process.dlopen(mod, "./my-node-module.node");
+```
 
 # Citations
 

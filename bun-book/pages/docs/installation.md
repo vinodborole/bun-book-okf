@@ -1,147 +1,178 @@
 ---
 type: Web Page
-title: Installation - Bun
+title: Installation | Bun Docs
 description: Install Bun with npm, Homebrew, Docker, or the official script.
 resource: https://bun.sh/docs/installation
-timestamp: '2026-08-10T07:07:25.236908+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
+
+# Installation
+
+Install Bun with npm, Homebrew, Docker, or the official script.
 
 ## Overview
 
 Bun ships as a single, dependency-free executable. Install it with the install script, a package manager, or Docker on macOS, Linux, and Windows.
+
+`bun --version` and `bun --revision`.
 ## Installation
 
-- macOS & Linux
-- Windows
-- Package Managers
-- Docker
+`curl -fsSL https://bun.com/install | bash`
+**Linux users:** You need the `unzip` package to install Bun (`sudo apt install unzip`). We recommend kernel version 5.6 or higher. Bun runs on kernels as old as 3.10 (RHEL 7) with graceful degradation of newer syscalls. Use `uname -r` to check your kernel version.
 
-**Linux users:**The
+`powershell -c "irm bun.sh/install.ps1|iex"`
+Bun requires Windows 10 version 1809 or later.
 
-`unzip` package is required to install Bun (`sudo apt install unzip`). Kernel version 5.6 or higher is recommended; Bun runs on kernels as old as 3.10 (RHEL 7) with graceful degradation of newer syscalls. Use `uname -r` to check your kernel version.
-terminal
+For support and discussion, join the **#windows** channel on the [Discord](https://bun.com/discord).
+
+``npm install -g bun # the last `npm` command you'll ever need```brew install oven-sh/bun/bun``scoop install bun`
+Bun provides a Docker image that supports both Linux x64 and arm64.
+
+```
+docker pull oven/bun
+docker run --rm --init --ulimit memlock=-1:-1 oven/bun
+```
+### Image Variants
+
+Bun also publishes image variants for different operating systems:
+
+```
+docker pull oven/bun:debian
+docker pull oven/bun:slim
+docker pull oven/bun:distroless
+docker pull oven/bun:alpine
+```
+To check that Bun was installed successfully, open a new terminal window and run:
+
+```
+bun --version
+# Output: 1.x.y
+# See the precise commit of `oven-sh/bun` that you're using
+bun --revision
+# Output: 1.x.y+b7982ac13189
+```
+If you've installed Bun but are seeing a `command not found` error, you may have to manually add the installation
+directory (`~/.bun/bin`) to your `PATH`.
 
 ## Add Bun to your PATH
 
-Add Bun to your PATH
-
-- macOS & Linux
-- Windows
-
-1
-
 Determine which shell you're using
 
-terminal
-
-2
-
+```
+echo $SHELL
+# /bin/zsh  or /bin/bash or /bin/fish
+```
 Open your shell configuration file
 
 - For bash: `~/.bashrc`
 - For zsh: `~/.zshrc`
 - For fish: `~/.config/fish/config.fish`
 
-3
-
 Add the Bun directory to PATH
 
-Add this line to your configuration file:
+Add these lines to your configuration file:
 
-terminal
-
-4
-
+```
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+```
 Reload your shell configuration
 
-terminal
+`source ~/.bashrc  # or ~/.zshrc`
+Determine if the bun binary is properly installed
 
+`& "$env:USERPROFILE\.bun\bin\bun" --version`
+If the command runs successfully but `bun --version` is not recognized, bun is not in your system's PATH. To fix this, open a PowerShell terminal and run the following command:
+
+```
+[System.Environment]::SetEnvironmentVariable(
+  "Path",
+  [System.Environment]::GetEnvironmentVariable("Path", "User") + ";$env:USERPROFILE\.bun\bin",
+  [System.EnvironmentVariableTarget]::User
+)
+```
+Restart your terminal
+
+Restart your terminal and test with `bun --version`.
+
+`bun --version`
 ## Upgrading
 
 Once installed, the binary can upgrade itself:
-terminal
+
+`bun upgrade`
+**Homebrew users** 
+
+To avoid conflicts with Homebrew, use `brew upgrade bun` instead.
+
+**Scoop users** 
+
+To avoid conflicts with Scoop, use `scoop update bun` instead.
 
 ## Canary Builds
 
-[-> View canary build](https://github.com/oven-sh/bun/releases/tag/canary)Bun automatically releases an (untested) canary build on every commit to main. To upgrade to the latest canary build:
+Bun automatically releases an (untested) canary build on every commit to main. To upgrade to the latest canary build:
 
-terminal
+```
+# Upgrade to latest canary
+bun upgrade --canary
+# Switch back to stable
+bun upgrade --stable
+```
+Use a canary build to test new features and bug fixes before they reach a stable release. To help the Bun team fix bugs faster, canary builds automatically upload crash reports.
 
 ## Installing Older Versions
 
 Since Bun is a single binary, you can install older versions by re-running the installer script with a specific version.
-- Linux & macOS
-- Windows
 
 To install a specific version, pass the git tag to the install script:
 
-terminal
+`curl -fsSL https://bun.com/install | bash -s "bun-v1.3.3"`
+On Windows, pass the version number to the PowerShell install script:
 
+`iex "& {$(irm https://bun.com/install.ps1)} -Version 1.3.3"`
 ## Direct Downloads
 
-To download Bun binaries directly, visit the
-[releases page on GitHub](https://github.com/oven-sh/bun/releases).
+To download Bun binaries directly, visit the [releases page on GitHub](https://github.com/oven-sh/bun/releases).
 
 ### Latest Version Downloads
 
-## Linux x64
-
-Standard Linux x64 binary
-
-## Linux x64 Baseline
-
-For older CPUs without AVX2
-
-## Windows x64
-
-Standard Windows binary
-
-## Windows x64 Baseline
-
-For older CPUs without AVX2
-
-## Windows ARM64
-
-Windows on ARM (Snapdragon, etc.)
-
-## macOS ARM64
-
-Apple Silicon (M1/M2/M3)
-
-## macOS x64
-
-Intel Macs
-
-## Linux ARM64
-
-ARM64 Linux systems
-
 ### Musl Binaries
 
-For distributions without`glibc` (Alpine Linux, Void Linux):
-Bun’s glibc binaries require glibc 2.17 or newer. If you encounter an error like 
+For distributions without `glibc` (Alpine Linux, Void Linux):
 
-`bun:     /lib/x86_64-linux-gnu/libc.so.6: version GLIBC_... not found`, try using the musl binary. Bun’s install script
+Bun's glibc binaries require glibc 2.17 or newer. If you encounter an error like ```
+bun:
+  /lib/x86_64-linux-gnu/libc.so.6: version GLIBC_... not found
+```
+, try using the musl binary. Bun's install script
 automatically chooses the correct binary for your system.
+
 ## CPU Requirements
 
-CPU requirements depend on which binary you’re using:
-- Standard Builds
-- Baseline Builds
+CPU requirements depend on which binary you're using:
 
-**x64 binaries**target the Haswell CPU architecture (AVX and AVX2 instructions required)
+**x64 binaries** target the Haswell CPU architecture (AVX and AVX2 instructions required)
 
-Bun does not support CPUs older than the baseline target, which requires the SSE4.2 extension. Bun requires macOS 13.0
-or later.
+| Platform | Intel Requirement | AMD Requirement | 
+|---|---|---|
+| x64 | Haswell (4th gen Core) or newer | Excavator or newer | 
+
+**x64-baseline binaries** target the Nehalem architecture for older CPUs
+
+| Platform | Intel Requirement | AMD Requirement | 
+|---|---|---|
+| x64-baseline | Nehalem (1st gen Core) or newer | Bulldozer or newer | 
+
+Baseline builds are slower than regular builds. Use them only if you encounter an "Illegal Instruction" error.
+
+Bun does not support CPUs older than the baseline target, which requires the SSE4.2 extension. Bun requires macOS 13.0 or later.
 
 ## Uninstall
 
 To remove Bun from your system:
-- macOS & Linux
-- Windows
-- Package Managers
 
-terminal
+`rm -rf ~/.bun``powershell -c ~\.bun\uninstall.ps1``npm uninstall -g bun``brew uninstall bun``scoop uninstall bun`
 
 # Citations
 

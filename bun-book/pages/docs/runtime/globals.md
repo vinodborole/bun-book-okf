@@ -1,26 +1,12 @@
 ---
 type: Web Page
-title: Globals - Bun
+title: Globals | Bun Docs
 description: Use Bun's global objects
 resource: https://bun.sh/docs/runtime/globals
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
 
-Standards & Compatibility
-
-# Globals
-
-Use Bun’s global objects
-
-Bun implements the following globals.
-
-## Documentation Index
-
-Fetch the complete documentation index at: [/docs/llms.txt](/docs/llms.txt)
-
-Use this file to discover all available pages before exploring further.
-
-Was this page helpful?
+Runtime›Standards & CompatibilityCopy pageGlobalsUse Bun's global objectsBun implements the following globals.GlobalSourceNotesAbortControllerWebAbortSignalWebalertWebIntended for command-line toolsBlobWebBufferNode.jsSee Node.js > BufferBunBunSubject to change as additional APIs are addedByteLengthQueuingStrategyWebconfirmWebIntended for command-line tools__dirnameNode.js__filenameNode.jsatob()Webbtoa()WebBuildMessageBunclearImmediate()WebclearInterval()WebclearTimeout()WebconsoleWebCountQueuingStrategyWebCryptoWebcryptoWebCryptoKeyWebCustomEventWebEventWebAlso ErrorEvent CloseEvent MessageEvent.EventTargetWebexportsNode.jsfetchWebFormDataWebglobalNode.jsSee Node.js > global.globalThisCross-platformAliases to globalHeadersWebHTMLRewriterCloudflareJSONCross-platformMessageEventWebmoduleNode.jsperformanceWebprocessNode.jsSee Node.js > processpromptWebIntended for command-line toolsqueueMicrotask()WebReadableByteStreamControllerWebReadableStreamWebReadableStreamDefaultControllerWebReadableStreamDefaultReaderWebreportErrorWebrequire()Node.jsResolveMessageBunResponseWebRequestWebsetImmediate()WebsetInterval()WebsetTimeout()WebShadowRealmCross-platformStage 3 proposalSubtleCryptoWebDOMExceptionWebTextDecoderWebTextEncoderWebTransformStreamWebTransformStreamDefaultControllerWebURLWebURLSearchParamsWebWebAssemblyWebWritableStreamWebWritableStreamDefaultControllerWebWritableStreamDefaultWriterWeb
 
 # Citations
 

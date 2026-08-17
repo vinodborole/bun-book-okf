@@ -1,137 +1,601 @@
 ---
 type: Web Page
-title: Server - Bun
-description: Use Bun.serve to start a high-performance HTTP server in Bun
+title: Server | Bun Docs
+description: Use `Bun.serve` to start a high-performance HTTP server in Bun
 resource: https://bun.sh/docs/runtime/http/server
-timestamp: '2026-08-10T07:07:25.236908+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
+
+# Server
+
+Use `Bun.serve` to start a high-performance HTTP server in Bun
 
 ## Basic Setup
 
-index.ts
-
+```
+const server = Bun.serve({
+  // `routes` requires Bun v1.2.3+
+  routes: {
+    // Static routes
+    "/api/status": new Response("OK"),
+    // Dynamic routes
+    "/users/:id": req => {
+      return new Response(`Hello User ${req.params.id}!`);
+    },
+    // Per-HTTP method handlers
+    "/api/posts": {
+      GET: () => new Response("List posts"),
+      POST: async req => {
+        const body = await req.json();
+        return Response.json({ created: true, ...body });
+      },
+    },
+    // Wildcard route for all routes that start with "/api/" and aren't otherwise matched
+    "/api/*": Response.json({ message: "Not found" }, { status: 404 }),
+    // Redirect from /blog/hello to /blog/hello/world
+    "/blog/hello": Response.redirect("/blog/hello/world"),
+    // Serve a file by lazily loading it into memory
+    "/favicon.ico": Bun.file("./favicon.ico"),
+  },
+  // (optional) fallback for unmatched routes:
+  // Required if Bun's version < 1.2.3
+  fetch(req) {
+    return new Response("Not Found", { status: 404 });
+  },
+});
+console.log(`Server running at ${server.url}`);
+```
 ## HTML imports
 
 Import HTML files directly into your server code to build full-stack applications with both server-side and client-side code. HTML imports work in two modes:
-**Development (**Bun bundles assets on demand at runtime and enables hot module replacement (HMR): when you change your frontend code, the browser updates without a full page reload.
 
-`bun --hot`):
-**Production (**When you build with
+**Development (`bun --hot`):** Bun bundles assets on demand at runtime and enables hot module replacement (HMR): when you change your frontend code, the browser updates without a full page reload.
 
-`bun build`):`bun build --target=bun`, the `import index from "./index.html"` statement resolves to a pre-built manifest object containing all bundled client assets. `Bun.serve` serves the assets from this manifest with no bundling at runtime.
-[bundler](/docs/bundler), JavaScript transpiler, and CSS parser, so you can build frontends with React, TypeScript, and Tailwind CSS. For a complete guide to building full-stack applications with HTML imports, see
+**Production (`bun build`):** When you build with `bun build --target=bun`, the `import index from "./index.html"` statement resolves to a pre-built manifest object containing all bundled client assets. `Bun.serve` serves the assets from this manifest with no bundling at runtime.
 
-[fullstack dev server](/docs/bundler/fullstack).
+```
+import myReactSinglePageApp from "./index.html";
+Bun.serve({
+  routes: {
+    "/": myReactSinglePageApp,
+  },
+});
+```
+HTML imports do more than serve HTML: they run Bun's [bundler](/docs/bundler), JavaScript transpiler, and CSS parser, so you can build frontends with React, TypeScript, and Tailwind CSS.
+
+For a complete guide to building full-stack applications with HTML imports, see [fullstack dev server](/docs/bundler/fullstack).
 
 ## Configuration
 
 ### Changing the `port` and `hostname`
 
 To configure which port and hostname the server listens on, set `port` and `hostname` in the options object.
-`port` to `0`.
-`port` or `url` property.
+
+```
+Bun.serve({
+  port: 8080, // defaults to $BUN_PORT, $PORT, $NODE_PORT otherwise 3000
+  hostname: "mydomain.com", // defaults to "0.0.0.0"
+  fetch(req) {
+    return new Response("404!");
+  },
+});
+```
+To randomly select an available port, set `port` to `0`.
+
+```
+const server = Bun.serve({
+  port: 0, // random port
+  fetch(req) {
+    return new Response("404!");
+  },
+});
+// server.port is the randomly selected port
+console.log(server.port);
+```
+Read the chosen port from the server's `port` or `url` property.
+
+```
+console.log(server.port); // 3000
+console.log(server.url); // http://localhost:3000
+```
 ### Configuring a default port
 
-Several flags and environment variables set the default port, which Bun uses when the`port` option is not set.
+Several flags and environment variables set the default port, which Bun uses when the `port` option is not set.
+
 - `--port` CLI flag
 
+`bun --port=4002 server.ts`
 - `BUN_PORT` environment variable
 
+`BUN_PORT=4002 bun server.ts`
 - `PORT` environment variable
 
-terminal
-
+`PORT=4002 bun server.ts`
 - `NODE_PORT` environment variable
 
-terminal
-
+`NODE_PORT=4002 bun server.ts`
 ## Unix domain sockets
 
-To listen on a
-[unix domain socket](https://en.wikipedia.org/wiki/Unix_domain_socket), pass the
+To listen on a [unix domain socket](https://en.wikipedia.org/wiki/Unix_domain_socket), pass the `unix` option with the path to the socket.
 
-`unix` option with the path to the socket.
+```
+Bun.serve({
+  unix: "/tmp/my-socket.sock", // path to socket
+  fetch(req) {
+    return new Response(`404!`);
+  },
+});
+```
 ### Abstract namespace sockets
 
-On Linux, Bun also supports abstract namespace sockets: prefix the`unix` path with a null byte.
+On Linux, Bun also supports abstract namespace sockets: prefix the `unix` path with a null byte.
+
+```
+Bun.serve({
+  unix: "\0my-abstract-socket", // abstract namespace socket
+  fetch(req) {
+    return new Response(`404!`);
+  },
+});
+```
+Unlike unix domain sockets, abstract namespace sockets are not bound to the filesystem and are automatically removed when the last reference to the socket is closed.
+
 ## HTTP/3 (QUIC)
 
-HTTP/3 support in 
+`Bun.serve` is **experimental**and may change in future releases.
 
-`Bun.serve` is **experimental**and may change in future releases.`Bun.serve` can also listen for HTTP/3 over QUIC. Set `http3: true` together with [; HTTP/3 requires TLS.](/docs/runtime/http/tls)
+`Bun.serve` can also listen for HTTP/3 over QUIC. Set `http3: true` together with [`tls`](/docs/runtime/http/tls); HTTP/3 requires TLS.
 
-`tls``http3` is enabled, the server listens on the same port over both TCP (HTTP/1.1) and UDP (HTTP/3). HTTP/1.1 responses include an `Alt-Svc` header advertising the HTTP/3 endpoint so capable clients can upgrade automatically.
-To serve HTTP/3 only — no TCP listener at all — set `http1: false`:
-`http3` is not supported with unix domain sockets — QUIC requires a UDP port. `http1: false` requires `http3: true`.
+```
+Bun.serve({
+  tls: {
+    key: Bun.file("./key.pem"),
+    cert: Bun.file("./cert.pem"),
+  },
+  http3: true, 
+  fetch(req) {
+    return new Response("Hello over HTTP/3!");
+  },
+});
+```
+When `http3` is enabled, the server listens on the same port over both TCP (HTTP/1.1) and UDP (HTTP/3). HTTP/1.1 responses include an `Alt-Svc` header advertising the HTTP/3 endpoint so capable clients can upgrade automatically.
+
+To serve HTTP/3 only, with no TCP listener at all, set `http1: false`:
+
+```
+Bun.serve({
+  tls: {
+    key: Bun.file("./key.pem"),
+    cert: Bun.file("./cert.pem"),
+  },
+  http3: true,
+  http1: false, 
+  fetch(req) {
+    return new Response("HTTP/3 only");
+  },
+});
+```
+`http3` is not supported with unix domain sockets: QUIC requires a UDP port. `http1: false` requires `http3: true`.
+
 ## idleTimeout
 
-By default,`Bun.serve` closes connections after **10 seconds**of inactivity. A connection is idle when no data is being sent or received, including in-flight requests where your handler is still running but hasn’t written any bytes to the response yet. Browsers and
+By default, `Bun.serve` closes connections after **10 seconds** of inactivity. A connection is idle when no data is being sent or received. That includes in-flight requests where your handler is still running but hasn't written any bytes to the response yet. Browsers and `fetch()` clients see this as a connection reset.
 
-`fetch()` clients see this as a connection reset.
 To configure this, set the `idleTimeout` field (in seconds). The maximum value is `255`, and `0` disables the timeout entirely.
-**Streaming & Server-Sent Events**— The idle timer applies while a response is being streamed. If your stream goes quiet for longer than
 
-`idleTimeout`, Bun closes the connection mid-response. For long-lived streams, disable the
-timeout for that request with [.](#server-timeout-request-seconds)
+```
+Bun.serve({
+  // 30 seconds (default is 10)
+  idleTimeout: 30,
+  fetch(req) {
+    return new Response("Bun!");
+  },
+});
+```
+**Streaming & Server-Sent Events** — The idle timer applies while a response is being streamed. If your stream goes
+quiet for longer than `idleTimeout`, Bun closes the connection mid-response. For long-lived streams, disable the
+timeout for that request with [`server.timeout(req, 0)`](#server-timeout-request-seconds).
 
-`server.timeout(req, 0)`
 ## export default syntax
 
-Instead of passing the server options into`Bun.serve`, you can `export default` them.
-server.ts
+Instead of passing the server options into `Bun.serve`, you can `export default` them.
 
-`<undefined>` is the WebSocket data type. If you add a `websocket` handler that attaches custom data with `server.upgrade(req, { data: ... })`, replace `undefined` with your data type.
-You can run this file as-is: when Bun sees a file with a `default` export containing a `fetch` handler, it passes it into `Bun.serve`.
+```
+import type { Serve } from "bun";
+export default {
+  fetch(req) {
+    return new Response("Bun!");
+  },
+} satisfies Serve.Options<undefined>;
+```
+The type parameter `<undefined>` is the WebSocket data type. If you add a `websocket` handler that attaches custom data with `server.upgrade(req, { data: ... })`, replace `undefined` with your data type.
+
+You can run this file as-is: when Bun sees a file with a `default` export containing a `fetch` handler, it passes the export into `Bun.serve`.
+
 ## Hot Route Reloading
 
-Update routes without server restarts using`server.reload()`:
+Update routes without server restarts using `server.reload()`:
+
+```
+const server = Bun.serve({
+  routes: {
+    "/api/version": () => Response.json({ version: "1.0.0" }),
+  },
+});
+// Deploy new routes without downtime
+server.reload({
+  routes: {
+    "/api/version": () => Response.json({ version: "2.0.0" }),
+  },
+});
+```
 ## Server Lifecycle Methods
 
 ### `server.stop()`
 
 To stop the server from accepting new connections:
-`stop()` allows in-flight requests and WebSocket connections to complete. Idle keep-alive connections are closed immediately, and connections with a request in flight close once their response has been sent. Pass `true` to immediately terminate all connections instead. The returned promise resolves once every connection has closed.
+
+```
+const server = Bun.serve({
+  fetch(req) {
+    return new Response("Hello!");
+  },
+});
+// Gracefully stop the server (waits for in-flight requests)
+await server.stop();
+// Force stop and close all active connections
+await server.stop(true);
+```
+By default, `stop()` allows in-flight requests and WebSocket connections to complete. The server closes idle keep-alive connections immediately. Connections with a request in flight close once the server has sent their response. Pass `true` to immediately terminate all connections instead. The returned promise resolves once every connection has closed.
+
 ### `server.closeIdleConnections()`
 
 To close keep-alive connections that are not currently serving a request, without stopping the server:
-`node:http`’s `server.closeIdleConnections()`, which returns nothing.
+
+```
+const closed = server.closeIdleConnections();
+console.log(`closed ${closed} idle connections`);
+```
+It returns the number of connections it closed. Connections with a request in flight and open WebSockets are untouched, and the server keeps accepting new connections. This method mirrors `node:http`'s `server.closeIdleConnections()`, which returns nothing.
+
 ### `server.ref()` and `server.unref()`
 
 Control whether the server keeps the Bun process alive:
+
+```
+// Don't keep process alive if server is the only thing running
+server.unref();
+// Restore default behavior - keep process alive
+server.ref();
+```
 ### `server.reload()`
 
-Update the server’s handlers without restarting:
-`fetch`, `error`, `routes`, and `websocket` can be updated.
+Update the server's handlers without restarting:
+
+```
+const server = Bun.serve({
+  routes: {
+    "/api/version": Response.json({ version: "v1" }),
+  },
+  fetch(req) {
+    return new Response("v1");
+  },
+});
+// Update to new handler
+server.reload({
+  routes: {
+    "/api/version": Response.json({ version: "v2" }),
+  },
+  fetch(req) {
+    return new Response("v2");
+  },
+});
+```
+Use this for development and hot reloading. You can update only `fetch`, `error`, `routes`, and `websocket`.
+
 ## Per-Request Controls
 
 ### `server.timeout(Request, seconds)`
 
 Override the idle timeout for an individual request. Pass `0` to disable the timeout entirely for that request.
-`server.timeout(req, 0)` to keep a long-lived streaming response (like Server-Sent Events) alive without raising the global `idleTimeout` for every request:
+
+```
+const server = Bun.serve({
+  async fetch(req, server) {
+    // Give this request up to 60 seconds of inactivity instead of the default 10
+    server.timeout(req, 60);
+    // If they take longer than 60 seconds to send the body, the request will be aborted
+    await req.text();
+    return new Response("Done!");
+  },
+});
+```
+Use `server.timeout(req, 0)` to keep a long-lived streaming response (like Server-Sent Events) alive without raising the global `idleTimeout` for every request:
+
+```
+Bun.serve({
+  routes: {
+    "/events": (req, server) => {
+      // Disable the idle timeout for this streaming response.
+      // Otherwise the connection will be closed if no bytes
+      // are sent for 10 seconds (the default idleTimeout).
+      server.timeout(req, 0);
+      return new Response(
+        async function* () {
+          yield "data: hello\n\n";
+          // events can arrive sporadically without the connection being killed
+        },
+        { headers: { "Content-Type": "text/event-stream" } },
+      );
+    },
+  },
+});
+```
 ### `server.requestIP(Request)`
 
 Get client IP and port information:
-`null` for closed requests or Unix domain sockets.
+
+```
+const server = Bun.serve({
+  fetch(req, server) {
+    const address = server.requestIP(req);
+    if (address) {
+      return new Response(`Client IP: ${address.address}, Port: ${address.port}`);
+    }
+    return new Response("Unknown client");
+  },
+});
+```
+Returns `null` for closed requests or Unix domain sockets.
+
 ## Server Metrics
 
 ### `server.pendingRequests` and `server.pendingWebSockets`
 
 Monitor server activity with built-in counters:
+
+```
+const server = Bun.serve({
+  fetch(req, server) {
+    return new Response(
+      `Active requests: ${server.pendingRequests}\n` + `Active WebSockets: ${server.pendingWebSockets}`,
+    );
+  },
+});
+```
 ### `server.subscriberCount(topic)`
 
 Get count of subscribers for a WebSocket topic:
+
+```
+const server = Bun.serve({
+  fetch(req, server) {
+    const chatUsers = server.subscriberCount("chat");
+    return new Response(`${chatUsers} users in chat`);
+  },
+  websocket: {
+    message(ws) {
+      ws.subscribe("chat");
+    },
+  },
+});
+```
 ## Benchmarks
 
-The following Bun and Node.js servers respond`Bun!` to each incoming `Request`.
-Bun
+The following Bun and Node.js servers respond `Bun!` to each incoming `Request`.
 
-`Bun.serve` server can handle roughly 2.5x more requests per second than Node.js on Linux.
+```
+Bun.serve({
+  fetch(req: Request) {
+    return new Response("Bun!");
+  },
+  port: 3000,
+});
+```
+```
+require("http")
+  .createServer((req, res) => res.end("Bun!"))
+  .listen(8080);
+```
+The `Bun.serve` server can handle roughly 2.5x more requests per second than Node.js on Linux.
+
+| Runtime | Requests per second | 
+|---|---|
+| Node 16 | ~64,000 | 
+| Bun | ~160,000 | 
+
 ## Practical example: REST API
 
-Here’s a basic database-backed REST API using Bun’s router with zero dependencies:
+Here's a basic database-backed REST API using Bun's router with zero dependencies:
+
+```
+import type { Post } from "./types.ts";
+import { Database } from "bun:sqlite";
+const db = new Database("posts.db");
+db.exec(`
+  CREATE TABLE IF NOT EXISTS posts (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TEXT NOT NULL
+  )
+`);
+Bun.serve({
+  routes: {
+    // List posts
+    "/api/posts": {
+      GET: () => {
+        const posts = db.query("SELECT * FROM posts").all();
+        return Response.json(posts);
+      },
+      // Create post
+      POST: async req => {
+        const post: Omit<Post, "id" | "created_at"> = await req.json();
+        const id = crypto.randomUUID();
+        db.query(
+          `INSERT INTO posts (id, title, content, created_at)
+           VALUES (?, ?, ?, ?)`,
+        ).run(id, post.title, post.content, new Date().toISOString());
+        return Response.json({ id, ...post }, { status: 201 });
+      },
+    },
+    // Get post by ID
+    "/api/posts/:id": req => {
+      const post = db.query("SELECT * FROM posts WHERE id = ?").get(req.params.id);
+      if (!post) {
+        return new Response("Not Found", { status: 404 });
+      }
+      return Response.json(post);
+    },
+  },
+  error(error) {
+    console.error(error);
+    return new Response("Internal Server Error", { status: 500 });
+  },
+});
+```
+```
+export interface Post {
+  id: string;
+  title: string;
+  content: string;
+  created_at: string;
+}
+```
 ## Reference
 
-See TypeScript Definitions
+```
+interface Server extends Disposable {
+  /**
+   * Stop the server from accepting new connections.
+   * @param closeActiveConnections If true, immediately terminates all connections
+   * @returns Promise that resolves when the server has stopped
+   */
+  stop(closeActiveConnections?: boolean): Promise<void>;
+  /**
+   * Close idle keep-alive connections without stopping the server.
+   * @returns The number of connections closed
+   */
+  closeIdleConnections(): number;
+  /**
+   * Update handlers without restarting the server.
+   * Only fetch, error, routes, and websocket can be updated.
+   */
+  reload(options: Serve.Options<undefined>): Server;
+  /**
+   * Make a request to the running server.
+   * Useful for testing or internal routing.
+   */
+  fetch(request: Request | string): Response | Promise<Response>;
+  /**
+   * Upgrade an HTTP request to a WebSocket connection.
+   * @returns true if upgrade successful, false if failed
+   */
+  upgrade<T = undefined>(
+    request: Request,
+    options?: {
+      headers?: Bun.HeadersInit;
+      data?: T;
+    },
+  ): boolean;
+  /**
+   * Publish a message to all WebSocket clients subscribed to a topic.
+   * @returns Bytes sent, 0 if dropped, -1 if backpressure applied
+   */
+  publish(
+    topic: string,
+    data: string | ArrayBufferView | ArrayBuffer | SharedArrayBuffer,
+    compress?: boolean,
+  ): ServerWebSocketSendStatus;
+  /**
+   * Get count of WebSocket clients subscribed to a topic.
+   */
+  subscriberCount(topic: string): number;
+  /**
+   * Get client IP address and port.
+   * @returns null for closed requests or Unix sockets
+   */
+  requestIP(request: Request): SocketAddress | null;
+  /**
+   * Set custom idle timeout for a request.
+   * @param seconds Timeout in seconds, 0 to disable
+   */
+  timeout(request: Request, seconds: number): void;
+  /**
+   * Keep process alive while server is running.
+   */
+  ref(): void;
+  /**
+   * Allow process to exit if server is only thing running.
+   */
+  unref(): void;
+  /** Number of in-flight HTTP requests */
+  readonly pendingRequests: number;
+  /** Number of active WebSocket connections */
+  readonly pendingWebSockets: number;
+  /** Server URL including protocol, hostname and port */
+  readonly url: URL;
+  /** Port server is listening on */
+  readonly port: number;
+  /** Hostname server is bound to */
+  readonly hostname: string;
+  /** Whether server is in development mode */
+  readonly development: boolean;
+  /** Server instance identifier */
+  readonly id: string;
+}
+interface WebSocketHandler<T = undefined> {
+  /** Maximum WebSocket message size in bytes */
+  maxPayloadLength?: number;
+  /** Bytes of queued messages before applying backpressure */
+  backpressureLimit?: number;
+  /** Whether to close connection when backpressure limit hit */
+  closeOnBackpressureLimit?: boolean;
+  /** Called when backpressure is relieved */
+  drain?(ws: ServerWebSocket<T>): void | Promise<void>;
+  /** Seconds before idle timeout */
+  idleTimeout?: number;
+  /** Enable per-message deflate compression */
+  perMessageDeflate?:
+    | boolean
+    | {
+        compress?: WebSocketCompressor | boolean;
+        decompress?: WebSocketCompressor | boolean;
+      };
+  /** Send ping frames to keep connection alive */
+  sendPings?: boolean;
+  /** Whether ws.publish() also sends the message to the socket that published it, if subscribed */
+  publishToSelf?: boolean;
+  /** Called when connection opened */
+  open?(ws: ServerWebSocket<T>): void | Promise<void>;
+  /** Called when message received */
+  message(ws: ServerWebSocket<T>, message: string | Buffer): void | Promise<void>;
+  /** Called when connection closed */
+  close?(ws: ServerWebSocket<T>, code: number, reason: string): void | Promise<void>;
+  /** Called when ping frame received */
+  ping?(ws: ServerWebSocket<T>, data: Buffer): void | Promise<void>;
+  /** Called when pong frame received */
+  pong?(ws: ServerWebSocket<T>, data: Buffer): void | Promise<void>;
+}
+interface TLSOptions {
+  /** Certificate authority chain */
+  ca?: string | Buffer | BunFile | Array<string | Buffer | BunFile>;
+  /** Server certificate */
+  cert?: string | Buffer | BunFile | Array<string | Buffer | BunFile>;
+  /** Path to DH parameters file */
+  dhParamsFile?: string;
+  /** Private key */
+  key?: string | Buffer | BunFile | Array<string | Buffer | BunFile>;
+  /** Reduce TLS memory usage */
+  lowMemoryMode?: boolean;
+  /** Private key passphrase */
+  passphrase?: string;
+  /** OpenSSL options flags */
+  secureOptions?: number;
+  /** Server name for SNI */
+  serverName?: string;
+}
+```
 
 # Citations
 

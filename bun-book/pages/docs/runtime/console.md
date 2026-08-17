@@ -1,29 +1,68 @@
 ---
 type: Web Page
-title: Console - Bun
+title: Console | Bun Docs
 description: The console object in Bun
 resource: https://bun.sh/docs/runtime/console
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
 
-Bun provides a browser- and Node.js-compatible 
+# Console
 
-[console](https://developer.mozilla.org/en-US/docs/Web/API/console)global. This page only documents Bun-native APIs.
+The console object in Bun
+
+Bun provides a browser- and Node.js-compatible [console](https://developer.mozilla.org/en-US/docs/Web/API/console)
+global. This page only documents Bun-native APIs.
+
 ## Object inspection depth
 
-You can configure how deeply`console.log()` prints nested objects:
+You can configure how deeply `console.log()` prints nested objects:
+
 - **CLI flag** : Use`--console-depth <number>` to set the depth for a single run
 - **Configuration** : Set`console.depth` in your`bunfig.toml` to persist it across runs
-- **Default** : Objects are inspected to a depth of`2` levels
+- **Default** : Bun inspects objects to a depth of`2` levels
+
+```
+const nested = { a: { b: { c: { d: "deep" } } } };
+console.log(nested);
+// Default (depth 2): { a: { b: { c: [Object ...] } } }
+// With depth 4: { a: { b: { c: { d: 'deep' } } } }
+```
+The CLI flag takes precedence over the configuration file setting.
 
 ## Reading from stdin
 
-In Bun, the`console` object is also an `AsyncIterable` that reads `process.stdin` line by line.
-adder.ts
+In Bun, the `console` object is also an `AsyncIterable` that reads `process.stdin` line by line.
 
 adder.ts
+
+```
+for await (const line of console) {
+  console.log(line);
+}
+```
+Use this for interactive programs, like the following addition calculator.
+
+adder.ts
+
+```
+console.log(`Let's add some numbers!`);
+console.write(`Count: 0\n> `);
+let count = 0;
+for await (const line of console) {
+  count += Number(line);
+  console.write(`Count: ${count}\n> `);
+}
+```
+To run the file:
 
 terminal
+
+```
+bun adder.ts
+Let's add some numbers!
+Count: 0
+```
+`5``Count: 5``5``Count: 10``5``Count: 15`
 
 # Citations
 

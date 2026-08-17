@@ -1,58 +1,211 @@
 ---
 type: Web Page
-title: TCP - Bun
+title: TCP | Bun Docs
 description: Use Bun's native TCP API to implement performance-sensitive systems like
   database clients, game servers, or anything that needs to communicate over TCP (instead
   of HTTP)
 resource: https://bun.sh/docs/runtime/networking/tcp
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
+
+# TCP
+
+Use Bun's native TCP API to implement performance-sensitive systems like database clients, game servers, or anything that needs to communicate over TCP (instead of HTTP)
+
+Bun's TCP API is low-level, intended for library authors and advanced use cases.
 
 ## Start a server (`Bun.listen()`)
 
 Start a TCP server with `Bun.listen`:
-server.ts
 
+```
+Bun.listen({
+  hostname: "localhost",
+  port: 8080,
+  socket: {
+    data(socket, data) {}, // message received from client
+    open(socket) {}, // socket opened
+    close(socket, error) {}, // socket closed
+    drain(socket) {}, // socket ready for more data
+    error(socket, error) {}, // error handler
+  },
+});
+```
 ## An API designed for speed
 
-An API designed for speed
+In Bun, you declare one set of handlers per server instead of assigning callbacks to each socket, as with Node.js `EventEmitters` or the web-standard `WebSocket` API.
 
-In Bun, you declare one set of handlers per server instead of assigning callbacks to each socket, as with Node.js For performance-sensitive servers, assigning listeners to each socket can cause significant garbage collector pressure and increase memory usage. By contrast, Bun only allocates one handler function for each event and shares it among all sockets. This is a small optimization, but it adds up.
+```
+Bun.listen({
+  hostname: "localhost",
+  port: 8080,
+  socket: {
+    open(socket) {},
+    data(socket, data) {},
+    drain(socket) {},
+    close(socket, error) {},
+    error(socket, error) {},
+  },
+});
+```
+For performance-sensitive servers, assigning listeners to each socket can cause significant garbage collector pressure and increase memory usage. By contrast, Bun only allocates one handler function for each event and shares it among all sockets. This is a small optimization, but it adds up.
 
-`EventEmitters` or the web-standard `WebSocket` API.
-server.ts
+Attach contextual data to a socket in the `open` handler.
 
-`open` handler.
-server.ts
+```
+type SocketData = { sessionId: string };
+Bun.listen<SocketData>({
+  hostname: "localhost",
+  port: 8080,
+  socket: {
+    data(socket, data) {
+      socket.write(`${socket.data.sessionId}: ack`); 
+    },
+    open(socket) {
+      socket.data = { sessionId: "abcd" }; 
+    },
+  },
+});
+```
+To enable TLS, pass a `tls` object containing `key` and `cert` fields.
 
-`tls` object containing `key` and `cert` fields.
-server.ts
+```
+Bun.listen({
+  hostname: "localhost",
+  port: 8080,
+  socket: {
+    data(socket, data) {},
+  },
+  tls: {
+    // can be string, BunFile, TypedArray, Buffer, or array thereof
+    key: Bun.file("./key.pem"), 
+    cert: Bun.file("./cert.pem"), 
+  },
+});
+```
+The `key` and `cert` fields expect the *contents* of your TLS key and certificate. This can be a string, `BunFile`, `TypedArray`, `Buffer`, or an array of these.
 
-`key` and `cert` fields expect the *contents*of your TLS key and certificate. This can be a string,
-
-`BunFile`, `TypedArray`, or `Buffer`.
-server.ts
-
+```
+Bun.listen({
+  // ...
+  tls: {
+    key: Bun.file("./key.pem"), // BunFile
+    key: fs.readFileSync("./key.pem"), // Buffer
+    key: fs.readFileSync("./key.pem", "utf8"), // string
+    key: [Bun.file("./key1.pem"), Bun.file("./key2.pem")], // array of above
+  },
+});
+```
 `Bun.listen` returns a server that conforms to the `TCPSocketListener` interface.
-server.ts
 
+```
+const server = Bun.listen({
+  /* config*/
+});
+// stop listening
+// parameter determines whether active connections are closed
+server.stop(true);
+// let Bun process exit even if server is still listening
+server.unref();
+```
 ## Create a connection (`Bun.connect()`)
 
 Use `Bun.connect` to connect to a TCP server. Specify the server with `hostname` and `port`. TCP clients can define the same set of handlers as `Bun.listen`, plus a few client-specific handlers.
-server.ts
 
-`tls: true`.
+```
+// The client
+const socket = await Bun.connect({
+  hostname: "localhost",
+  port: 8080,
+  socket: {
+    data(socket, data) {},
+    open(socket) {},
+    close(socket, error) {},
+    drain(socket) {},
+    error(socket, error) {},
+    // client-specific handlers
+    connectError(socket, error) {}, // connection failed
+    end(socket) {}, // connection closed by server
+    timeout(socket) {}, // connection timed out
+  },
+});
+```
+To require TLS, specify `tls: true`.
+
+```
+// The client
+const socket = await Bun.connect({
+  // ... config
+  tls: true, 
+});
+```
 ## Hot reloading
 
-Both TCP servers and sockets can be hot reloaded with new handlers.
+You can hot reload both TCP servers and sockets with new handlers.
+
+```
+const server = Bun.listen({
+  /* config */
+});
+// reloads handlers for all active server-side sockets
+server.reload({
+  socket: {
+    data() {
+      // new 'data' handler
+    },
+  },
+});
+```
+```
+const socket = await Bun.connect({
+  /* config */
+});
+socket.reload({
+  data() {
+    // new 'data' handler
+  },
+});
+```
 ## Buffering
 
-TCP sockets in Bun do not buffer data, so performance-sensitive code should buffer writes itself. For example, this:`ArrayBufferSink` with the `{stream: true}` option:
-server.ts
+TCP sockets in Bun do not buffer data, so performance-sensitive code should buffer writes itself. For example, this:
 
-**Corking**Support for corking is planned, but in the meantime backpressure must be managed manually with the
+```
+socket.write("h");
+socket.write("e");
+socket.write("l");
+socket.write("l");
+socket.write("o");
+```
+...performs significantly worse than this:
 
-`drain` handler.
+`socket.write("hello");`
+To buffer writes, use Bun's `ArrayBufferSink` with the `{stream: true}` option:
+
+```
+import { ArrayBufferSink } from "bun";
+const sink = new ArrayBufferSink();
+sink.start({
+  stream: true, 
+  highWaterMark: 1024,
+});
+sink.write("h");
+sink.write("e");
+sink.write("l");
+sink.write("l");
+sink.write("o");
+queueMicrotask(() => {
+  const data = sink.flush();
+  const wrote = socket.write(data);
+  if (wrote < data.byteLength) {
+    // put it back in the sink if the socket is full
+    sink.write(data.subarray(wrote));
+  }
+});
+```
+**Corking**
+
+Support for corking is planned. In the meantime, you must manage backpressure manually with the `drain` handler.
 
 # Citations
 

@@ -1,26 +1,71 @@
 ---
 type: Web Page
-title: bun update - Bun
-description: Update dependencies to latest versions
+title: bun update | Bun Docs
+description: Update dependencies to the newest versions their ranges allow
 resource: https://bun.sh/docs/pm/cli/update
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
 
-To upgrade your Bun CLI version, see 
+# bun update
 
-[.](/docs/installation#upgrading)`bun upgrade`
-terminal
+Update dependencies to the newest versions their ranges allow
 
-terminal
+[.](/docs/installation#upgrading)
+
+`bun upgrade`
+`bun update` (alias `bun up`) updates every dependency, direct and transitive, to the newest version allowed by the ranges that request it. It then rewrites `package.json` and `bun.lock`. To ignore your declared ranges, use [`--latest`](#--latest).
+
+`bun update`
+To update specific packages, pass their names. Names can be glob patterns, and `!` excludes:
+
+```
+bun update zod
+bun update jquery@3            # move the package.json entry to the newest 3.x
+bun update '@types/*'
+bun update '@babel/*' '!@babel/core'
+```
+`bun update <package>` updates `<package>` everywhere it appears in `bun.lock` and leaves everything else alone. This works for transitive dependencies too — `bun update caniuse-lite` picks up a nested fix without adding it to your `package.json`. A name that isn't in `bun.lock` is an error.
+
+Updated packages appear in the install summary as `↑ name old → new`, with `(v3.0.0 available)` when a newer major is out of range. Use `--dry-run` to preview.
+
+### How `package.json` is rewritten
+
+- `^1.1.0` →`^1.2.0` ,`~1.1.0` →`~1.1.5` . Bun preserves the operator. With[`install.exact`](/docs/runtime/bunfig#install-exact) or`--exact` , Bun writes an exact version instead.
+- Exact pins, dist-tags (`"latest"` ,`"next"` ), and other range forms (`*` ,`1.x` ,`>=1.0.0` ) are left as written; only`bun.lock` moves.`--latest` rewrites them.
+- Bun never rewrites `catalog:` references; it updates the catalog entry in the root`package.json` instead.
+- `--no-save` updates`node_modules` only, leaving`package.json` and`bun.lock` untouched.
+
+### What is held back
+
+- Bun never widens ranges. A package that depends on `foo@^1.0.0` never gets`foo@2.x` .
+- Versions in `patchedDependencies` stay put as long as their range allows. Bun reports them as`kept name@version (patched, v1.2.3 available)` .`--latest` and[`bun audit fix`](/docs/pm/cli/audit#bun-audit-fix) do move them; re-create the patch with[`bun patch`](/docs/pm/cli/patch) afterwards.
+- If a registry request for a transitive package fails, that package keeps its locked version and Bun prints a warning. A failed request for a direct dependency is an error.
 
 ## `--interactive`
 
 Use the `--interactive` flag to choose which packages to update:
-terminal
+
+```
+bun update --interactive
+bun update -i
+```
+`--interactive` opens a terminal interface listing every outdated direct dependency. Bun updates the packages you select as if you had run `bun update <name> ...`; everything else keeps its locked version.
 
 ### Interactive Interface
 
 The interface displays packages grouped by dependency type:
+
+```
+? Select packages to update - Space to toggle, Enter to confirm, a to select all, n to select none, i to invert, l to toggle latest
+  dependencies                Current  Target   Latest
+    □ react                   17.0.2   18.2.0   18.3.1
+    □ lodash                  4.17.20  4.17.21  4.17.21
+  devDependencies             Current  Target   Latest
+    □ typescript              4.8.0    5.0.0    5.3.3
+    □ @types/node             16.11.7  18.0.0   20.11.5
+  optionalDependencies        Current  Target   Latest
+    □ some-optional-package   1.0.0    1.1.0    1.2.0
+```
 **Sections:**
 
 - Packages are grouped under section headers: `dependencies` ,`devDependencies` ,`peerDependencies` ,`optionalDependencies`
@@ -63,195 +108,170 @@ The interface displays packages grouped by dependency type:
 ### Package Grouping
 
 Packages are organized in sections by dependency type:
+
 - **dependencies** - Regular runtime dependencies
 - **devDependencies** - Development dependencies
 - **peerDependencies** - Peer dependencies
 - **optionalDependencies** - Optional dependencies
 
- `dev`,  `peer`,  `optional`).
-## `--recursive`
+Within each section, individual packages may have a suffix ( `dev`,  `peer`,  `optional`).
 
-Use the `--recursive` flag with `--interactive` to update dependencies across all workspaces in a monorepo:
-terminal
+## `--recursive` and `--filter`
 
-`--recursive`, the interface adds a “Workspace” column showing which workspace each dependency belongs to.
+In a monorepo, `bun update` only rewrites the `package.json` of the workspace you run it in. From the root, it still updates the transitive dependencies of every workspace in `bun.lock`.
+
+- `--recursive` (`-r` ) updates every workspace's`package.json` .
+- `--filter <pattern>` (`-F` ) updates only the matching workspaces, using the[filter syntax](/docs/pm/filter) . As with`bun install --filter` , Bun links only the selected workspaces afterwards.
+
+Both combine with package names, `--latest`, `--dry-run`, and `--interactive` (which adds a "Workspace" column).
+
+```
+bun update --recursive
+bun update --filter './packages/*'
+bun update -i -r
+bun update zod -r
+bun update zod --filter '...^ui'
+```
+## `--dev`, `--prod`, `--no-optional`
+
+Restrict which `package.json` entries Bun updates:
+
+- `--dev` (`-D` ) updates`devDependencies` only.
+- `--prod` (`-P` ) updates`dependencies` and`optionalDependencies` only.
+- `--no-optional` skips`optionalDependencies` .
+
+They combine with names, patterns, `--latest`, and `--interactive`.
+
+These flags only select what to update — `bun update --prod` still installs `devDependencies`.
+
+```
+bun update --dev
+bun update --prod --latest
+bun update -D '@types/*'
+bun update -i --prod
+```
+## `--global`
+
+`bun update -g` updates packages installed with `bun add -g`:
+
+```
+bun update -g
+bun update -g typescript
+```
 ## `--latest`
 
 By default, `bun update` updates each dependency to the latest version that satisfies the version range in your `package.json`.
-To update to the latest version regardless of whether it satisfies that range, use the `--latest` flag:
-terminal
 
-**l**to toggle a package between its target version (respecting semver) and the latest version. For example, with the following
+To update direct dependencies to the latest version regardless of the declared range, use `--latest` (`-L`). Bun rewrites the `package.json` entry to a range of the same style on the new version. Transitive dependencies still respect the ranges their dependents declare. Bun does not downgrade a dependency that is already ahead of `latest` (e.g. a prerelease).
 
-`package.json`:
-package.json
+```
+bun update --latest
+bun update -L
+```
+In interactive mode, press **l** to toggle a package between its target version (respecting semver) and the latest version.
 
+For example, with the following `package.json`:
+
+```
+{
+  "dependencies": {
+    "react": "^17.0.2"
+  }
+}
+```
 - `bun update` would update to a version that matches`17.x` .
 - `bun update --latest` would update to a version that matches`18.x` or later.
 
 ## CLI Usage
 
-terminal
-
+```
+bun update [<name>[@<version>] | <pattern>]...
+bun up
+```
 ### Update Strategy
 
-boolean
+Always request the latest versions from the registry & reinstall all dependencies. Alias: `-f`
 
-Always request the latest versions from the registry & reinstall all dependencies. Alias: 
-
-`-f`
-boolean
-
-Update packages to their latest versions
+Update packages to their latest versions. Alias: `-L`
 
 ### Dependency Scope
 
-boolean
+Only update `devDependencies`. Alias: `-D`
 
-Don’t install devDependencies. Alias: 
+Only update `dependencies` and `optionalDependencies`. Aliases: `-P`, 
+`--production`
 
-`-p`
-boolean
+Don't update `optionalDependencies`
 
-Install globally. Alias: 
+Install globally. Alias: `-g`
 
-`-g`
-string
+Exclude `dev`, `optional`, or `peer` dependencies from install
 
-Exclude 
-
-`dev`, `optional`, or `peer` dependencies from install
 ### Project File Management
 
-boolean
+Write a `yarn.lock` file (yarn v1). Alias: `-y`
 
-Write a 
+Don't update `package.json` or save a lockfile
 
-`yarn.lock` file (yarn v1). Alias: `-y`
-boolean
-
-Don’t update 
-
-`package.json` or save a lockfile
-boolean
-
-default:"true"
-
-Save to 
-
-`package.json` (true by default)
-boolean
+Save to `package.json` (true by default)
 
 Disallow changes to lockfile
 
-boolean
-
 Save a text-based lockfile
-
-boolean
 
 Generate a lockfile without installing dependencies
 
 ### Network & Registry
 
-string
-
 Provide a Certificate Authority signing certificate
 
-string
+Same as `--ca`, but as a file path to the certificate
 
-Same as 
-
-`—ca`, but as a file path to the certificate
-string
-
-Use a specific registry by default, overriding 
-
-`.npmrc`, `bunfig.toml` and environment variables
-number
-
-default:"48"
+Use a specific registry by default, overriding `.npmrc`, `bunfig.toml` and environment variables
 
 Maximum number of concurrent network requests (default 48)
 
 ### Caching
 
-string
-
 Store & load cached data from a specific directory path
-
-boolean
 
 Ignore manifest cache entirely
 
 ### Output & Logging
 
-boolean
-
-Don’t log anything
-
-boolean
+Don't log anything
 
 Excessively verbose logging
 
-boolean
-
 Disable the progress bar
 
-boolean
-
-Don’t print a summary
+Don't print a summary
 
 ### Script Execution
 
-boolean
-
-Skip lifecycle scripts in the project’s 
-
-`package.json` (dependency scripts are never run)
-number
+Skip lifecycle scripts for all packages, including the project's `package.json` and trusted dependencies
 
 Maximum number of concurrent jobs for lifecycle scripts (default: 2x CPU cores)
 
 ### Installation Controls
 
-boolean
-
 Skip verifying integrity of newly downloaded packages
 
-boolean
+Add to `trustedDependencies` in the project's `package.json` and install the package(s)
 
-Add to 
+Platform-specific optimizations for installing dependencies. Possible values: `clonefile` (default on
+macOS), `hardlink` (default on Linux and Windows), `symlink`, `copyfile`
 
-`trustedDependencies` in the project’s `package.json` and install the package(s)
-string
-
-default:"clonefile"
-
-Platform-specific optimizations for installing dependencies. Possible values: 
-
-`clonefile` (default),
-`hardlink`, `symlink`, `copyfile`
 ### General & Environment
 
-string
+Specify path to config file (`bunfig.toml`). Alias: `-c`
 
-Specify path to config file (
-
-`bunfig.toml`). Alias: `-c`
-boolean
-
-Don’t install anything
-
-string
+Resolve updates but don't install packages, update `package.json`, or save a lockfile (the project's own
+lifecycle scripts still run)
 
 Set a specific cwd
 
-boolean
-
-Print this help menu. Alias: 
-
-`-h`
+Print this help menu. Alias: `-h`
 
 # Citations
 

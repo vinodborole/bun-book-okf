@@ -1,11 +1,17 @@
 ---
 type: Web Page
-title: Test runner - Bun
+title: Test runner | Bun Docs
 description: Bun's fast, built-in, Jest-compatible test runner with TypeScript support,
   lifecycle hooks, mocking, and watch mode
 resource: https://bun.sh/docs/test
-timestamp: '2026-08-10T07:07:25.236908+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
+
+# Test runner
+
+Bun's fast, built-in, Jest-compatible test runner with TypeScript support, lifecycle hooks, mocking, and watch mode
+
+Bun ships with a fast, built-in, Jest-compatible test runner. Tests run in the Bun runtime and support the following features.
 
 - TypeScript and JSX
 - Lifecycle hooks
@@ -14,331 +20,431 @@ timestamp: '2026-08-10T07:07:25.236908+00:00'
 - Watch mode with `--watch`
 - Script pre-loading with `--preload`
 
-Bun aims for compatibility with Jest, but not everything is implemented. To track compatibility, see 
+Bun aims for compatibility with Jest, but not everything is implemented. To track compatibility, see [this tracking
+issue](https://github.com/oven-sh/bun/issues/1825).
 
-[this tracking issue](https://github.com/oven-sh/bun/issues/1825).
 ## Run tests
 
-terminal
+`bun test`
+You write tests in JavaScript or TypeScript with a Jest-like API. See [Writing tests](/docs/test/writing-tests).
 
-[Writing tests](/docs/test/writing-tests).
-
-math.test.ts
+```
+import { expect, test } from "bun:test";
+test("2 + 2", () => {
+  expect(2 + 2).toBe(4);
+});
+```
+The runner recursively searches the working directory for files that match the following patterns:
 
 - `*.test.{js|jsx|ts|tsx|mjs|cjs|mts|cts}`
 - `*_test.{js|jsx|ts|tsx|mjs|cjs|mts|cts}`
 - `*.spec.{js|jsx|ts|tsx|mjs|cjs|mts|cts}`
 - `*_spec.{js|jsx|ts|tsx|mjs|cjs|mts|cts}`
 
-*test files*to run, pass additional positional arguments to
+To filter the set of *test files* to run, pass additional positional arguments to `bun test`. Any test file with a path that matches one of the filters runs. Filters are commonly file or directory names; glob patterns are not yet supported.
 
-`bun test`. Any test file with a path that matches one of the filters runs. Filters are commonly file or directory names; glob patterns are not yet supported.
-terminal
+`bun test <filter> <filter> ...`
+To filter by *test name*, use the `-t`/`--test-name-pattern` flag.
 
-*test name*, use the
+```
+# run all tests or test suites with "addition" in the name
+bun test --test-name-pattern addition
+```
+To run a specific file in the test runner, make sure the path starts with `./` or `/` to distinguish it from a filter name.
 
-`-t`/`--test-name-pattern` flag.
-terminal
+`bun test ./test/specific-file.test.ts`
+By default the test runner runs all tests in a single process: it loads all `--preload` scripts (see [Lifecycle](/docs/test/lifecycle)), then runs every file in one shared global. Pass [`--parallel`](/docs/test/parallel) to spread files across CPU cores instead. If a test fails, the test runner exits with a non-zero exit code.
 
-`./` or `/` to distinguish it from a filter name.
-terminal
-
-`--preload` scripts (see [Lifecycle](/docs/test/lifecycle)), then runs every file in one shared global. Pass
-
-[to spread files across CPU cores instead. If a test fails, the test runner exits with a non-zero exit code.](/docs/test/parallel)
-
-`--parallel`
 ## CI/CD integration
 
 `bun test` supports a variety of CI/CD integrations.
+
 ### GitHub Actions
 
-`bun test` automatically detects when it’s running inside GitHub Actions and emits GitHub Actions annotations to the console directly.
+`bun test` automatically detects when it's running inside GitHub Actions and emits GitHub Actions annotations to the console directly.
+
 No configuration is needed, other than installing `bun` in the workflow and running `bun test`.
+
 #### How to install `bun` in a GitHub Actions workflow
 
 To use `bun test` in a GitHub Actions workflow, add the following step:
-.github/workflows/test.yml
 
+```
+jobs:
+  build:
+    name: build-app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+      - name: Install dependencies # (assuming your project has dependencies)
+        run: bun install # You can use npm/yarn/pnpm instead if you prefer
+      - name: Run tests
+        run: bun test
+```
 ### JUnit XML reports (GitLab, etc.)
 
-To write a JUnit XML report, pass`--reporter=junit` together with `--reporter-outfile`.
-terminal
+To write a JUnit XML report, pass `--reporter=junit` together with `--reporter-outfile`.
 
+`bun test --reporter=junit --reporter-outfile=./bun.xml`
 `bun test` still writes to stdout/stderr as usual, and writes the JUnit XML report to the given path at the end of the run.
+
 JUnit XML is a popular format for reporting test results in CI/CD pipelines.
+
 ## Timeouts
 
-Use the`--timeout` flag to specify a *per-test*timeout in milliseconds. If a test times out, it is marked as failed. The default value is
+Use the `--timeout` flag to specify a *per-test* timeout in milliseconds. If a test times out, Bun marks it as failed. The default value is `5000`.
 
-`5000`.
-terminal
-
+```
+# default value is 5000
+bun test --timeout 20
+```
 ## Concurrent test execution
 
-To run test
-**files**across CPU cores, see
+To run test **files** across CPU cores, see [`--parallel`](/docs/test/parallel). The flags below control concurrency of tests *within* a file.
 
-[. The flags below control concurrency of tests](/docs/test/parallel)
-
-`--parallel`
-*within*a file. By default, Bun runs all tests sequentially within each test file. Concurrent execution runs async tests in parallel, which speeds up test suites with independent tests.
+By default, Bun runs all tests sequentially within each test file. Concurrent execution runs async tests in parallel, which speeds up test suites with independent tests.
 
 ### `--concurrent` flag
 
 Use the `--concurrent` flag to run all tests concurrently within their respective files:
-terminal
 
-`test.serial`.
+`bun test --concurrent`
+When this flag is enabled, all tests run in parallel unless marked with `test.serial`.
+
 ### `--max-concurrency` flag
 
 Control the maximum number of tests running simultaneously with the `--max-concurrency` flag:
-terminal
+
+```
+# Limit to 4 concurrent tests
+bun test --concurrent --max-concurrency 4
+# Default: 20
+bun test --concurrent
+```
+The limit helps prevent resource exhaustion when running many concurrent tests. The default value is 20.
 
 ### `test.concurrent`
 
 Mark individual tests to run concurrently, even when the `--concurrent` flag is not used:
-math.test.ts
 
+```
+import { test, expect } from "bun:test";
+// These tests run in parallel with each other
+test.concurrent("concurrent test 1", async () => {
+  await fetch("/api/endpoint1");
+  expect(true).toBe(true);
+});
+test.concurrent("concurrent test 2", async () => {
+  await fetch("/api/endpoint2");
+  expect(true).toBe(true);
+});
+// This test runs sequentially
+test("sequential test", () => {
+  expect(1 + 1).toBe(2);
+});
+```
 ### `test.serial`
 
 Force tests to run sequentially, even when the `--concurrent` flag is enabled:
-math.test.ts
 
+```
+import { test, expect } from "bun:test";
+let sharedState = 0;
+// These tests must run in order
+test.serial("first serial test", () => {
+  sharedState = 1;
+  expect(sharedState).toBe(1);
+});
+test.serial("second serial test", () => {
+  // Depends on the previous test
+  expect(sharedState).toBe(1);
+  sharedState = 2;
+});
+// This test can run concurrently if --concurrent is enabled
+test("independent test", () => {
+  expect(true).toBe(true);
+});
+// Chaining test qualifiers
+test.failing.each([1, 2, 3])("chained qualifiers %d", input => {
+  expect(input).toBe(0); // This test is expected to fail for each input
+});
+```
 ## Retry failed tests
 
-Use the`--retry` flag to automatically retry failed tests up to a given number of times. If a test fails and then passes on a subsequent attempt, it is reported as passing.
-terminal
+Use the `--retry` flag to automatically retry failed tests up to a given number of times. If a test fails and then passes on a subsequent attempt, Bun reports it as passing.
 
-`{ retry: N }` overrides the global `--retry` value:
-`bunfig.toml`:
-bunfig.toml
+`bun test --retry 3`
+Per-test `{ retry: N }` overrides the global `--retry` value:
 
+```
+// Uses the global --retry value
+test("uses global retry", () => {
+  /* ... */
+});
+// Overrides --retry with its own value
+test("custom retry", { retry: 1 }, () => {
+  /* ... */
+});
+```
+You can also set this in `bunfig.toml`:
+
+```
+[test]
+retry = 3
+```
 ## Rerun tests
 
-Use the`--rerun-each` flag to run each test multiple times. This surfaces flaky or non-deterministic test failures.
-terminal
+Use the `--rerun-each` flag to run each test multiple times. This surfaces flaky or non-deterministic test failures.
 
+`bun test --rerun-each 100`
 ## Randomize test execution order
 
-Use the`--randomize` flag to run tests in a random order. This helps detect tests that depend on shared state or execution order.
-terminal
+Use the `--randomize` flag to run tests in a random order. This helps detect tests that depend on shared state or execution order.
 
-`--randomize`, the seed used for randomization is displayed in the test summary:
-terminal
+`bun test --randomize`
+With `--randomize`, Bun displays the seed used for randomization in the test summary:
 
+`bun test --randomize````
+# ... test output ...
+ --seed=12345
+ 2 pass
+ 8 fail
+Ran 10 tests across 2 files. [50.00ms]
+```
 ### Reproducible random order with `--seed`
 
 Use the `--seed` flag to specify the randomization seed and reproduce the same test order when debugging order-dependent failures.
-terminal
 
-`--seed` flag implies `--randomize`, so you don’t need to specify both. The same seed always produces the same test execution order.
+```
+# Reproduce a previous randomized run
+bun test --seed 123456
+```
+The `--seed` flag implies `--randomize`, so you don't need to specify both. The same seed always produces the same test execution order.
+
 ## Bail out with `--bail`
 
 Use the `--bail` flag to abort the test run after a given number of test failures. By default, Bun runs all tests and reports all failures, but in CI it can be preferable to stop early and reduce CPU usage.
-terminal
 
+```
+# bail after 1 failure
+bun test --bail
+# bail after 10 failure
+bun test --bail=10
+```
 ## Watch mode
 
-Like`bun run`, `bun test` accepts the `--watch` flag to watch for changes and re-run tests.
-terminal
+Like `bun run`, `bun test` accepts the `--watch` flag to watch for changes and re-run tests.
 
+`bun test --watch`
 ## Lifecycle hooks
 
 Bun supports the following lifecycle hooks:
-Define hooks inside test files, or in a separate file preloaded with the 
 
-`--preload` flag.
-terminal
+| Hook | Description | 
+|---|---|
+| `beforeAll` | Runs once before all tests. | 
+| `beforeEach` | Runs before each test. | 
+| `afterEach` | Runs after each test. | 
+| `afterAll` | Runs once after all tests. | 
 
-[Lifecycle](/docs/test/lifecycle).
+Define hooks inside test files, or in a separate file preloaded with the `--preload` flag.
+
+`bun test --preload ./setup.ts`
+See [Lifecycle](/docs/test/lifecycle).
 
 ## Mocks
 
-Create mock functions with the`mock` function.
-math.test.ts
+Create mock functions with the `mock` function.
 
-`jest.fn()`; it behaves identically.
-math.test.ts
+```
+import { test, expect, mock } from "bun:test";
+const random = mock(() => Math.random());
+test("random", () => {
+  const val = random();
+  expect(val).toBeGreaterThan(0);
+  expect(random).toHaveBeenCalled();
+  expect(random).toHaveBeenCalledTimes(1);
+});
+```
+Alternatively, use `jest.fn()`; it behaves identically.
 
-[Mocks](/docs/test/mocks).
+```
+import { test, expect, mock } from "bun:test"; 
+import { test, expect, jest } from "bun:test"; 
+const random = mock(() => Math.random()); 
+const random = jest.fn(() => Math.random()); 
+```
+See [Mocks](/docs/test/mocks).
 
 ## Snapshot testing
 
 `bun test` supports snapshot testing.
-math.test.ts
 
-`--update-snapshots` flag.
-terminal
+```
+// example usage of toMatchSnapshot
+import { test, expect } from "bun:test";
+test("snapshot", () => {
+  expect({ a: 1 }).toMatchSnapshot();
+});
+```
+To update snapshots, use the `--update-snapshots` flag.
 
-[Snapshots](/docs/test/snapshots).
+`bun test --update-snapshots`
+See [Snapshots](/docs/test/snapshots).
 
 ## UI & DOM testing
 
-Bun is compatible with popular UI testing libraries: See
-[DOM testing](/docs/test/dom).
+Bun is compatible with popular UI testing libraries:
+
+See [DOM testing](/docs/test/dom).
 
 ## Large codebases
 
-For a suite with thousands of test files,`bun test` has several knobs that stack — worker processes, isolation level, sharding across machines, and duration-aware scheduling. Each is covered in depth on [Parallel & isolated test runs](/docs/test/parallel); here is how they fit together, roughly in order of payoff:
+For a suite with thousands of test files, `bun test` has several knobs that stack: worker processes, isolation level, sharding across machines, and duration-aware scheduling. [Parallel & isolated test runs](/docs/test/parallel) covers each in depth. Here is how they fit together, roughly in order of payoff:
 
-**1. Use every core:**One worker per core, files handed out one at a time.
+**1. Use every core: [`--parallel`](/docs/test/parallel#--parallel).** One worker per core, files handed out one at a time.
 
-[.](/docs/test/parallel#--parallel)`--parallel`
-**2. Decide how much isolation you need.**
+**2. Decide how much isolation you need.** `--parallel` gives every file a fresh global, which is the safe default and what Jest/Vitest do. If your files don't leak state into each other (they already pass under plain `bun test`, which shares one global), [`--parallel --no-isolate`](/docs/test/parallel#every-file-is-isolated-unless-you-opt-out) lets each worker evaluate your imports and preloads once instead of once per file. On suites made of many small files, that is the single biggest win. See [how it compares](/docs/test/parallel#how-it-compares).
 
-`--parallel` gives every file a fresh global, which is the safe default and what Jest/Vitest do. If your files don’t leak state into each other (they already pass under plain `bun test`, which shares one global), [lets each worker evaluate your imports and preloads once instead of once per file. On suites made of many small files that is the single biggest win — see](/docs/test/parallel#every-file-is-isolated-unless-you-opt-out)
+**3. Split across machines: [`--shard=i/n`](/docs/test/parallel#splitting-a-suite-across-ci-machines-with---shard).** Deterministic, no coordinator. Each CI job runs one slice, and each slice still uses `--parallel` locally.
 
-`--parallel --no-isolate`
-[how it compares](/docs/test/parallel#how-it-compares).
+**4. Balance by time, not count: [`--timings`](/docs/test/parallel#balancing-with---timings).** With recorded durations, Bun cuts shards so each gets about the same total time. The split is longest-processing-time style, but keeps path-neighbours together so a worker's module cache stays warm. Each worker starts its slowest file first, and idle workers steal the slowest remaining file. That way, one long file that happened to start last doesn't hold up the run.
 
-**3. Split across machines:**Deterministic, no coordinator; each CI job runs one slice, and each slice still uses
+**5. Keep the timings fresh automatically: `--update-timings`.** Each shard writes the durations of the files it ran; the next run reads all of them. In GitHub Actions that looks like:
 
-[.](/docs/test/parallel#splitting-a-suite-across-ci-machines-with---shard)`--shard=i/n``--parallel` locally.
-**4. Balance by time, not count:**With recorded durations, shards are cut so each gets about the same total time (longest-processing-time style, but keeping path-neighbours together so a worker’s module cache stays warm), each worker starts its slowest file first, and idle workers steal the slowest remaining file — so the run isn’t held up by one long file that happened to start last.
+```
+jobs:
+  test:
+    strategy:
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      # last successful run's per-shard timings (nothing on the very first run)
+      - uses: actions/cache/restore@v4
+        with:
+          path: .bun-test-timings
+          key: bun-test-timings-${{ github.run_id }}
+          restore-keys: bun-test-timings-
+      - run: |
+          bun test --parallel --shard=${{ matrix.shard }}/4 --update-timings \
+            --timings=.bun-test-timings/next/${{ matrix.shard }}.json \
+            $(ls .bun-test-timings/*.json 2>/dev/null | sed 's/^/--timings=/')
+      - uses: actions/upload-artifact@v4
+        with:
+          name: timings-${{ matrix.shard }}
+          path: .bun-test-timings/next/${{ matrix.shard }}.json
+  save-timings:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: timings-*
+          path: .bun-test-timings
+          merge-multiple: true
+      - uses: actions/cache/save@v4
+        with:
+          path: .bun-test-timings
+          key: bun-test-timings-${{ github.run_id }}
+```
+Every shard must read the *same set* of timings files for the shards to add up to the whole suite. That is why a run reads the previous run's files (restored from the cache), and why it writes its own where sibling shards still in flight won't pick them up (`next/` above). Add `--no-isolate` to the `bun test` line if step 2 applies to you.
 
-[.](/docs/test/parallel#balancing-with---timings)`--timings`
-**5. Keep the timings fresh automatically:**Each shard writes the durations of the files it ran; the next run reads all of them. In GitHub Actions that looks like:
+**6. Within a file: [`test.concurrent`](#concurrent-test-execution)** for I/O-bound tests that spend their time awaiting.
 
-`--update-timings`.
-.github/workflows/test.yml
-
-*same set*of timings files for the shards to add up to the whole suite, which is why a run reads the previous run’s files (restored from the cache) and writes its own where sibling shards still in flight won’t pick them up (
-
-`next/` above). Add `--no-isolate` to the `bun test` line if step 2 applies to you.
-**6. Within a file:**for I/O-bound tests that spend their time awaiting.
-
-`test.concurrent`
 ## Performance
 
-Bun’s test runner is fast.
+Bun's test runner is fast.
+
 ## AI Agent Integration
 
-When you use Bun’s test runner with an AI coding assistant, you can enable quieter output that keeps failure details but drops the rest of the noise.
+When you use Bun's test runner with an AI coding assistant, you can enable quieter output that keeps failure details but drops the rest of the noise.
+
 ### Environment Variables
 
 Set any of the following environment variables to enable AI-friendly output:
+
 - `CLAUDECODE=1` - For Claude Code
 - `REPL_ID=1` - For Replit
 - `AGENT=1` - Generic AI agent flag
 
 ### Behavior
 
-When an AI agent environment is detected:
+When Bun detects an AI agent environment:
+
 - Only test failures are displayed in detail
 - Passing, skipped, and todo test indicators are hidden
 - Summary statistics remain intact
 
-terminal
-
+```
+# Example: Enable quiet output for Claude Code
+CLAUDECODE=1 bun test
+# Still shows failures and summary, but hides verbose passing test output
+```
 # CLI Usage
 
+`bun test <patterns>`
 ### Execution Control
-
-number
-
-default:"5000"
 
 Set the per-test timeout in milliseconds (default 5000)
 
-number
+Re-run each test file `NUMBER` times to help catch certain bugs
 
-Re-run each test file 
+Retry failed tests up to `NUMBER` times. Per-test `{ retry: N }` overrides this flag
 
-`NUMBER` times to help catch certain bugs
-number
-
-Retry failed tests up to 
-
-`NUMBER` times. Overridden by per-test boolean
-
-Treat all tests as 
-
-`test.concurrent()` tests
-boolean
+Treat all tests as `test.concurrent()` tests
 
 Run tests in random order
 
-number
-
 Set the random seed for test randomization
 
-number
-
-default:"1"
-
-Exit the test suite after 
-
-`NUMBER` failures. If you do not specify a number, it defaults to 1.
-number
-
-default:"20"
+Exit the test suite after `NUMBER` failures. If you do not specify a number, it defaults to 1.
 
 Maximum number of concurrent tests to execute at once (default 20)
 
 ### Test Filtering
 
-boolean
+Include tests that are marked with `test.todo()`
 
-Include tests that are marked with 
+Run only tests with a name that matches the given regex. Alias: `-t`
 
-`test.todo()`
-string
-
-Run only tests with a name that matches the given regex. Alias: 
-
-`-t`
 ### Reporting
 
-string
-
-Test output reporter format. Available: 
-
-`junit` (requires —reporter-outfile), `dots`. Default:
+Test output reporter format. Available: `junit` (requires --reporter-outfile), `dots`. Default:
 console output.
-string
 
-Output file path for the reporter format (required with —reporter)
+Output file path for the reporter format (required with --reporter=junit)
 
-boolean
-
-Enable dots reporter. Shorthand for —reporter=dots
+Enable dots reporter. Shorthand for --reporter=dots
 
 ### Coverage
 
-boolean
-
 Generate a coverage profile
 
-string
+Report coverage in `text` and/or `lcov`. Defaults to `text`
 
-default:"text"
+Directory for coverage files. Defaults to `coverage`
 
-Report coverage in 
-
-`text` and/or `lcov`. Defaults to `text`
-string
-
-default:"coverage"
-
-Directory for coverage files. Defaults to 
-
-`coverage`
 ### Snapshots
 
-boolean
+Update snapshot files. Alias: `-u`
 
-Update snapshot files. Alias: 
-
-`-u`
 ## Examples
 
 Run all test files:
-terminal
 
-terminal
+`bun test`
+Run all test files with "foo" or "bar" in the file name:
 
-terminal
+`bun test foo bar`
+Run all test files, only including tests whose name includes "baz":
+
+`bun test --test-name-pattern baz`
 
 # Citations
 

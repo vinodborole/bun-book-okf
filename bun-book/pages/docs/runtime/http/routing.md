@@ -1,62 +1,169 @@
 ---
 type: Web Page
-title: Routing - Bun
-description: Define routes in Bun.serve using static paths, parameters, and wildcards
+title: Routing | Bun Docs
+description: Define routes in `Bun.serve` using static paths, parameters, and wildcards
 resource: https://bun.sh/docs/runtime/http/routing
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
 
-`Bun.serve()` with the `routes` property (static paths, parameters, and wildcards), or handle unmatched requests with the [method.](#fetch)
+# Routing
 
-`fetch``Bun.serve()`’s router builds on top of uWebSocket’s [tree-based approach](https://github.com/oven-sh/bun/blob/0d1a00fa0f7830f8ecd99c027fce8096c9d459b6/packages/bun-uws/src/HttpRouter.h#L57-L64)to add
+Define routes in `Bun.serve` using static paths, parameters, and wildcards
 
-[SIMD-accelerated route parameter decoding](https://github.com/oven-sh/bun/blob/main/src/jsc/bindings/decodeURIComponentSIMD.cpp#L21-L271)and
+Add routes to `Bun.serve()` with the `routes` property (static paths, parameters, and wildcards), or handle unmatched requests with the [`fetch`](#fetch-request-handler) method.
 
-[JavaScriptCore structure caching](https://github.com/oven-sh/bun/blob/main/src/jsc/bindings/ServerRouteList.cpp#L100-L101)to push the performance limits of what modern hardware allows.
+`Bun.serve()`'s router builds on top of uWebSocket's [tree-based approach](https://github.com/oven-sh/bun/blob/0d1a00fa0f7830f8ecd99c027fce8096c9d459b6/packages/bun-uws/src/HttpRouter.h#L57-L64). The router adds [SIMD-accelerated route parameter decoding](https://github.com/oven-sh/bun/blob/main/src/jsc/bindings/decodeURIComponentSIMD.cpp#L21-L271) and [JavaScriptCore structure caching](https://github.com/oven-sh/bun/blob/main/src/jsc/bindings/ServerRouteList.cpp#L100-L101) to push the performance limits of what modern hardware allows.
 
 ## Basic Setup
 
-server.ts
+```
+Bun.serve({
+  routes: {
+    "/": () => new Response("Home"),
+    "/api": () => Response.json({ success: true }),
+    "/users": async () => Response.json({ users: [] }),
+  },
+  fetch() {
+    return new Response("Unmatched route");
+  },
+});
+```
+Routes in `Bun.serve()` receive a `BunRequest` (which extends [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request)) and return a [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) or `Promise<Response>`. Because routes use these `Request` and `Response` types, it is easier to use the same code for both sending and receiving HTTP requests.
 
-`Bun.serve()` receive a `BunRequest` (which extends [) and return a](https://developer.mozilla.org/en-US/docs/Web/API/Request)
-
-`Request`
-[or](https://developer.mozilla.org/en-US/docs/Web/API/Response)
-
-`Response``Promise<Response>`. This makes it easier to use the same code for both sending & receiving HTTP requests.
+```
+// Simplified for brevity
+interface BunRequest<T extends string> extends Request {
+  params: Record<T, string>;
+  readonly cookies: CookieMap;
+}
+```
 ## Asynchronous Routes
 
 ### Async/await
 
-Use async/await in route handlers to return a`Promise<Response>`.
+Use async/await in route handlers to return a `Promise<Response>`.
+
+```
+import { sql, serve } from "bun";
+serve({
+  port: 3001,
+  routes: {
+    "/api/version": async () => {
+      const [version] = await sql`SELECT version()`;
+      return Response.json(version);
+    },
+  },
+});
+```
 ### Promise
 
-You can also return a`Promise<Response>` from a route handler.
+You can also return a `Promise<Response>` from a route handler.
+
+```
+import { sql, serve } from "bun";
+serve({
+  routes: {
+    "/api/version": () => {
+      return new Promise(resolve => {
+        setTimeout(async () => {
+          const [version] = await sql`SELECT version()`;
+          resolve(Response.json(version));
+        }, 100);
+      });
+    },
+  },
+});
+```
 ## Route precedence
 
-Routes are matched in order of specificity:
+Bun matches routes in order of specificity:
+
 1. Exact routes (`/users/all` )
 2. Parameter routes (`/users/:id` )
 3. Wildcard routes (`/users/*` )
 4. Global catch-all (`/*` )
 
+```
+Bun.serve({
+  routes: {
+    // Most specific first
+    "/api/users/me": () => new Response("Current user"),
+    "/api/users/:id": req => new Response(`User ${req.params.id}`),
+    "/api/*": () => new Response("API catch-all"),
+    "/*": () => new Response("Global catch-all"),
+  },
+});
+```
 ## Type-safe route parameters
 
-TypeScript parses route parameters when passed as a string literal, so your editor shows autocomplete when accessing`request.params`.
-index.ts
+TypeScript parses route parameters when passed as a string literal, so your editor shows autocomplete when accessing `request.params`.
 
-`\uFFFD`).
+```
+import type { BunRequest } from "bun";
+Bun.serve({
+  routes: {
+    // TypeScript knows the shape of params when passed as a string literal
+    "/orgs/:orgId/repos/:repoId": req => {
+      const { orgId, repoId } = req.params;
+      return Response.json({ orgId, repoId });
+    },
+    "/orgs/:orgId/repos/:repoId/settings": (
+      // optional: you can explicitly pass a type to BunRequest:
+      req: BunRequest<"/orgs/:orgId/repos/:repoId/settings">,
+    ) => {
+      const { orgId, repoId } = req.params;
+      return Response.json({ orgId, repoId });
+    },
+  },
+});
+```
+Bun automatically decodes percent-encoded route parameter values, including Unicode characters. Bun replaces invalid Unicode with the Unicode replacement character (`\uFFFD`).
+
 ### Static responses
 
-Routes can also be`Response` objects (without the handler function). `Bun.serve()` optimizes them for zero-allocation dispatch, which suits health checks, redirects, and fixed content:
-`Response` object.
-Static route responses are cached for the lifetime of the server object. To reload static routes, call `server.reload(options)`.
+Routes can also be `Response` objects (without the handler function). `Bun.serve()` optimizes them for zero-allocation dispatch, which suits health checks, redirects, and fixed content:
+
+```
+Bun.serve({
+  routes: {
+    // Health checks
+    "/health": new Response("OK"),
+    "/ready": new Response("Ready", {
+      headers: {
+        // Pass custom headers
+        "X-Ready": "1",
+      },
+    }),
+    // Redirects
+    "/blog": Response.redirect("https://bun.com/blog"),
+    // API responses
+    "/api/config": Response.json({
+      version: "1.0.0",
+      env: "production",
+    }),
+  },
+});
+```
+Static responses do not allocate additional memory after initialization. You can generally expect at least a 15% performance improvement over manually returning a `Response` object.
+
+Bun caches static route responses for the lifetime of the server object. To reload static routes, call `server.reload(options)`.
+
 ### File Responses vs Static Responses
 
 Serving a file from a route behaves differently depending on whether you buffer the file content or serve it directly:
-**Static routes**(
 
-`new Response(await file.bytes())`) buffer content in memory at startup:
+```
+Bun.serve({
+  routes: {
+    // Static route - content is buffered in memory at startup
+    "/logo.png": new Response(await Bun.file("./logo.png").bytes()),
+    // File route - content is read from filesystem on each request
+    "/download.zip": new Response(Bun.file("./download.zip")),
+  },
+});
+```
+**Static routes** (`new Response(await file.bytes())`) buffer content in memory at startup:
+
 - **Zero filesystem I/O** during requests - content served entirely from memory
 - **ETag support** - Automatically generates and validates ETags for caching
 - **If-None-Match** - Returns`304 Not Modified` when client ETag matches
@@ -64,39 +171,125 @@ Serving a file from a route behaves differently depending on whether you buffer 
 - **Memory usage** - Full file content stored in RAM
 - **Best for** : Small static assets, API responses, frequently accessed files
 
-**File routes**(
+**File routes** (`new Response(Bun.file(path))`) read from filesystem per request:
 
-`new Response(Bun.file(path))`) read from filesystem per request:
 - **Filesystem reads** on each request - checks file existence and reads content
-- **Built-in 404 handling** - Returns`404 Not Found` if file doesn’t exist or becomes inaccessible
+- **Built-in 404 handling** - Returns`404 Not Found` if file doesn't exist or becomes inaccessible
 - **Last-Modified support** - Uses file modification time for`If-Modified-Since` headers
-- **If-Modified-Since** - Returns`304 Not Modified` when file hasn’t changed since client’s cached version
+- **If-Modified-Since** - Returns`304 Not Modified` when file hasn't changed since client's cached version
 - **Range request support** - Automatically handles partial content requests with`Content-Range` headers
 - **Streaming transfers** - Uses buffered reader with backpressure handling for efficient memory usage
 - **Memory efficient** - Only buffers small chunks during transfer, not entire file
 - **Best for** : Large files, dynamic content, user uploads, files that change frequently
 
+### Directory routes
+
+To serve an entire directory tree at a URL prefix, pass `{ dir }` as the route value. The route path must end in `/*`.
+
+```
+Bun.serve({
+  routes: {
+    "/static/*": { dir: "./public" },
+  },
+});
+```
+Bun percent-decodes the part of the request URL after the prefix once and opens it relative to `dir`. Bun rejects non-canonical paths with `404`, so the served path is always the path the router matched. A path is non-canonical if it contains `.`, `..`, empty segments, `%2F`, or a `%XX` sequence encoding a character that may appear literally in a path segment. On Linux the open uses `openat2(RESOLVE_IN_ROOT)`, so the kernel clamps symlinks that would escape `dir`.
+
+Routing is case-sensitive, but filesystems on macOS and Windows are case-insensitive by default. As a result, a
+case-varied URL (`/static/Admin/secret.txt`) routes to the directory wildcard rather than a sibling `/static/admin/*`
+handler and still opens `admin/secret.txt`. As with nginx, Caddy, and other static file servers, keep
+access-controlled content outside `dir` rather than relying on an overlapping route to gate it.
+
+Directory routes share the response path with file routes:
+
+- **Content-Type** is set from the file extension.
+- **Last-Modified** and a weak`ETag` (`W/"<size>-<mtime>"` ) are sent on every response, and`If-Modified-Since` /`If-None-Match` are honored with`304 Not Modified` .
+- **Range requests** are supported with`Accept-Ranges: bytes` and`Content-Range` .
+- A request that resolves to a directory without a trailing `/` receives a`301` redirect to the trailing-slash URL. With the trailing slash, Bun serves`index.html` from that directory.
+- Missing files return `404` .
+
+Pass `statCache: false` to disable the per-path `Last-Modified` cache (saves roughly 20 KB per route).
+
 ## Streaming files
 
-To stream a file, return a`Response` object with a `BunFile` object as the body.
-⚡️ 
+To stream a file, return a `Response` object with a `BunFile` object as the body.
 
-**Speed**— Bun automatically uses the[system call when possible, enabling zero-copy file transfers in the kernel—the fastest way to send files.](https://man7.org/linux/man-pages/man2/sendfile.2.html)`sendfile(2)`
-[method on the](https://developer.mozilla.org/en-US/docs/Web/API/Blob/slice)
+```
+Bun.serve({
+  fetch(req) {
+    return new Response(Bun.file("./hello.txt"));
+  },
+});
+```
+⚡️ **Speed** — Bun automatically uses the [`sendfile(2)`](https://man7.org/linux/man-pages/man2/sendfile.2.html)
+system call when possible, enabling zero-copy file transfers in the kernel—the fastest way to send files.
 
-`slice(start, end)``Bun.file` object. Bun sets the `Content-Range` and `Content-Length` headers on the `Response` object automatically.
+To send part of a file, use the [`slice(start, end)`](https://developer.mozilla.org/en-US/docs/Web/API/Blob/slice) method on the `Bun.file` object. Bun sets the `Content-Range` and `Content-Length` headers on the `Response` object automatically.
+
+```
+Bun.serve({
+  fetch(req) {
+    // parse `Range` header
+    const [start = 0, end = Infinity] = req.headers
+      .get("Range") // Range: bytes=0-100
+      .split("=") // ["Range: bytes", "0-100"]
+      .at(-1) // "0-100"
+      .split("-") // ["0", "100"]
+      .map(Number); // [0, 100]
+    // return a slice of the file
+    const bigFile = Bun.file("./big-video.mp4");
+    return new Response(bigFile.slice(start, end));
+  },
+});
+```
 ## `fetch` request handler
 
-The `fetch` handler runs for incoming requests that no route matched. It receives a [object and returns a](https://developer.mozilla.org/en-US/docs/Web/API/Request)
+The `fetch` handler runs for incoming requests that no route matched. It receives a [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) object and returns a [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) or [`Promise<Response>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
-`Request`
-[or](https://developer.mozilla.org/en-US/docs/Web/API/Response)
+```
+Bun.serve({
+  fetch(req) {
+    const url = new URL(req.url);
+    if (url.pathname === "/") return new Response("Home page!");
+    if (url.pathname === "/blog") return new Response("Blog!");
+    return new Response("404!");
+  },
+});
+```
+The `fetch` handler supports async/await:
 
-`Response`
-[.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+```
+import { sleep, serve } from "bun";
+serve({
+  async fetch(req) {
+    const start = performance.now();
+    await sleep(10);
+    const end = performance.now();
+    return new Response(`Slept for ${end - start}ms`);
+  },
+});
+```
+Promise-based responses are also supported:
 
-`Promise<Response>``fetch` handler supports async/await:
-`fetch` handler also receives the `Server` object as its second argument.
+```
+Bun.serve({
+  fetch(req) {
+    // Forward the request to another server.
+    return fetch("https://example.com");
+  },
+});
+```
+The `fetch` handler also receives the `Server` object as its second argument.
+
+```
+// `server` is passed in as the second argument to `fetch`.
+const server = Bun.serve({
+  fetch(req, server) {
+    const ip = server.requestIP(req);
+    return new Response(`Your IP is ${ip.address}`);
+  },
+});
+```
 
 # Citations
 

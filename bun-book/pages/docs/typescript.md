@@ -1,26 +1,65 @@
 ---
 type: Web Page
-title: TypeScript - Bun
+title: TypeScript | Bun Docs
 description: Using TypeScript with Bun, including type definitions and compiler options
 resource: https://bun.sh/docs/typescript
-timestamp: '2026-07-09T12:17:04.216670+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
 
-`@types/bun`.
+# TypeScript
+
+Using TypeScript with Bun, including type definitions and compiler options
+
+To get TypeScript definitions for Bun's built-in APIs, install `@types/bun`.
+
 terminal
 
-`Bun` global in your TypeScript files without errors in your editor.
+`bun add -d @types/bun # dev dependency`
+You can now reference the `Bun` global in your TypeScript files without errors in your editor.
+
 ## Suggested `compilerOptions`
 
-Bun supports top-level await, JSX, and imports with `.ts` extensions, which TypeScript doesn’t allow by default. Use these `compilerOptions` in a Bun project so TypeScript doesn’t warn about those features.
+Bun supports top-level await, JSX, and imports with `.ts` extensions, which TypeScript doesn't allow by default. Use these `compilerOptions` in a Bun project so TypeScript doesn't warn about those features.
+
 tsconfig.json
 
-`bun init` in a new directory generates this `tsconfig.json` for you.
+```
+{
+  "compilerOptions": {
+    // Environment setup & latest features
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "Preserve",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "types": ["bun"],
+    // Bundler mode
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    // Best practices
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    // Some stricter flags (disabled by default)
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noPropertyAccessFromIndexSignature": false
+  }
+}
+```
+Running `bun init` in a new directory generates this `tsconfig.json` for you.
+
 terminal
 
+`bun init`
 ## TypeScript 6 and 7
 
-If you’re using TypeScript 6.0 or later, you also need`"types": ["bun"]` in your `compilerOptions`. See [TypeScript 6 and 7](/docs/typescript-6).
+If you're using TypeScript 6.0 or later, you also need `"types": ["bun"]` in your `compilerOptions`. See [TypeScript 6 and 7](/docs/typescript-6).
 
 # Citations
 

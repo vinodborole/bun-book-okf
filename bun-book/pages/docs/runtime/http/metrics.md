@@ -1,26 +1,45 @@
 ---
 type: Web Page
-title: Metrics - Bun
+title: Metrics | Bun Docs
 description: Monitor server activity with built-in metrics
 resource: https://bun.sh/docs/runtime/http/metrics
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
 
-Documentation IndexFetch the complete documentation index at: /docs/llms.txtUse this file to discover all available pages before exploring further.
+# Metrics
 
 Monitor server activity with built-in metrics
 
-server.pendingRequests
+### `server.pendingRequests` and `server.pendingWebSockets`
 
-server.pendingWebSockets
+Monitor server activity with built-in counters:
 
-const server = Bun.serve({ fetch(req, server) { return new Response( `Active requests: ${server.pendingRequests}\n` + `Active WebSockets: ${server.pendingWebSockets}`, ); }, });
+```
+const server = Bun.serve({
+  fetch(req, server) {
+    return new Response(
+      `Active requests: ${server.pendingRequests}\n` + `Active WebSockets: ${server.pendingWebSockets}`,
+    );
+  },
+});
+```
+### `server.subscriberCount(topic)`
 
-server.subscriberCount(topic)
+Get the number of subscribers for a WebSocket topic:
 
-const server = Bun.serve({ fetch(req, server) { const chatUsers = server.subscriberCount("chat"); return new Response(`${chatUsers} users in chat`); }, websocket: { message(ws) { ws.subscribe("chat"); }, }, });
-
-Was this page helpful?
+```
+const server = Bun.serve({
+  fetch(req, server) {
+    const chatUsers = server.subscriberCount("chat");
+    return new Response(`${chatUsers} users in chat`);
+  },
+  websocket: {
+    message(ws) {
+      ws.subscribe("chat");
+    },
+  },
+});
+```
 
 # Citations
 

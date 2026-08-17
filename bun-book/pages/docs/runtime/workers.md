@@ -1,142 +1,287 @@
 ---
 type: Web Page
-title: Workers - Bun
+title: Workers | Bun Docs
 description: Use Bun's Workers API to create and communicate with a new JavaScript
   instance running on a separate thread while sharing I/O resources with the main
   thread
 resource: https://bun.sh/docs/runtime/workers
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
 
-[, you start and communicate with a new JavaScript instance running on a separate thread while sharing I/O resources with the main thread. Bun implements a minimal version of the](https://developer.mozilla.org/en-US/docs/Web/API/Worker)
+# Workers
 
-`Worker`
-[Web Workers API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)with extensions that make it work better for server-side use cases. Like the rest of Bun,
+Use Bun's Workers API to create and communicate with a new JavaScript instance running on a separate thread while sharing I/O resources with the main thread
 
-`Worker` supports CommonJS, ES modules, TypeScript, JSX, and TSX with no extra build step.
+The `Worker` API is still experimental (particularly for terminating workers). We are actively working on improving
+this.
+
+With [`Worker`](https://developer.mozilla.org/en-US/docs/Web/API/Worker), you start and communicate with a new JavaScript instance running on a separate thread while sharing I/O resources with the main thread.
+
+Bun implements a minimal version of the [Web Workers API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) with extensions that make it work better for server-side use cases. Like the rest of Bun, `Worker` supports CommonJS, ES modules, TypeScript, JSX, and TSX with no extra build step.
+
 ## Creating a `Worker`
 
-Like in browsers, [is a global. Use it to create a new worker thread.](https://developer.mozilla.org/en-US/docs/Web/API/Worker)
+Like in browsers, [`Worker`](https://developer.mozilla.org/en-US/docs/Web/API/Worker) is a global. Use it to create a new worker thread.
 
-`Worker`
 ### From the main thread
 
-index.ts
-
+```
+const worker = new Worker("./worker.ts");
+worker.postMessage("hello");
+worker.onmessage = event => {
+  console.log(event.data);
+};
+```
 ### Worker thread
 
-worker.ts
+```
+// prevents TS errors
+declare var self: Worker;
+self.onmessage = (event: MessageEvent) => {
+  console.log(event.data);
+  postMessage("world");
+};
+```
+To prevent TypeScript errors when using `self`, add this line to the top of your worker file.
 
-`self`, add this line to the top of your worker file.
-`import` and `export` syntax in your worker code. Unlike in browsers, you don’t need to pass `{type: "module"}` to use ES modules.
-If the worker’s script fails to resolve, an `"error"` event is emitted on the `Worker` object.
-`Worker` is resolved relative to the project root (like typing `bun ./path/to/file.js`).
+`declare var self: Worker;`
+You can use `import` and `export` syntax in your worker code. Unlike in browsers, you don't need to pass `{type: "module"}` to use ES modules.
+
+If the worker's script fails to resolve, Bun emits an `"error"` event on the `Worker` object.
+
+```
+const worker = new Worker("/not-found.js");
+worker.addEventListener("error", event => {
+  console.log(event.message);
+});
+```
+Bun resolves the specifier passed to `Worker` relative to the project root (like typing `bun ./path/to/file.js`).
+
 ### `preload` - load modules before the worker starts
 
-Pass an array of module specifiers to the `preload` option to load them before the worker’s own code runs, like the `--preload` CLI argument. Use it for code that must load first, such as OpenTelemetry, Sentry, or DataDog.
-index.ts
+Pass an array of module specifiers to the `preload` option to load them before the worker's own code runs, like the `--preload` CLI argument. Use it for code that must load first, such as OpenTelemetry, Sentry, or DataDog.
 
-`preload` option:
-index.ts
+```
+const worker = new Worker("./worker.ts", {
+  preload: ["./load-sentry.js"],
+});
+```
+You can also pass a single string to the `preload` option:
 
+```
+const worker = new Worker("./worker.ts", {
+  preload: "./load-sentry.js",
+});
+```
 ### `blob:` URLs
 
 You can also pass a `blob:` URL to `Worker` to create a worker from a string or other in-memory source.
-`blob:` URLs support TypeScript, JSX, and other file types. To tell Bun the source is TypeScript, set the `type` on the `Blob` or pass a `filename` to the `File` constructor.
+
+```
+const blob = new Blob([`self.onmessage = (event: MessageEvent) => postMessage(event.data)`], {
+  type: "application/typescript",
+});
+const url = URL.createObjectURL(blob);
+const worker = new Worker(url);
+```
+Like the rest of Bun, workers created from `blob:` URLs support TypeScript, JSX, and other file types. To tell Bun the source is TypeScript, set the `type` on the `Blob` or pass a `filename` to the `File` constructor.
+
+```
+const file = new File([`self.onmessage = (event: MessageEvent) => postMessage(event.data)`], "worker.ts");
+const url = URL.createObjectURL(file);
+const worker = new Worker(url);
+```
 ### `"open"`
 
-The `"open"` event is emitted when a worker is created and ready to receive messages. (This event does not exist in browsers.)
-index.ts
+Bun emits the `"open"` event when a worker is created and ready to receive messages. (This event does not exist in browsers.)
 
-`"open"` event before sending.
+```
+const worker = new Worker(new URL("worker.ts", import.meta.url).href);
+worker.addEventListener("open", () => {
+  console.log("worker is ready");
+});
+```
+Bun enqueues messages until the worker is ready, so you don't need to wait for the `"open"` event before sending.
+
 ## Messages with `postMessage`
 
-To send messages, use [and](https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage)
-
-`worker.postMessage`
-[. Messages are serialized with the](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
-
-`self.postMessage`
-[HTML Structured Clone Algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm).
+To send messages, use [`worker.postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage) and [`self.postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/DedicatedWorkerGlobalScope/postMessage). Bun serializes messages with the [HTML Structured Clone Algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm).
 
 ### Performance optimizations
 
-Bun has fast paths for`postMessage` with common data types:
-**String fast path**- When posting a pure string, Bun bypasses the structured clone algorithm entirely, so there is no serialization overhead.
+Bun has fast paths for `postMessage` with common data types:
 
-**Simple object fast path**- For plain objects containing only primitive values (strings, numbers, booleans, null, undefined), Bun stores properties directly without full structured cloning. The simple object fast path activates when the object:
+**String fast path** - When posting a pure string, Bun bypasses the structured clone algorithm entirely, so there is no serialization overhead.
+
+**Simple object fast path** - For plain objects containing only primitive values (strings, numbers, booleans, null, undefined), Bun stores properties directly without full structured cloning.
+
+The simple object fast path activates when the object:
 
 - Is a plain object with no prototype chain modifications
 - Contains only enumerable, configurable data properties
 - Has no indexed properties or getter/setter methods
 - All property values are primitives or strings
 
-`postMessage` performs **2-241x faster**because the message length no longer has a meaningful impact on performance.
+With these fast paths, Bun's `postMessage` performs **2-241x faster** because the message length no longer has a meaningful impact on performance.
 
 **Bun (with fast paths):**
 
+```
+postMessage({ prop: 11 chars string, ...9 more props }) - 648ns
+postMessage({ prop: 14 KB string, ...9 more props })    - 719ns
+postMessage({ prop: 3 MB string, ...9 more props })     - 1.26µs
+```
 **Node.js v24.6.0 (for comparison):**
 
-[on the worker and main thread.](https://developer.mozilla.org/en-US/docs/Web/API/Worker/message_event)
+```
+postMessage({ prop: 11 chars string, ...9 more props }) - 1.19µs
+postMessage({ prop: 14 KB string, ...9 more props })    - 2.69µs
+postMessage({ prop: 3 MB string, ...9 more props })     - 304µs
+```
+```
+// String fast path - optimized
+postMessage("Hello, worker!");
+// Simple object fast path - optimized
+postMessage({
+  message: "Hello",
+  count: 42,
+  enabled: true,
+  data: null,
+});
+// Complex objects still work but use standard structured clone
+postMessage({
+  nested: { deep: { object: true } },
+  date: new Date(),
+  buffer: new ArrayBuffer(8),
+});
+```
+```
+// On the worker thread, `postMessage` is automatically "routed" to the parent thread.
+postMessage({ hello: "world" });
+// On the main thread
+worker.postMessage({ hello: "world" });
+```
+To receive messages, use the [`message` event handler](https://developer.mozilla.org/en-US/docs/Web/API/Worker/message_event) on the worker and main thread.
 
-`message` event handler
+```
+// Worker thread:
+self.addEventListener("message", event => {
+  console.log(event.data);
+});
+// or use the setter:
+// self.onmessage = fn
+// if on the main thread
+worker.addEventListener("message", event => {
+  console.log(event.data);
+});
+// or use the setter:
+// worker.onmessage = fn
+```
 ## Terminating a worker
 
-A`Worker` instance terminates automatically once its event loop has no work left to do. Attaching a `"message"` listener on the global or any `MessagePort`s keeps the event loop alive. To forcefully terminate a `Worker`, call `worker.terminate()`.
-index.ts
+A `Worker` instance terminates automatically once its event loop has no work left to do. Attaching a `"message"` listener on the global or any `MessagePort`s keeps the event loop alive. To forcefully terminate a `Worker`, call `worker.terminate()`.
 
-`worker.terminate()` makes the worker exit as soon as possible.
+```
+const worker = new Worker(new URL("worker.ts", import.meta.url).href);
+// ...some time later
+worker.terminate();
+```
+Calling `worker.terminate()` makes the worker exit as soon as possible.
+
 ### `process.exit()`
 
-A worker can terminate itself with `process.exit()`. This does not terminate the main process. Like in Node.js, `process.on('beforeExit', callback)` and `process.on('exit', callback)` are emitted on the worker thread (and not on the main thread), and the exit code is passed to the `"close"` event.
+A worker can terminate itself with `process.exit()`. This does not terminate the main process. Like in Node.js, `process.on('beforeExit', callback)` and `process.on('exit', callback)` are emitted on the worker thread, not on the main thread. Bun passes the exit code to the `"close"` event.
+
 ### `"close"`
 
-The `"close"` event is emitted when a worker has been marked as terminated; the worker itself can take some time to fully exit. The `CloseEvent` contains the exit code passed to `process.exit()`, or 0 if it closed for another reason.
-index.ts
+Bun emits the `"close"` event when a worker has been marked as terminated. The worker itself can take some time to fully exit. The `CloseEvent` contains the exit code passed to `process.exit()`, or 0 if it closed for another reason.
+
+```
+const worker = new Worker(new URL("worker.ts", import.meta.url).href);
+worker.addEventListener("close", event => {
+  console.log("worker is being closed");
+});
+```
+This event does not exist in browsers.
 
 ## Managing lifetime
 
-By default, an active`Worker` keeps the main (spawning) process alive, so async tasks like `setTimeout` and promises keep the process alive. Attaching `message` listeners also keeps the `Worker` alive.
+By default, an active `Worker` keeps the main (spawning) process alive, so async tasks like `setTimeout` and promises keep the process alive. Attaching `message` listeners also keeps the `Worker` alive.
+
 ### `worker.unref()`
 
-To stop a running worker from keeping the process alive, call `worker.unref()`. This decouples the worker’s lifetime from the main process’s, matching the behavior of Node.js’ `worker_threads`.
-index.ts
+To stop a running worker from keeping the process alive, call `worker.unref()`. This decouples the worker's lifetime from the main process's, matching the behavior of Node.js' `worker_threads`.
 
+```
+const worker = new Worker(new URL("worker.ts", import.meta.url).href);
+worker.unref();
+```
 `worker.unref()` is not available in browsers.
+
 ### `worker.ref()`
 
-To keep the process alive until the `Worker` terminates, call `worker.ref()`. Workers are ref’d by default; a ref’d worker still needs something on its event loop (such as a `"message"` listener) to continue running.
-index.ts
+To keep the process alive until the `Worker` terminates, call `worker.ref()`. Workers are ref'd by default; a ref'd worker still needs something on its event loop (such as a `"message"` listener) to continue running.
 
-`options` object to `Worker`:
-index.ts
+```
+const worker = new Worker(new URL("worker.ts", import.meta.url).href);
+worker.unref();
+// later...
+worker.ref();
+```
+Alternatively, you can also pass `ref: false` in the `options` object to `Worker`, which is equivalent to calling `worker.unref()`:
 
+```
+const worker = new Worker(new URL("worker.ts", import.meta.url).href, {
+  ref: false,
+});
+```
 `worker.ref()` is not available in browsers.
+
 ## Memory usage with `smol`
 
-Bun’s `Worker` supports a `smol` mode that reduces memory usage at a cost of performance. To enable it, pass `smol: true` in the `Worker` constructor’s `options` object.
-index.ts
+Bun's `Worker` supports a `smol` mode that reduces memory usage at a cost of performance. To enable it, pass `smol: true` in the `Worker` constructor's `options` object.
 
+```
+const worker = new Worker("./i-am-smol.ts", {
+  smol: true,
+});
+```
 ## What does `smol` mode actually do?
 
-What does `smol` mode actually do?
+Setting `smol: true` sets `JSC::HeapSize` to be `Small` instead of the default `Large`.
 
-Setting 
-
-`smol: true` sets `JSC::HeapSize` to be `Small` instead of the default `Large`.
 ## Environment Data
 
-Share data between the main thread and workers using`setEnvironmentData()` and `getEnvironmentData()`.
-index.ts
+Share data between the main thread and workers using `setEnvironmentData()` and `getEnvironmentData()`.
 
+```
+import { setEnvironmentData, getEnvironmentData } from "worker_threads";
+// In main thread
+setEnvironmentData("config", { apiUrl: "https://api.example.com" });
+// In worker
+const config = getEnvironmentData("config");
+console.log(config); // => { apiUrl: "https://api.example.com" }
+```
 ## Worker Events
 
-Listen for worker creation events using`process.on()`:
-index.ts
+Listen for worker creation events using `process.on()`:
 
+```
+process.on("worker", worker => {
+  console.log("New worker created:", worker.threadId);
+});
+```
 ## `Bun.isMainThread`
 
-Check `Bun.isMainThread` to tell whether you’re on the main thread.
+Check `Bun.isMainThread` to tell whether you're on the main thread.
+
+```
+if (Bun.isMainThread) {
+  console.log("I'm the main thread");
+} else {
+  console.log("I'm in a worker");
+}
+```
 
 # Citations
 

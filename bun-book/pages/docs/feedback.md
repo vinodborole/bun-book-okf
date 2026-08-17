@@ -1,38 +1,46 @@
 ---
 type: Web Page
-title: Feedback - Bun
+title: Feedback | Bun Docs
 description: Share feedback, bug reports, and feature requests
 resource: https://bun.sh/docs/feedback
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
 
-For general questions, join the 
+# Feedback
+
+Share feedback, bug reports, and feature requests
+
+Here's how to open a helpful issue for a bug, a performance problem, or a feature request:
 
 [Discord](https://bun.com/discord).
-## Reporting Issues
 
-1
+## Reporting Issues
 
 Upgrade Bun
 
-Upgrade Bun to the latest version with You can also try the latest canary release, which includes changes and bug fixes that haven’t reached a stable release yet.If the issue persists after upgrading, continue to the next step.
+Upgrade Bun to the latest version with `bun upgrade`. This might fix your problem without opening an issue.
 
-`bun upgrade`. This might fix your problem without opening an issue.
-terminal
+`bun upgrade`
+You can also try the latest canary release, which includes changes and bug fixes that haven't reached a stable release yet.
 
-terminal
-
-2
+```
+bun upgrade --canary
+# To revert to the stable release
+bun upgrade --stable
+```
+If the issue persists after upgrading, continue to the next step.
 
 Review Existing Issues
 
-Check whether the issue has already been reported before opening a new one. It saves time for everyone and helps us focus on fixing things.If you find a related issue, add a 👍 reaction or comment with extra details instead of opening a new one.
+Check whether the issue has already been reported before opening a new one. Checking first saves time for everyone and helps us focus on fixing things.
 
-3
+If you find a related issue, add a 👍 reaction or comment with extra details instead of opening a new one.
 
 Report the Issue
 
-If no one has reported the issue, open a new one or suggest an improvement.Provide as much detail as possible, including:
+If no one has reported the issue, open a new one or suggest an improvement.
+
+Provide as much detail as possible, including:
 
 - A clear and concise title
 - A code example or steps to reproduce the issue
@@ -44,10 +52,7 @@ If no one has reported the issue, open a new one or suggest an improvement.Provi
 `"$([Environment]::OSVersion | ForEach-Object VersionString) $(if ([Environment]::Is64BitOperatingSystem) { "x64" } else { "x86" })"`
 - For macOS and Linux: copy the output of 
 
-## Use `bun feedback`
-
-`bun feedback` sends feedback, bug reports, and feature requests directly to the Bun team.
-terminal
+The Bun team will review the issue and get back to you as soon as possible.
 
 # Citations
 

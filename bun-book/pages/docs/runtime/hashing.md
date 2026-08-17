@@ -1,47 +1,116 @@
 ---
 type: Web Page
-title: Hashing - Bun
+title: Hashing | Bun Docs
 description: Utility functions for hashing and verifying passwords with various cryptographically
   secure algorithms
 resource: https://bun.sh/docs/runtime/hashing
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
 
-Bun implements the 
+# Hashing
 
-`createHash` and `createHmac` functions from [in addition to the Bun-native APIs documented below.](https://nodejs.org/api/crypto.html)`node:crypto`
+Utility functions for hashing and verifying passwords with various cryptographically secure algorithms
+
+Bun implements the `createHash` and `createHmac` functions from [`node:crypto`](https://nodejs.org/api/crypto.html) in
+addition to the Bun-native APIs documented below.
+
 ## `Bun.password`
 
 `Bun.password` is a collection of utility functions for hashing and verifying passwords with various cryptographically secure algorithms.
-`Bun.password.hash` is a params object that selects and configures the hashing algorithm.
-`bcrypt`, the returned hash is encoded in [Modular Crypt Format](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html)for compatibility with most existing
 
-`bcrypt` implementations; with `argon2` the result is encoded in the newer [PHC format](https://github.com/P-H-C/phc-string-format/blob/master/phc-sf-spec.md). The
+```
+const password = "super-secure-pa$$word";
+const hash = await Bun.password.hash(password);
+// => $argon2id$v=19$m=65536,t=2,p=1$tFq+9AVr1bfPxQdh6E8DQRhEXg/M/SqYCNu6gVdRRNs$GzJ8PuBi+K+BVojzPfS5mjnC8OpLGtv8KJqF99eP6a4
+const isMatch = await Bun.password.verify(password, hash);
+// => true
+```
+The second argument to `Bun.password.hash` is a params object that selects and configures the hashing algorithm.
 
-`verify` function detects the algorithm from the input hash, whether PHC- or MCF-encoded, and uses the matching verification method.
+```
+const password = "super-secure-pa$$word";
+// use argon2 (default)
+const argonHash = await Bun.password.hash(password, {
+  algorithm: "argon2id", // "argon2id" | "argon2i" | "argon2d"
+  memoryCost: 8, // memory usage in kibibytes (minimum 8)
+  timeCost: 3, // the number of iterations
+});
+// use bcrypt
+const bcryptHash = await Bun.password.hash(password, {
+  algorithm: "bcrypt",
+  cost: 4, // number between 4-31
+});
+```
+The algorithm used to create the hash is stored in the hash itself. When using `bcrypt`, Bun encodes the returned hash in [Modular Crypt Format](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) for compatibility with most existing `bcrypt` implementations. With `argon2`, Bun encodes the result in the newer [PHC format](https://github.com/P-H-C/phc-string-format/blob/master/phc-sf-spec.md).
+
+The `verify` function detects the algorithm from the input hash, whether PHC- or MCF-encoded, and uses the matching verification method.
+
+```
+const password = "super-secure-pa$$word";
+const hash = await Bun.password.hash(password, {
+  /* config */
+});
+const isMatch = await Bun.password.verify(password, hash);
+// => true
+```
+Synchronous versions of all functions are also available. These functions are computationally expensive, so a blocking API can degrade application performance.
+
+```
+const password = "super-secure-pa$$word";
+const hash = Bun.password.hashSync(password, {
+  /* config */
+});
+const isMatch = Bun.password.verifySync(password, hash);
+// => true
+```
 ### Salt
 
 `Bun.password.hash` generates a salt automatically and includes it in the hash.
+
 ### bcrypt - Modular Crypt Format
 
-In the following
-[Modular Crypt Format](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html)hash (used by
+In the following [Modular Crypt Format](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) hash (used by `bcrypt`):
 
-`bcrypt`):
 Input:
+
+```
+await Bun.password.hash("hello", {
+  algorithm: "bcrypt",
+});
+```
+Output:
+
+`2b$10$Lyj9kHYZtiyfxh2G60TEfeqs7xkkGiEFFDi3iJGc50ZG/XJ1sxIFi`
+The format is composed of:
+
 - `bcrypt` :`$2b`
 - `rounds` :`$10` - rounds (log2 of the actual number of rounds)
 - `salt` :`Lyj9kHYZtiyfxh2G60TEfe`
 - `hash` :`qs7xkkGiEFFDi3iJGc50ZG/XJ1sxIFi`
 
-`Bun.password.hash` with the `bcrypt` algorithm hashes any password longer than 72 bytes with SHA-512 before passing it to bcrypt.
+By default, the bcrypt library truncates passwords longer than 72 bytes. Instead of silently truncating, `Bun.password.hash` with the `bcrypt` algorithm hashes any password longer than 72 bytes with SHA-512 before passing it to bcrypt.
+
+```
+await Bun.password.hash("hello".repeat(100), {
+  algorithm: "bcrypt",
+});
+```
 ### argon2 - PHC format
 
-In the following
-[PHC format](https://github.com/P-H-C/phc-string-format/blob/master/phc-sf-spec.md)hash (used by
+In the following [PHC format](https://github.com/P-H-C/phc-string-format/blob/master/phc-sf-spec.md) hash (used by `argon2`):
 
-`argon2`):
 Input:
+
+```
+await Bun.password.hash("hello", {
+  algorithm: "argon2id",
+});
+```
+Output:
+
+`argon2id$v=19$m=65536,t=2,p=1$xXnlSvPh4ym5KYmxKAuuHVlDvy2QGHBNuI6bJJrRDOs$2YY6M48XmHn+s5NoBaL+ficzXajq2Yj8wut3r0vnrwI`
+The format is composed of:
+
 - `algorithm` :`$argon2id`
 - `version` :`$v=19`
 - `memory cost` :`65536`
@@ -52,16 +121,49 @@ Input:
 
 ## `Bun.hash`
 
-`Bun.hash` is a collection of utilities for *non-cryptographic*hashing. Non-cryptographic hashing algorithms are optimized for speed of computation over collision-resistance or security. The standard
+`Bun.hash` is a collection of utilities for *non-cryptographic* hashing. Non-cryptographic hashing algorithms are optimized for speed of computation over collision-resistance or security.
 
-`Bun.hash` function uses [Wyhash](https://github.com/wangyi-fudan/wyhash)to generate a 64-bit hash from an input of arbitrary size.
+The standard `Bun.hash` function uses [Wyhash](https://github.com/wangyi-fudan/wyhash) to generate a 64-bit hash from an input of arbitrary size.
 
-`TypedArray`, `DataView`, `ArrayBuffer`, or `SharedArrayBuffer`.
-`Number.MAX_SAFE_INTEGER` as BigInt to avoid loss of precision.
-`Bun.hash`. The API is the same for each; 32-bit hashes return a number and 64-bit hashes return a bigint.
+```
+Bun.hash("some data here");
+// 11562320457524636935n
+```
+The input can be a string, `TypedArray`, `DataView`, `ArrayBuffer`, or `SharedArrayBuffer`.
+
+```
+const arr = new Uint8Array([1, 2, 3, 4]);
+Bun.hash("some data here");
+Bun.hash(arr);
+Bun.hash(arr.buffer);
+Bun.hash(new DataView(arr.buffer));
+```
+The second parameter is an optional integer seed. For 64-bit hashes, pass seeds above `Number.MAX_SAFE_INTEGER` as BigInt to avoid loss of precision.
+
+```
+Bun.hash("some data here", 1234);
+// 15724820720172937558n
+```
+Additional hashing algorithms are available as properties on `Bun.hash`. The API is the same for each; 32-bit hashes return a number and 64-bit hashes return a bigint.
+
+```
+Bun.hash.wyhash("data", 1234); // equivalent to Bun.hash()
+Bun.hash.crc32("data", 1234);
+Bun.hash.adler32("data", 1234);
+Bun.hash.cityHash32("data", 1234);
+Bun.hash.cityHash64("data", 1234);
+Bun.hash.xxHash32("data", 1234);
+Bun.hash.xxHash64("data", 1234);
+Bun.hash.xxHash3("data", 1234);
+Bun.hash.murmur32v3("data", 1234);
+Bun.hash.murmur32v2("data", 1234);
+Bun.hash.murmur64v2("data", 1234);
+Bun.hash.rapidhash("data", 1234);
+```
 ## `Bun.CryptoHasher`
 
-`Bun.CryptoHasher` incrementally computes a hash of string or binary data with a cryptographic hash algorithm. The following algorithms are supported:
+`Bun.CryptoHasher` incrementally computes a hash of string or binary data with a cryptographic hash algorithm. It supports the following algorithms:
+
 - `"blake2b256"`
 - `"blake2b512"`
 - `"blake2s256"`
@@ -82,14 +184,70 @@ Input:
 - `"shake128"`
 - `"shake256"`
 
-`.update()`, which accepts `string`, `TypedArray`, and `ArrayBuffer`.
-`'utf-8'`). The following encodings are supported:
-`.digest()`. By default, this method returns a `Uint8Array` containing the hash.
-`.digest()`:
-`.digest()` can write the hash into an existing `TypedArray` instead of allocating a new one.
+```
+const hasher = new Bun.CryptoHasher("sha256");
+hasher.update("hello world");
+hasher.digest();
+// Uint8Array(32) [ <byte>, <byte>, ... ]
+```
+Feed data to the hasher incrementally with `.update()`, which accepts `string`, `TypedArray`, and `ArrayBuffer`.
+
+```
+const hasher = new Bun.CryptoHasher("sha256");
+hasher.update("hello world");
+hasher.update(new Uint8Array([1, 2, 3]));
+hasher.update(new ArrayBuffer(10));
+```
+For strings, an optional second parameter specifies the encoding (default `'utf-8'`). The following encodings are supported:
+
+| Category | Encodings | 
+|---|---|
+| Binary encodings | `"base64"``"base64url"``"hex"` | 
+| Character encodings | `"utf8"``"utf-8"``"utf16le"``"latin1"` | 
+| Legacy character encodings | `"ascii"``"binary"``"ucs2"``"ucs-2"` | 
+
+```
+hasher.update("hello world"); // defaults to utf8
+hasher.update("68656c6c6f", "hex");
+hasher.update("hello world", "base64");
+hasher.update("hello world", "latin1");
+```
+Once you have fed in all the data, compute the final hash with `.digest()`. By default, this method returns a `Uint8Array` containing the hash.
+
+```
+const hasher = new Bun.CryptoHasher("sha256");
+hasher.update("hello world");
+hasher.digest();
+// => Uint8Array(32) [ 185, 77, 39, 185, 147, ... ]
+```
+To get the hash as a string, pass an encoding to `.digest()`:
+
+```
+hasher.digest("base64");
+// => "uU0nuZNNPgilLlLX2n2r+sSE7+N6U4DukIj3rOLvzek="
+hasher.digest("hex");
+// => "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+```
+Alternatively, `.digest()` can write the hash into an existing `TypedArray` instead of allocating a new one.
+
+```
+const arr = new Uint8Array(32);
+hasher.digest(arr);
+console.log(arr);
+// => Uint8Array(32) [ 185, 77, 39, 185, 147, ... ]
+```
 ### HMAC in `Bun.CryptoHasher`
 
 `Bun.CryptoHasher` can compute HMAC digests. Pass the key to the constructor.
+
+```
+const hasher = new Bun.CryptoHasher("sha256", "secret-key");
+hasher.update("hello world");
+console.log(hasher.digest("hex"));
+// => "095d5a21fe6d0646db223fdf3de6436bb8dfb2fab0b51677ecf6441fcf5f2a67"
+```
+HMAC supports a more limited set of algorithms:
+
 - `"blake2b256"`
 - `"blake2b512"`
 - `"md4"`
@@ -107,8 +265,20 @@ Input:
 - `"sha3-384"`
 - `"sha3-512"`
 
-`Bun.CryptoHasher`, the HMAC `Bun.CryptoHasher` instance is not reset after `.digest()` is called, and using the same instance again throws an error.
-Other methods like `.copy()` and `.update()` are supported (as long as it’s before `.digest()`), but methods like `.digest()` that finalize the hasher are not.
+Unlike the non-HMAC `Bun.CryptoHasher`, the HMAC `Bun.CryptoHasher` instance does not reset after you call `.digest()`. Using the same instance again throws an error.
+
+Other methods like `.copy()` and `.update()` are supported as long as you call them before `.digest()`.
+
+```
+const hasher = new Bun.CryptoHasher("sha256", "secret-key");
+hasher.update("hello world");
+const copy = hasher.copy();
+copy.update("!");
+console.log(copy.digest("hex"));
+// => "3840176c3d8923f59ac402b7550404b28ab11cb0ef1fa199130a5c37864b5497"
+console.log(hasher.digest("hex"));
+// => "095d5a21fe6d0646db223fdf3de6436bb8dfb2fab0b51677ecf6441fcf5f2a67"
+```
 
 # Citations
 

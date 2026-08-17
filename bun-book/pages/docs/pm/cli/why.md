@@ -1,16 +1,22 @@
 ---
 type: Web Page
-title: bun why - Bun
+title: bun why | Bun Docs
 description: Explain why a package is installed
 resource: https://bun.sh/docs/pm/cli/why
-timestamp: '2026-08-03T08:59:43.078871+00:00'
+timestamp: '2026-08-17T06:30:47.177846+00:00'
 ---
 
+# bun why
+
+Explain why a package is installed
+
 `bun why` explains why a package is installed in your project by showing the dependency chain that led to it.
+
 ## Usage
 
 terminal
 
+`bun why <package>`
 ## Arguments
 
 - `<package>` : The name of the package to explain. Supports glob patterns like`@org/*` or`*-lodash` .
@@ -23,21 +29,52 @@ terminal
 ## Examples
 
 Check why a specific package is installed:
-terminal
 
 terminal
 
-terminal
+`bun why react````
+react@18.2.0
+  └─ my-app@1.0.0 (requires ^18.0.0)
+```
+Check why all packages matching a pattern are installed:
 
 terminal
 
+`bun why "@types/*"````
+@types/react@18.2.15
+  └─ dev my-app@1.0.0 (requires ^18.0.0)
+@types/react-dom@18.2.7
+  └─ dev my-app@1.0.0 (requires ^18.0.0)
+```
+Show only top-level dependencies:
+
+terminal
+
+`bun why express --top````
+express@4.18.2
+  └─ my-app@1.0.0 (requires ^4.18.2)
+```
+Limit the dependency tree depth:
+
+terminal
+
+`bun why express --depth 2````
+express@4.18.2
+  └─ express-pollyfill@1.20.1 (requires ^4.18.2)
+     └─ body-parser@1.20.1 (requires ^1.20.1)
+     └─ accepts@1.3.8 (requires ^1.3.8)
+        └─ (deeper dependencies hidden)
+```
 ## Understanding the Output
 
 The output shows:
+
 - The package name and version being queried
 - The dependency chain that led to its installation
 - The type of dependency (dev, peer, optional, or production)
-- The version requirement specified in each package’s dependencies
+- The version requirement specified in each package's dependencies
+
+For nested dependencies, the command shows the complete dependency tree by default, with indentation indicating the relationship hierarchy.
 
 # Citations
 
