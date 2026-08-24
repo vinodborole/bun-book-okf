@@ -3,7 +3,7 @@ type: Web Page
 title: Installation | Bun Docs
 description: Install Bun with npm, Homebrew, Docker, or the official script.
 resource: https://bun.sh/docs/installation
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-24T06:34:12.842221+00:00'
 ---
 
 # Installation
@@ -150,23 +150,15 @@ automatically chooses the correct binary for your system.
 
 ## CPU Requirements
 
-CPU requirements depend on which binary you're using:
-
-**x64 binaries** target the Haswell CPU architecture (AVX and AVX2 instructions required)
+Bun ships a single x64 binary per platform. It targets the Nehalem microarchitecture (SSE4.2) and selects AVX2/AVX-512 code paths at runtime when the CPU supports them, so there is no separate "baseline" download to choose.
 
 | Platform | Intel Requirement | AMD Requirement | 
 |---|---|---|
-| x64 | Haswell (4th gen Core) or newer | Excavator or newer | 
+| x64 | Nehalem (1st gen Core) or newer | Bulldozer or newer | 
 
-**x64-baseline binaries** target the Nehalem architecture for older CPUs
-
-| Platform | Intel Requirement | AMD Requirement | 
-|---|---|---|
-| x64-baseline | Nehalem (1st gen Core) or newer | Bulldozer or newer | 
-
-Baseline builds are slower than regular builds. Use them only if you encounter an "Illegal Instruction" error.
-
-Bun does not support CPUs older than the baseline target, which requires the SSE4.2 extension. Bun requires macOS 13.0 or later.
+Bun does not support x64 CPUs without the SSE4.2 extension. Bun requires macOS 13.0 or later. The `-baseline` release
+assets and `@oven/bun-*-x64-baseline` npm packages are kept as aliases of the single x64 binary for backward
+compatibility with older install scripts.
 
 ## Uninstall
 

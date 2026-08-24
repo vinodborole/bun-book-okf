@@ -2,7 +2,7 @@
   "generator": "okf-kit",
   "okf_version": "0.1",
   "root_url": "https://bun.sh/docs",
-  "updated_at": "2026-08-17T06:30:47.267711+00:00",
+  "updated_at": "2026-08-24T06:34:12.872477+00:00",
   "config": {
     "max_depth": 3,
     "max_pages": 90,
@@ -22,7 +22,7 @@
       "path": "pages/docs/bundler.md",
       "url": "https://bun.sh/docs/bundler",
       "title": "Bundler | Bun Docs",
-      "hash": "302fb225f9ca1f151c4efc891bdf7335b4ce33cf8757fc81e654727a3c1ca76a"
+      "hash": "a436e40a88dd8df13514b2435cdac8915bfbe7e80b4b8dca8622e05a40c39946"
     },
     {
       "path": "pages/docs/feedback.md",
@@ -34,7 +34,7 @@
       "path": "pages/docs/installation.md",
       "url": "https://bun.sh/docs/installation",
       "title": "Installation | Bun Docs",
-      "hash": "3716f921509964936cc2d55085b02c8902d1948e17a76752666736546ad11439"
+      "hash": "b680300b5aa04f55e8266806e332876fca867a9411e20936fc03e7b1e2c4a464"
     },
     {
       "path": "pages/docs/pm/bunx.md",
@@ -46,7 +46,7 @@
       "path": "pages/docs/pm/cli/add.md",
       "url": "https://bun.sh/docs/pm/cli/add",
       "title": "bun add | Bun Docs",
-      "hash": "0364ff972b4caaa80002efe0c0c4097afa8dbf78ce0de38703ba5d98730b3a9f"
+      "hash": "de386fea1ec46ca7e15694aa900adaa41b2fe2b4abfd5e0058ed529a4f53aadc"
     },
     {
       "path": "pages/docs/pm/cli/audit.md",
@@ -58,7 +58,7 @@
       "path": "pages/docs/pm/cli/dedupe.md",
       "url": "https://bun.sh/docs/pm/cli/dedupe",
       "title": "bun dedupe | Bun Docs",
-      "hash": "a7692e53b65877502ee47e56706e2138e90e5f81f056f856b58c4f7a14e5332d"
+      "hash": "7b3a0665b8919788ff4d27e6e1799cf8100033a07574c02a965c9b86202b72fe"
     },
     {
       "path": "pages/docs/pm/cli/info.md",
@@ -70,7 +70,7 @@
       "path": "pages/docs/pm/cli/install.md",
       "url": "https://bun.sh/docs/pm/cli/install",
       "title": "bun install | Bun Docs",
-      "hash": "e917b430711b47264c295b9cfc51c22b986c32c30640f0204630940aa0b33a23"
+      "hash": "747e1cf66427c7c9f578b7003565eff2d362673ab175d8d54250deeff8bdc6cb"
     },
     {
       "path": "pages/docs/pm/cli/outdated.md",
@@ -82,7 +82,7 @@
       "path": "pages/docs/pm/cli/prune.md",
       "url": "https://bun.sh/docs/pm/cli/prune",
       "title": "bun prune | Bun Docs",
-      "hash": "5a91932ef119595fc515a9bf9df215ecb19bf0323fa10e355ccacc8bb614f153"
+      "hash": "45fd4462de91ed45f45e905e7ee2980b768b86e59e0583a26e37f8e5cd3812a6"
     },
     {
       "path": "pages/docs/pm/cli/publish.md",
@@ -112,7 +112,7 @@
       "path": "pages/docs/pm/workspaces.md",
       "url": "https://bun.sh/docs/pm/workspaces",
       "title": "Workspaces | Bun Docs",
-      "hash": "476e5cadf5fafce528ab40b76934aaeeac5871b64146babf8753cffe5f4dabbe"
+      "hash": "c1fd8454fe493df1affe16d6af0136bbe5c259fc6725473061db84bef1535942"
     },
     {
       "path": "pages/docs/project/benchmarking.md",
@@ -190,7 +190,7 @@
       "path": "pages/docs/runtime/bunfig.md",
       "url": "https://bun.sh/docs/runtime/bunfig",
       "title": "bunfig.toml | Bun Docs",
-      "hash": "6431a63c6106809dd3b3be540558fdf20941e40319488387ddca760121bf643e"
+      "hash": "7097d6c7dae720d8ee6cb01f93e53496e987ea4794e310ca87552800411e8c06"
     },
     {
       "path": "pages/docs/runtime/c-compiler.md",
@@ -418,7 +418,7 @@
       "path": "pages/docs/runtime/redis.md",
       "url": "https://bun.sh/docs/runtime/redis",
       "title": "Redis | Bun Docs",
-      "hash": "2468b6b22c283704c29aa1503f5985b94eed7a44adaabafb15ce4183e82e3d8e"
+      "hash": "cdb27b29e4a1f21ba78cc840acf1b447faa79c2f5481cbdabcbee5634470fff6"
     },
     {
       "path": "pages/docs/runtime/repl.md",
@@ -454,7 +454,7 @@
       "path": "pages/docs/runtime/sql.md",
       "url": "https://bun.sh/docs/runtime/sql",
       "title": "SQL | Bun Docs",
-      "hash": "16fb6e43c5cf3bdb936ac21950f5b2815d71742f2a6330f9f3bbb6461caedb1e"
+      "hash": "f4f916c693868d3a22477cda8cae82829e96e200c29ed25679405dbb80dcd9e7"
     },
     {
       "path": "pages/docs/runtime/sqlite.md",
@@ -466,7 +466,7 @@
       "path": "pages/docs/runtime/streams.md",
       "url": "https://bun.sh/docs/runtime/streams",
       "title": "Streams | Bun Docs",
-      "hash": "a46df01a103b17c193f102b017a702513e97e62b52f73a9b2de7a74a56b09270"
+      "hash": "3d7a2d7d94305f2838a5c7b1955ef6999d460e2876ee71024e3383a248f61cea"
     },
     {
       "path": "pages/docs/runtime/templating/create.md",
@@ -514,7 +514,7 @@
       "path": "pages/docs/runtime/webview.md",
       "url": "https://bun.sh/docs/runtime/webview",
       "title": "WebView | Bun Docs",
-      "hash": "33af2fecbde452448dea176b0cec25428ec9db8f824cd6be7dc36db811363e23"
+      "hash": "39c5b46d6572669dfd89f55d46ef3ca5066ac7cbdf0d05e0eec870866f90f8d8"
     },
     {
       "path": "pages/docs/runtime/workers.md",
@@ -912,10 +912,10 @@
     ]
   ],
   "last_sync": {
-    "synced_at": "2026-08-17T06:30:47.229539+00:00",
-    "added": 2,
-    "changed": 88,
-    "removed": 2,
+    "synced_at": "2026-08-24T06:34:12.848675+00:00",
+    "added": 0,
+    "changed": 12,
+    "removed": 0,
     "pages": 90
   }
 }

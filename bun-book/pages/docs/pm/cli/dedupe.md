@@ -3,7 +3,7 @@ type: Web Page
 title: bun dedupe | Bun Docs
 description: Remove duplicate versions of packages from bun.lock
 resource: https://bun.sh/docs/pm/cli/dedupe
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-24T06:34:12.842221+00:00'
 ---
 
 # bun dedupe
@@ -16,7 +16,7 @@ Over time, `bun.lock` can accumulate several versions of the same package even t
 bun dedupe v1.4.0 (abc12345)
 ↳ esbuild 0.15.10 → 0.15.11
 ↳ react 18.2.0 → 18.3.1
-2 duplicate versions removed, 3 packages installed (checked 5 packages) [12.00ms]
+2 duplicate versions removed, 3 packages installed (checked 5 packages in bun.lock) [12.00ms]
 ```
 Each row is a version Bun removed and the version its dependents now use.
 
@@ -30,7 +30,7 @@ Each row is a version Bun removed and the version its dependents now use.
 bun dedupe v1.4.0 (abc12345)
 ↳ esbuild 0.15.10 → 0.15.11
 ↳ react 18.2.0 → 18.3.1
-2 duplicate versions can be removed (checked 5 packages) [9.00ms]
+2 duplicate versions can be removed (checked 5 packages in bun.lock) [9.00ms]
   bun dedupe
 ```
 `--dry-run` prints the same output but always exits `0`.

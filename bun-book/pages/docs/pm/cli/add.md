@@ -3,7 +3,7 @@ type: Web Page
 title: bun add | Bun Docs
 description: Add packages to your project with Bun's fast package manager
 resource: https://bun.sh/docs/pm/cli/add
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-24T06:34:12.842221+00:00'
 ---
 
 # bun add
@@ -202,6 +202,8 @@ A package name can correspond to a publicly hosted `.tgz` file. Bun downloads an
   }
 }
 ```
+A tarball URL can carry credentials, such as `https://user:password@example.com/zod-3.21.4.tgz`. Bun sends them as an `Authorization: Basic` header and requests the URL without them, like npm. The URL, credentials included, is written to `package.json` and to the lockfile.
+
 ## CLI Usage
 
 `bun add <package> <@version>`

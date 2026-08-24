@@ -3,7 +3,7 @@ type: Web Page
 title: Workspaces | Bun Docs
 description: Develop complex monorepos with multiple independent packages
 resource: https://bun.sh/docs/pm/workspaces
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-24T06:34:12.842221+00:00'
 ---
 
 # Workspaces
@@ -90,6 +90,40 @@ Workspaces have a few major benefits.
 - **Split code into logical parts.** If one package relies on another, add it as a dependency in`package.json` . If package`b` depends on`a` ,`bun install` installs your local`packages/a` directory into`node_modules` instead of downloading it from the npm registry.
 - **Bun can de-duplicate dependencies.** If`a` and`b` share a common dependency, Bun*hoists* it to the root`node_modules` directory. This saves disk space and minimizes the "dependency hell" of multiple versions of a package installed at once.
 - **Run scripts in multiple packages.** Use the[`--filter` flag](/docs/pm/filter) to run`package.json` scripts in several packages at once, or`--workspaces` to run scripts across all workspaces.
+
+## Self-contained workspaces
+
+With the hoisted linker, dependencies shared by several workspaces are hoisted to the root
+`node_modules`. Some tools cannot follow that: Electron packagers and serverless bundlers walk,
+prune and repackage *one workspace's* `node_modules` and expect every dependency to be physically
+present under it. Mark such a workspace as self-contained, either in its own `package.json`
+(the same key Yarn uses; only the `"workspaces"` value is recognized):
+
+```
+{
+  "name": "desktop",
+  "installConfig": { "hoistingLimits": "workspaces" }
+}
+```
+or from the root `package.json`, next to the workspace globs:
+
+```
+{
+  "workspaces": {
+    "packages": ["apps/*", "packages/*"],
+    "selfContained": ["apps/desktop"]
+  }
+}
+```
+(entries are workspace paths or package names)
+
+For that workspace `bun install` then behaves as a hoisting barrier — nothing it depends on,
+directly or transitively (including through other workspaces it depends on), is placed above
+`apps/desktop/node_modules`, so that directory is a complete tree — and materializes those
+packages as real copies instead of hardlinks / clones from the cache, so tools that rewrite them
+cannot affect the cache or other projects. All other workspaces keep hoisting to the root as usual. The setting is recorded in `bun.lock` for the workspace, so installs from the lockfile reproduce the same layout.
+This setting has no effect with the isolated linker, where every package already resolves only its
+own dependencies.
 
 ## Share versions with Catalogs
 

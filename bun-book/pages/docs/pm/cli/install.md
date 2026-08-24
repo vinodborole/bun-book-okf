@@ -3,7 +3,7 @@ type: Web Page
 title: bun install | Bun Docs
 description: Install packages with Bun's fast package manager
 resource: https://bun.sh/docs/pm/cli/install
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-24T06:34:12.842221+00:00'
 ---
 
 # bun install
@@ -136,6 +136,18 @@ Bun does not enable `--frozen-lockfile` automatically in CI; pass the flag or us
 `--frozen-lockfile` works on a pruned monorepo checkout (e.g. `turbo prune` output, or a Docker context with only some workspace folders copied in). If a workspace listed in `bun.lock` is missing its `package.json` on disk, Bun skips it with a `note:` and does not install its exclusive dependencies. If a remaining workspace depends on a skipped one, the install fails.
 
 To validate the lockfile without installing, use `bun install --frozen-lockfile --dry-run`.
+
+### Offline installs
+
+With a warm cache, `bun install` can run without the network:
+
+```
+# Use cached package metadata regardless of age; only fetch what is missing from the cache
+bun install --prefer-offline
+# Never touch the network (registry, tarball URLs, git); a required dependency that is not cached is an error
+bun install --offline
+```
+`--prefer-offline` is also what `install.prefer = "offline"` in `bunfig.toml` selects; `install.offline = true` is the config form of `--offline`. With a complete restored cache, `--offline --frozen-lockfile` makes a CI install fully deterministic and network-free; `--prefer-offline` still fetches whatever the cache is missing.
 
 See [lockfile](/docs/pm/lockfile) for more on `bun.lock`.
 

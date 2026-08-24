@@ -3,7 +3,7 @@ type: Web Page
 title: bun prune | Bun Docs
 description: Remove packages that are not in bun.lock from node_modules
 resource: https://bun.sh/docs/pm/cli/prune
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-24T06:34:12.842221+00:00'
 ---
 
 # bun prune
@@ -18,7 +18,7 @@ Remove packages that are not in bun.lock from node_modules
 bun prune v1.4.0 (abc12345)
 - @types/node@20.11.5
 - left-pad@1.3.0
-2 packages removed (checked 948) [22.00ms]
+2 packages removed (checked 948 installed packages) [22.00ms]
 ```
 Packages removed from a workspace or nested `node_modules` folder show the folder in parentheses, e.g. `- typescript@5.4.0 (packages/app/node_modules)`.
 
@@ -42,7 +42,7 @@ List what would be removed without deleting anything:
 `bun prune --production --dry-run````
 bun prune v1.4.0 (abc12345)
 - typescript@5.4.0
-1 package can be removed (checked 948) [9.00ms]
+1 package can be removed (checked 948 installed packages) [9.00ms]
   bun prune --production
 ```
 ### `--filter`

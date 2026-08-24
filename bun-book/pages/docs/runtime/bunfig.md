@@ -3,7 +3,7 @@ type: Web Page
 title: bunfig.toml | Bun Docs
 description: Configure Bun's behavior using its configuration file bunfig.toml
 resource: https://bun.sh/docs/runtime/bunfig
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-24T06:34:12.842221+00:00'
 ---
 
 # bunfig.toml
@@ -464,9 +464,17 @@ Valid values are:
 | Value | Description | 
 |---|---|
 | `"online"` | Default. Check the registry for stale packages as needed. | 
-| `"offline"` | Skip staleness checks and resolve packages from the local cache. Equivalent to `--prefer-offline` . | 
+| `"offline"` | Skip staleness checks and resolve packages from the local cache. Equivalent to `--prefer-offline` (also honoured by`bun install` ). | 
 | `"latest"` | Always check npm for the latest matching versions. Equivalent to `--prefer-latest` . | 
 
+### `install.offline`
+
+When `true`, `bun install` never touches the network: package metadata and tarballs must already be in the cache, and anything missing is an error. Default `false`. Equivalent to `bun install --offline`. For the softer "use the cache when possible" behaviour see `install.prefer = "offline"` / `--prefer-offline`.
+
+```
+[install]
+offline = true
+```
 ### `install.frozenLockfile`
 
 When `true`, `bun install` does not update `bun.lock`. Default `false`. If `package.json` and the existing `bun.lock` disagree, the install errors.

@@ -4,7 +4,7 @@ title: SQL | Bun Docs
 description: Bun provides native bindings for working with SQL databases through a
   unified Promise-based API that supports PostgreSQL, MySQL, and SQLite.
 resource: https://bun.sh/docs/runtime/sql
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-24T06:34:12.842221+00:00'
 ---
 
 # SQL
@@ -850,6 +850,12 @@ try {
   using reserved = await sql.reserve();
   await reserved`SELECT 1`;
 } // Automatically released
+```
+When every connection is busy, `reserve()` waits until one frees up. Pass an `AbortSignal` to stop waiting: the promise rejects with `signal.reason` and no connection is taken from the pool. Aborting after the promise resolved has no effect, so a connection you received must still be released.
+
+```
+// Give up if no connection frees up within 5 seconds
+using reserved = await sql.reserve({ signal: AbortSignal.timeout(5000) });
 ```
 ## LISTEN / NOTIFY (PostgreSQL)
 

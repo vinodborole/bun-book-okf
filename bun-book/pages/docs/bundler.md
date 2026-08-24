@@ -3,7 +3,7 @@ type: Web Page
 title: Bundler | Bun Docs
 description: Bun's fast native bundler for JavaScript, TypeScript, JSX, and more
 resource: https://bun.sh/docs/bundler
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-24T06:34:12.842221+00:00'
 ---
 
 # Bundler
@@ -415,6 +415,8 @@ Running this build with the JavaScript API results in the following files:
     └── chunk-dqmx6gc8.js
 ```
 The generated `chunk-dqmx6gc8.js` file contains the shared code. To avoid collisions, the file name includes a content hash by default. The `bun build` CLI names this chunk `entry-a-t268ez5g.js` instead of `chunk-<hash>.js`. Customize this with [`naming`](#naming).
+
+Each `import()` of a bundled JavaScript module also becomes its own chunk. Tree shaking applies to these chunks too: if every `import()` of a module lives in code that tree shaking removes — for example inside a function that is only called behind a [`define`](#define) or [`features`](#features) gate that evaluates to `false` — and nothing else in the live output imports the module, its chunk is not written and the module is absent from the [metafile](#metafile)'s `inputs` and `outputs`. Setting `treeShaking: false` keeps every `import()` chunk. This differs from esbuild, which emits a chunk for every reachable `import()` target.
 
 ### plugins
 

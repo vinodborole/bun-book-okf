@@ -3,7 +3,7 @@ type: Web Page
 title: Redis | Bun Docs
 description: Use Bun's native Redis client with a Promise-based API
 resource: https://bun.sh/docs/runtime/redis
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-24T06:34:12.842221+00:00'
 ---
 
 # Redis
@@ -261,8 +261,9 @@ The client automatically converts Redis responses to JavaScript values:
 - Integer responses are returned as JavaScript numbers
 - Bulk strings are returned as JavaScript strings
 - Simple strings are returned as JavaScript strings
-- Null bulk strings are returned as `null`
+- Null bulk strings and null arrays are returned as `null`
 - Array responses are returned as JavaScript arrays
+- Big number responses (RESP3) are returned as `BigInt` . A payload that is not an integer literal is returned as a string.`getBuffer` returns the payload as a`Buffer` .
 - Error responses throw JavaScript errors with appropriate error codes
 - Boolean responses (RESP3) are returned as JavaScript booleans
 - Map responses (RESP3) are returned as JavaScript objects
@@ -300,7 +301,10 @@ When creating a client, you can pass options to configure the connection:
 const client = new RedisClient("redis://localhost:6379", {
   // Connection timeout in milliseconds (default: 10000)
   connectionTimeout: 5000,
-  // Idle timeout in milliseconds (default: 0 = no timeout)
+  // Idle timeout in milliseconds (default: 0 = no timeout). Bun counts it
+  // from the last data the server sent. Sending does not reset it. When it
+  // fires, Bun closes the connection and runs onclose. Bun does not reconnect
+  // on its own, even with autoReconnect: true. Call connect() to reconnect.
   idleTimeout: 30000,
   // Whether to automatically reconnect on disconnection (default: true)
   autoReconnect: true,
@@ -379,6 +383,7 @@ Common error codes:
 - `ERR_REDIS_CONNECTION_CLOSED` - Connection to the server was closed
 - `ERR_REDIS_AUTHENTICATION_FAILED` - Failed to authenticate with the server
 - `ERR_REDIS_INVALID_RESPONSE` - Received an invalid response from the server
+- `ERR_REDIS_SERVER_ERROR` - The server sent an error reply, either rejecting one command or, in subscriber mode, closing the connection
 
 ## Example Use Cases
 

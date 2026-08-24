@@ -4,7 +4,7 @@ title: Streams | Bun Docs
 description: Use Bun's streams API to work with binary data without loading it all
   into memory at once
 resource: https://bun.sh/docs/runtime/streams
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-24T06:34:12.842221+00:00'
 ---
 
 # Streams
@@ -111,6 +111,17 @@ const response = new Response({
   },
 });
 await response.text(); // "helloworld"
+```
+The body contains the yielded values only. As with `for await`, the generator's return value is not part of the body.
+
+```
+const response = new Response(
+  (async function* () {
+    yield "hello";
+    return "ignored";
+  })(),
+);
+await response.text(); // "hello"
 ```
 For more control over the stream, `yield` returns the direct `ReadableStream` controller.
 
