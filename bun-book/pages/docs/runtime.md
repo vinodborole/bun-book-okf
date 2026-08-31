@@ -4,7 +4,7 @@ title: Bun Runtime | Bun Docs
 description: Execute JavaScript/TypeScript files, package.json scripts, and executable
   packages with Bun's fast runtime.
 resource: https://bun.sh/docs/runtime
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-31T12:03:24.759035+00:00'
 ---
 
 # Bun Runtime
@@ -215,7 +215,10 @@ Set the process title
 
 Force `Buffer.allocUnsafe(size)` to be zero-filled
 
-Throw an error if `process.dlopen` is called, and disable export condition `node-addons`
+Throw an error if `process.dlopen` or `bun:ffi` `cc()` is called, and disable export
+condition `node-addons`
+
+Throw an error if `bun:ffi` `cc()` is called (disables the C compiler)
 
 One of `strict`, `throw`, `warn`, `none`, or 
 `warn-with-error-code`

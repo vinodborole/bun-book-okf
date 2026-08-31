@@ -4,7 +4,7 @@ title: SQL | Bun Docs
 description: Bun provides native bindings for working with SQL databases through a
   unified Promise-based API that supports PostgreSQL, MySQL, and SQLite.
 resource: https://bun.sh/docs/runtime/sql
-timestamp: '2026-08-24T06:34:12.842221+00:00'
+timestamp: '2026-08-31T12:03:24.759035+00:00'
 ---
 
 # SQL
@@ -1174,6 +1174,8 @@ Bun converts MySQL types to JavaScript types:
 | GEOMETRY | Buffer | Binary character set; the bytes are a 4-byte SRID followed by WKB | 
 
 `DATETIME` and `TIMESTAMP` values have no timezone on the wire, so Bun reads them back as **UTC**. The `Date` you get has the same UTC wall-clock that was stored, regardless of the machine's timezone. Reading as UTC matches how Bun writes values (a bound `Date` stores its UTC components). The same applies to PostgreSQL's `timestamp` (without time zone); `timestamptz` carries an explicit offset and is unaffected.
+
+Bun also sets `time_zone = '+00:00'` on every MySQL connection it opens. The server converts `TIMESTAMP` columns through the session time zone, so this keeps the stored instant equal to the `Date` you bound, and it makes server-side time functions such as `NOW()` and `CURRENT_TIMESTAMP` evaluate in UTC. There is no option to pick a different session time zone yet: a manual `SET time_zone = ...` reaches only the one pooled connection that runs it ([#40254](https://github.com/oven-sh/bun/issues/40254) tracks a per-connection option).
 
 #### Differences from PostgreSQL
 

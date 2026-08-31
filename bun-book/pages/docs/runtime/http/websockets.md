@@ -3,7 +3,7 @@ type: Web Page
 title: WebSockets | Bun Docs
 description: Server-side WebSockets in Bun
 resource: https://bun.sh/docs/runtime/http/websockets
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-31T12:03:24.759035+00:00'
 ---
 
 # WebSockets
@@ -298,6 +298,22 @@ socket.addEventListener("close", event => {});
 // error handler
 socket.addEventListener("error", event => {});
 ```
+### Backpressure
+
+The browser `WebSocket` API has no way to slow down a peer that sends faster than you consume: incoming messages are buffered in memory without bound. Bun adds `pause()` and `resume()`, which stop and restart reads from the underlying socket so the sender sees TCP backpressure instead. This is a Bun-specific extension. *It does not work in browsers.*
+
+```
+const socket = new WebSocket("ws://localhost:3000");
+socket.addEventListener("message", event => {
+  if (!file.write(event.data)) {
+    // The file's buffer is full: stop reading until it drains.
+    socket.pause();
+    file.once("drain", () => socket.resume());
+  }
+});
+```
+`pause()` and `resume()` return `true` when they took effect (or will, once a connecting socket opens) and `false` when there is no socket to act on; `socket.isPaused` reports the current state. Messages already decoded when `pause()` is called may still be delivered. The `ws` package's `pause()`, `resume()`, and `isPaused` map to the same methods.
+
 ## Reference
 
 ```

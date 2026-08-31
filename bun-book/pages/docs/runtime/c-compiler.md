@@ -3,7 +3,7 @@ type: Web Page
 title: C Compiler | Bun Docs
 description: Compile and run C from JavaScript with low overhead
 resource: https://bun.sh/docs/runtime/c-compiler
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-31T12:03:24.759035+00:00'
 ---
 
 # C Compiler
@@ -185,6 +185,12 @@ cc({
   },
 });
 ```
+### Disabling `cc`
+
+Pass `--no-ffi-cc` to disable the C compiler for a process. Any call to `cc()` then throws an error with the code `ERR_FFI_CC_DISABLED`. The `--no-addons` flag also disables `cc()`, in addition to `process.dlopen`.
+
+`bun --no-ffi-cc ./app.ts`
+Workers inherit the setting from their parent. A Worker can also set it for itself with `execArgv: ["--no-ffi-cc"]`. Standalone executables can bake it in with `bun build --compile --compile-exec-argv="--no-ffi-cc"`.
 
 # Citations
 

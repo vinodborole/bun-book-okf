@@ -3,7 +3,7 @@ type: Web Page
 title: Server | Bun Docs
 description: Use `Bun.serve` to start a high-performance HTTP server in Bun
 resource: https://bun.sh/docs/runtime/http/server
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-08-31T12:03:24.759035+00:00'
 ---
 
 # Server
@@ -175,7 +175,34 @@ Bun.serve({
   },
 });
 ```
-`http3` is not supported with unix domain sockets: QUIC requires a UDP port. `http1: false` requires `http3: true`.
+`http3` is not supported with unix domain sockets: QUIC requires a UDP port. `http1: false` requires `http2: true` or
+`http3: true`.
+
+## HTTP/2
+
+`Bun.serve` is **experimental**and may change in future releases.
+
+Set `http2: true` to serve HTTP/2 on the same port and with the same routes and `fetch` handler as HTTP/1.1.
+
+```
+Bun.serve({
+  tls: {
+    key: Bun.file("./key.pem"),
+    cert: Bun.file("./cert.pem"),
+  },
+  http2: true, 
+  fetch(req) {
+    return new Response("Hello over HTTP/2!");
+  },
+});
+```
+With `tls`, Bun picks the protocol per connection using ALPN. Clients that offer `h2` (browsers, `curl`, `node:http2`) get HTTP/2. Everyone else gets HTTP/1.1.
+
+Without `tls`, Bun serves HTTP/2 to connections that open with the HTTP/2 preface ("prior knowledge"), such as `curl --http2-prior-knowledge` or `http2.connect("http://...")` from `node:http2`. Other connections get HTTP/1.1.
+
+Set `http1: false` to refuse HTTP/1.x clients. Over TLS, clients that offer ALPN without `h2` fail the handshake; clients that send no ALPN at all, and cleartext connections that don't start with the preface, receive `505 HTTP Version Not Supported`. With `http1: false` the server cannot accept WebSocket connections, since `server.upgrade()` is HTTP/1.1-only.
+
+`server.upgrade()` only works on HTTP/1.1 requests. WebSockets over HTTP/2, server push, and response trailers (needed by gRPC) are not supported.
 
 ## idleTimeout
 
@@ -310,7 +337,7 @@ const server = Bun.serve({
   },
 });
 ```
-Use `server.timeout(req, 0)` to keep a long-lived streaming response (like Server-Sent Events) alive without raising the global `idleTimeout` for every request:
+Use `server.timeout(req, 0)` to keep a long-lived streaming response (like Server-Sent Events) alive without raising the global `idleTimeout` for every request. Over HTTP/2 the timeout belongs to the connection, so the most permissive value among its open requests applies:
 
 ```
 Bun.serve({

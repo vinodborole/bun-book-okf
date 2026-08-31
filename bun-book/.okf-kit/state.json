@@ -2,7 +2,7 @@
   "generator": "okf-kit",
   "okf_version": "0.1",
   "root_url": "https://bun.sh/docs",
-  "updated_at": "2026-08-24T06:34:12.872477+00:00",
+  "updated_at": "2026-08-31T12:03:24.800470+00:00",
   "config": {
     "max_depth": 3,
     "max_pages": 90,
@@ -22,7 +22,7 @@
       "path": "pages/docs/bundler.md",
       "url": "https://bun.sh/docs/bundler",
       "title": "Bundler | Bun Docs",
-      "hash": "a436e40a88dd8df13514b2435cdac8915bfbe7e80b4b8dca8622e05a40c39946"
+      "hash": "40e1d8f2642e0dfe3d49d3ed0e8b73ab38541c44f757da242d480735bb5f07a0"
     },
     {
       "path": "pages/docs/feedback.md",
@@ -160,7 +160,7 @@
       "path": "pages/docs/runtime.md",
       "url": "https://bun.sh/docs/runtime",
       "title": "Bun Runtime | Bun Docs",
-      "hash": "509fb3fe92de1008408d24b31001980d3d4caead105b93578a7fd7f0054e6c1b"
+      "hash": "1454f7922ffcfb8edb9fcc75b99772a09bcca5015893dc47d502a38787727e45"
     },
     {
       "path": "pages/docs/runtime/archive.md",
@@ -196,7 +196,7 @@
       "path": "pages/docs/runtime/c-compiler.md",
       "url": "https://bun.sh/docs/runtime/c-compiler",
       "title": "C Compiler | Bun Docs",
-      "hash": "3ead87b5683da26dbc0836cbe8316a72c26bcf054a90a4019cb36b0d85a0e205"
+      "hash": "926f76f7f89014e56f3c4e702c8ee8adcfafbcd744b1ecb33d8a0e42d90ff54a"
     },
     {
       "path": "pages/docs/runtime/child-process.md",
@@ -244,7 +244,7 @@
       "path": "pages/docs/runtime/environment-variables.md",
       "url": "https://bun.sh/docs/runtime/environment-variables",
       "title": "Environment Variables | Bun Docs",
-      "hash": "d4590e5304e86eef7f77d5c248be7dd920c32397bcd4ff72d8d1c3cabadc0116"
+      "hash": "18b5a47eebb3e0ee78b5cd660c4609cb61eda5d4779a0463301408644e30c475"
     },
     {
       "path": "pages/docs/runtime/ffi.md",
@@ -322,7 +322,7 @@
       "path": "pages/docs/runtime/http/server.md",
       "url": "https://bun.sh/docs/runtime/http/server",
       "title": "Server | Bun Docs",
-      "hash": "c30c17812c09ea8fe65ab130380cdac59da14ac8224f952e569d50451084f4ab"
+      "hash": "427c4a2163f0d6310206aa745d61bff81311f5e31455f64f2454970f90635834"
     },
     {
       "path": "pages/docs/runtime/http/tls.md",
@@ -334,7 +334,7 @@
       "path": "pages/docs/runtime/http/websockets.md",
       "url": "https://bun.sh/docs/runtime/http/websockets",
       "title": "WebSockets | Bun Docs",
-      "hash": "532f77a1f8c30b9f1730cc2efb8eaf10df505c09143082499c1f97594c64a691"
+      "hash": "f35d0b45e4f3789577a7ed56433da4147254ae3c2672773e099d7b1603d9124d"
     },
     {
       "path": "pages/docs/runtime/image.md",
@@ -454,7 +454,7 @@
       "path": "pages/docs/runtime/sql.md",
       "url": "https://bun.sh/docs/runtime/sql",
       "title": "SQL | Bun Docs",
-      "hash": "f4f916c693868d3a22477cda8cae82829e96e200c29ed25679405dbb80dcd9e7"
+      "hash": "1b98704ed237c4d34076551380eca53a6cf615495824a4ced06ea0fb28f3a254"
     },
     {
       "path": "pages/docs/runtime/sqlite.md",
@@ -912,9 +912,9 @@
     ]
   ],
   "last_sync": {
-    "synced_at": "2026-08-24T06:34:12.848675+00:00",
+    "synced_at": "2026-08-31T12:03:24.765000+00:00",
     "added": 0,
-    "changed": 12,
+    "changed": 7,
     "removed": 0,
     "pages": 90
   }
