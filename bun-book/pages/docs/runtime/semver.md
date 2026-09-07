@@ -3,7 +3,7 @@ type: Web Page
 title: Semver | Bun Docs
 description: Use Bun's semantic versioning API
 resource: https://bun.sh/docs/runtime/semver
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-09-07T10:57:18.683997+00:00'
 ---
 
 # Semver
@@ -37,7 +37,7 @@ semver.satisfies("1.0.0", "x.x.x"); // true
 semver.satisfies("1.0.0", "1.0.0 - 2.0.0"); // true
 semver.satisfies("1.0.0", "1.0.0 - 1.0.1"); // true
 ```
-If `range` or `version` is invalid, it returns `false`.
+`satisfies` returns `false` if `version` is invalid, or if either argument contains a non-ASCII character. Bun ignores the parts of `range` that it cannot parse. A `range` with no parseable part behaves like `*`.
 
 ## `Bun.semver.order(versionA: string, versionB: string): 0 | 1 | -1`
 

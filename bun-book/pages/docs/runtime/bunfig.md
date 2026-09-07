@@ -3,7 +3,7 @@ type: Web Page
 title: bunfig.toml | Bun Docs
 description: Configure Bun's behavior using its configuration file bunfig.toml
 resource: https://bun.sh/docs/runtime/bunfig
-timestamp: '2026-08-24T06:34:12.842221+00:00'
+timestamp: '2026-09-07T10:57:18.683997+00:00'
 ---
 
 # bunfig.toml
@@ -774,7 +774,7 @@ bun run --silent dev
 ```
 ### `run.elide-lines` - truncate filtered output
 
-The number of lines of script output shown per script when using `--filter`. Default `10`. Set to `0` to show all lines. Equivalent to the `--elide-lines` flag.
+Truncate each script's output to its last N lines when using `--filter` in a terminal. Default `0` (show all lines). Equivalent to the `--elide-lines` flag.
 
 ```
 [run]

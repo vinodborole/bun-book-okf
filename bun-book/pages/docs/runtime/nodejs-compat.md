@@ -3,7 +3,7 @@ type: Web Page
 title: Node.js Compatibility | Bun Docs
 description: Bun's compatibility status with Node.js APIs, modules, and globals
 resource: https://bun.sh/docs/runtime/nodejs-compat
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-09-07T10:57:18.683997+00:00'
 ---
 
 # Node.js Compatibility
@@ -66,7 +66,7 @@ We update this page regularly. It reflects the latest version of Bun's compatibi
 ### [`node:https`](https://nodejs.org/api/https.html)
 
 `node:https`
-🟡 `request`, `get`, `Agent` and `globalAgent` are implemented, including connection pooling. `https.Server` is `http.Server` with TLS options rather than a `tls.Server`. Request sockets are not `tls.TLSSocket`s: `encrypted`, `authorized` and `servername` work, but `getPeerCertificate()` and `getCipher()` are missing. `setSecureContext()`, `addContext()`, `SNICallback` and `handshakeTimeout` are not supported.
+🟡 `request`, `get`, `Agent` and `globalAgent` are implemented, including connection pooling. Client sockets are `tls.TLSSocket`s. `https.Server` is `http.Server` with TLS options rather than a `tls.Server`. Its request sockets (`req.socket`) are not `tls.TLSSocket`s: `encrypted`, `authorized` and `servername` work, but `getPeerCertificate()` and `getCipher()` are missing. `setSecureContext()`, `addContext()`, `SNICallback` and `handshakeTimeout` are not supported.
 
 ### [`node:os`](https://nodejs.org/api/os.html)
 
@@ -141,7 +141,7 @@ We update this page regularly. It reflects the latest version of Bun's compatibi
 ### [`node:crypto`](https://nodejs.org/api/crypto.html)
 
 `node:crypto`
-🟡 Missing `encapsulate`/`decapsulate` (you can use ML-KEM keys through `crypto.subtle`). `argon2()` and custom engines (`setEngine()`) throw, `setFips()` is a no-op and `secureHeapUsed()` returns `undefined`. Bun's crypto is backed by BoringSSL, which lacks the `ed448`, `x448`, `rsa-pss`, `dsa` and `dh` key types, EC curves other than P-224/256/384/521 (no `secp256k1`), and the CCM, OCB, XTS and `chacha20-poly1305` ciphers.
+🟡 Missing `encapsulate`/`decapsulate` (you can use ML-KEM keys through `crypto.subtle`). `argon2()` and `argon2Sync()` are implemented. Custom engines (`setEngine()`) throw, `setFips()` is a no-op and `secureHeapUsed()` returns `undefined`. Bun's crypto is backed by BoringSSL, which lacks the `ed448`, `x448`, `rsa-pss`, `dsa`, `dh` and `ml-kem-512` key types, EC curves other than P-224/256/384/521 (no `secp256k1`), and the CCM, OCB, XTS and `chacha20-poly1305` ciphers. The `DiffieHellman` class (`createDiffieHellman()`, `getDiffieHellman()`) works.
 
 ### [`node:domain`](https://nodejs.org/api/domain.html)
 
@@ -151,7 +151,7 @@ We update this page regularly. It reflects the latest version of Bun's compatibi
 ### [`node:http2`](https://nodejs.org/api/http2.html)
 
 `node:http2`
-🟢 Client & server are implemented. 94% of Node.js's test suite passes. The `maxDeflateDynamicTableSize`, `peerMaxConcurrentStreams`, `streamResetBurst`/`streamResetRate` and `maxOriginSetSize` options are accepted but ignored.
+🟢 Client & server are implemented. 94% of Node.js's test suite passes. The `maxDeflateDynamicTableSize`, `peerMaxConcurrentStreams` and `streamResetBurst`/`streamResetRate` options are accepted but ignored.
 
 ### [`node:module`](https://nodejs.org/api/module.html)
 
@@ -176,7 +176,7 @@ We update this page regularly. It reflects the latest version of Bun's compatibi
 ### [`node:sys`](https://nodejs.org/api/util.html)
 
 `node:sys`
-🟡 See [`node:util`](#node-util).
+🟢 See [`node:util`](#node-util).
 
 ### [`node:tls`](https://nodejs.org/api/tls.html)
 
@@ -186,7 +186,7 @@ We update this page regularly. It reflects the latest version of Bun's compatibi
 ### [`node:util`](https://nodejs.org/api/util.html)
 
 `node:util`
-🟡 Missing `diff`, `transferableAbortSignal` and `transferableAbortController`. `debuglog()` ignores its `callback` argument and the returned function has no `enabled` property.
+🟢 Fully implemented. Missing `diff` (experimental in Node.js), `transferableAbortSignal` and `transferableAbortController`. `debuglog()` ignores its `callback` argument and the returned function has no `enabled` property.
 
 ### [`node:v8`](https://nodejs.org/api/v8.html)
 
@@ -196,7 +196,7 @@ We update this page regularly. It reflects the latest version of Bun's compatibi
 ### [`node:vm`](https://nodejs.org/api/vm.html)
 
 `node:vm`
-🟡 Core functionality and ES modules are implemented, including `vm.Script`, `vm.createContext`, `vm.runInContext`, `vm.runInNewContext`, `vm.runInThisContext`, `vm.compileFunction`, `vm.isContext`, `vm.Module`, `vm.SourceTextModule`, `vm.SyntheticModule` (exported without `--experimental-vm-modules`), and `importModuleDynamically` support. The `timeout`, `breakOnSigint`, `cachedData`, `microtaskMode` and `codeGeneration` options are supported. An `importModuleDynamically` callback that returns a promise for a `vm.Module` resolves `import()` to the module object rather than its namespace. `vm.measureMemory()` reports whole-heap figures for every context.
+🟢 Fully implemented, including `vm.Script`, `vm.createContext`, `vm.runInContext`, `vm.runInNewContext`, `vm.runInThisContext`, `vm.compileFunction`, `vm.isContext`, the ES module classes `vm.Module`, `vm.SourceTextModule` and `vm.SyntheticModule` (exported without `--experimental-vm-modules`), and `importModuleDynamically` support. The `timeout`, `breakOnSigint`, `cachedData`, `microtaskMode` and `codeGeneration` options are supported. An `importModuleDynamically` callback that returns a promise for a `vm.Module` resolves `import()` to the module object rather than its namespace. `vm.measureMemory()` reports whole-heap figures for every context.
 
 ### [`node:wasi`](https://nodejs.org/api/wasi.html)
 
@@ -206,12 +206,12 @@ We update this page regularly. It reflects the latest version of Bun's compatibi
 ### [`node:worker_threads`](https://nodejs.org/api/worker_threads.html)
 
 `node:worker_threads`
-🟡 `Worker` ignores the `resourceLimits` and `trackUnmanagedFds` options, and `execArgv` only sets `process.execArgv` in the worker. `worker.performance.eventLoopUtilization()` is a stub. Missing `moveMessagePortToContext` and `locks`.
+🟡 `Worker` ignores the `resourceLimits` and `trackUnmanagedFds` options. Some `execArgv` flags take effect in the worker, for example `--no-addons`, `--stack-trace-limit` and `--tls-min-v1.3`. Others, for example `--conditions` and `--no-deprecation`, only set `process.execArgv`. `worker.performance.eventLoopUtilization()` is a stub. Missing `moveMessagePortToContext` and `locks`.
 
 ### [`node:inspector`](https://nodejs.org/api/inspector.html)
 
 `node:inspector`
-🟡 Partially implemented. `Session` supports the `Profiler` domain (including precise coverage), `Runtime.enable` and `NodeTracing`, from both `node:inspector` and `node:inspector/promises`. Other `Session` commands such as `Runtime.evaluate` and the `HeapProfiler` domain are not implemented. `open()`, `url()`, `close()` and `waitForDebugger()` are implemented. `open()` serves the `Debugger` and `Runtime` domains and throws in workers. Missing `Network`.
+🟡 Partially implemented. `Session` supports the `Profiler` domain (including precise coverage), `Runtime.enable` and `NodeTracing`, from both `node:inspector` and `node:inspector/promises`. After `open()`, `Session` also forwards `Debugger` configuration commands such as `Debugger.enable` and `Debugger.setBreakpointByUrl` to the inspector server. Their results, such as `breakpointId`, are not returned. Other `Session` commands such as `Runtime.evaluate` and the `HeapProfiler` domain are not implemented. `open()`, `url()`, `close()` and `waitForDebugger()` are implemented. `open()` serves the `Debugger` and `Runtime` domains and throws in workers. Missing `Network`.
 
 ### [`node:repl`](https://nodejs.org/api/repl.html)
 
@@ -317,6 +317,11 @@ The following list covers the globals implemented by Node.js and Bun's compatibi
 `clearTimeout()`
 🟢 Fully implemented.
 
+### [`CloseEvent`](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent)
+
+`CloseEvent`
+🟢 Fully implemented.
+
 ### [`CompressionStream`](https://developer.mozilla.org/en-US/docs/Web/API/CompressionStream)
 
 `CompressionStream`
@@ -357,6 +362,11 @@ The following list covers the globals implemented by Node.js and Bun's compatibi
 `DecompressionStream`
 🟢 Fully implemented.
 
+### [`ErrorEvent`](https://developer.mozilla.org/en-US/docs/Web/API/ErrorEvent)
+
+`ErrorEvent`
+🟢 Fully implemented.
+
 ### [`Event`](https://developer.mozilla.org/en-US/docs/Web/API/Event)
 
 `Event`
@@ -376,6 +386,11 @@ The following list covers the globals implemented by Node.js and Bun's compatibi
 
 `fetch`
 🟢 Fully implemented. The `integrity` option is ignored.
+
+### [`File`](https://developer.mozilla.org/en-US/docs/Web/API/File)
+
+`File`
+🟢 Fully implemented. `File` objects report `Blob` as their `constructor` and `Symbol.toStringTag`.
 
 ### [`FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData)
 
@@ -417,6 +432,11 @@ The following list covers the globals implemented by Node.js and Bun's compatibi
 `module`
 🟢 Fully implemented. Missing `module.isPreloading`.
 
+### [`navigator`](https://nodejs.org/api/globals.html#navigator)
+
+`navigator`
+🟡 `userAgent`, `platform` and `hardwareConcurrency` are implemented. Missing `language`, `languages` and `locks`. The `Navigator` class is not a global.
+
 ### [`PerformanceEntry`](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceEntry)
 
 `PerformanceEntry`
@@ -455,12 +475,17 @@ The following list covers the globals implemented by Node.js and Bun's compatibi
 ### [`process`](https://nodejs.org/api/process.html)
 
 `process`
-🟡 Mostly implemented. `process.binding` (internal Node.js bindings some packages rely on) is partially implemented: `buffer`, `config`, `constants`, `fs`, `natives`, `tty_wrap`, `util` and `uv` are available, the rest throw. Setting `process.title` is a no-op on macOS & Linux. `getActiveResourcesInfo()`, `_getActiveHandles()` and `_getActiveRequests()` always return an empty array, `setSourceMapsEnabled()` is a no-op, and `process.report.writeReport()` writes nothing. Missing `sourceMapsEnabled` and `addUncaughtExceptionCaptureCallback`.
+🟡 Mostly implemented. `process.binding` (internal Node.js bindings some packages rely on) is partially implemented: `buffer`, `config`, `constants`, `crypto/x509`, `fs`, `http_parser`, `natives`, `tty_wrap`, `util` and `uv` are available, the rest throw. Setting `process.title` is a no-op on macOS & Linux. `getActiveResourcesInfo()`, `_getActiveHandles()` and `_getActiveRequests()` always return an empty array, `setSourceMapsEnabled()` is a no-op, and `process.report.writeReport()` writes nothing. Missing `sourceMapsEnabled` and `addUncaughtExceptionCaptureCallback`.
 
 ### [`queueMicrotask()`](https://developer.mozilla.org/en-US/docs/Web/API/queueMicrotask)
 
 `queueMicrotask()`
 🟢 Fully implemented.
+
+### [`QuotaExceededError`](https://developer.mozilla.org/en-US/docs/Web/API/QuotaExceededError)
+
+`QuotaExceededError`
+🔴 Not implemented.
 
 ### [`ReadableByteStreamController`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableByteStreamController)
 
@@ -527,6 +552,11 @@ The following list covers the globals implemented by Node.js and Bun's compatibi
 `structuredClone()`
 🟢 Fully implemented. Only `ArrayBuffer` and `MessagePort` can be transferred, and cloned `Error`s lose their `cause`.
 
+### [`Storage`](https://developer.mozilla.org/en-US/docs/Web/API/Storage)
+
+`Storage`
+🔴 Not implemented. Bun has no `Storage`, `localStorage` or `sessionStorage` globals.
+
 ### [`SubtleCrypto`](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto)
 
 `SubtleCrypto`
@@ -572,6 +602,11 @@ The following list covers the globals implemented by Node.js and Bun's compatibi
 `URL`
 🟢 Fully implemented.
 
+### [`URLPattern`](https://developer.mozilla.org/en-US/docs/Web/API/URLPattern)
+
+`URLPattern`
+🟢 Fully implemented.
+
 ### [`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)
 
 `URLSearchParams`
@@ -581,6 +616,11 @@ The following list covers the globals implemented by Node.js and Bun's compatibi
 
 `WebAssembly`
 🟢 Fully implemented. Memory64 is disabled by default (set `BUN_JSC_useWasmMemory64=1` to enable it).
+
+### [`WebSocket`](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
+
+`WebSocket`
+🟢 Fully implemented. `binaryType` defaults to `"nodebuffer"`, so binary messages arrive as `Buffer`s. Node.js defaults to `"blob"`.
 
 ### [`WritableStream`](https://developer.mozilla.org/en-US/docs/Web/API/WritableStream)
 

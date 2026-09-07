@@ -3,7 +3,7 @@ type: Web Page
 title: Utils | Bun Docs
 description: Use Bun's utility functions to work with the runtime
 resource: https://bun.sh/docs/runtime/utils
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-09-07T10:57:18.683997+00:00'
 ---
 
 # Utils
@@ -266,7 +266,7 @@ Escapes the following characters from an input string:
 - `<` becomes`<`
 - `>` becomes`>`
 
-This function is optimized for large input. On an M1X, it processes 480 MB/s - 20 GB/s, depending on how much data is being escaped and whether there is non-ASCII text. Bun converts non-string types to a string before escaping.
+This function is optimized for large input. On an M1 Max, it processes 480 MB/s - 20 GB/s, depending on how much data is being escaped and whether there is non-ASCII text. Bun converts non-string types to a string before escaping.
 
 ## `Bun.stringWidth()`
 

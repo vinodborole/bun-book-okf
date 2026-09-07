@@ -4,7 +4,7 @@ title: Bun Runtime | Bun Docs
 description: Execute JavaScript/TypeScript files, package.json scripts, and executable
   packages with Bun's fast runtime.
 resource: https://bun.sh/docs/runtime
-timestamp: '2026-08-31T12:03:24.759035+00:00'
+timestamp: '2026-09-07T10:57:18.683997+00:00'
 ---
 
 # Bun Runtime
@@ -180,7 +180,7 @@ Display this menu and exit. Alias: `-h`
 
 ### Workspace Management
 
-Number of lines of script output shown when using --filter (default: 10). Set to 0 to show all lines
+Truncate each script's output to its last N lines when using --filter. Default 0 shows all lines
 
 Run a script in all workspace packages matching the pattern. Alias: `-F`
 

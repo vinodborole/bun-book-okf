@@ -3,7 +3,7 @@ type: Web Page
 title: Workspaces | Bun Docs
 description: Develop complex monorepos with multiple independent packages
 resource: https://bun.sh/docs/pm/workspaces
-timestamp: '2026-08-24T06:34:12.842221+00:00'
+timestamp: '2026-09-07T10:57:18.683997+00:00'
 ---
 
 # Workspaces
@@ -97,7 +97,7 @@ With the hoisted linker, dependencies shared by several workspaces are hoisted t
 `node_modules`. Some tools cannot follow that: Electron packagers and serverless bundlers walk,
 prune and repackage *one workspace's* `node_modules` and expect every dependency to be physically
 present under it. Mark such a workspace as self-contained, either in its own `package.json`
-(the same key Yarn uses; only the `"workspaces"` value is recognized):
+(the same key Yarn uses; only the `"workspaces"` value changes the layout):
 
 ```
 {
@@ -121,7 +121,7 @@ For that workspace `bun install` then behaves as a hoisting barrier — nothing 
 directly or transitively (including through other workspaces it depends on), is placed above
 `apps/desktop/node_modules`, so that directory is a complete tree — and materializes those
 packages as real copies instead of hardlinks / clones from the cache, so tools that rewrite them
-cannot affect the cache or other projects. All other workspaces keep hoisting to the root as usual. The setting is recorded in `bun.lock` for the workspace, so installs from the lockfile reproduce the same layout.
+cannot affect the cache or other projects. All other workspaces keep hoisting to the root as usual. The lockfile does not record the setting. Bun reads it from `package.json` on every install, `--frozen-lockfile` included, so the lockfile is the same with and without it.
 This setting has no effect with the isolated linker, where every package already resolves only its
 own dependencies.
 

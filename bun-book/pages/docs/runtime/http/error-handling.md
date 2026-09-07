@@ -3,26 +3,27 @@ type: Web Page
 title: Error Handling | Bun Docs
 description: Learn how to handle errors in Bun's development server
 resource: https://bun.sh/docs/runtime/http/error-handling
-timestamp: '2026-08-17T06:30:47.177846+00:00'
+timestamp: '2026-09-07T10:57:18.683997+00:00'
 ---
 
 # Error Handling
 
 Learn how to handle errors in Bun's development server
 
-To activate development mode, set `development: true`.
-
-server.ts
+`Bun.serve()` runs in development mode by default. It is turned off when `NODE_ENV=production` is set, when Bun is run with `--production`, or when you pass `development: false`.
 
 ```
 Bun.serve({
-  development: true, 
+  development: false, 
   fetch(req) {
     throw new Error("woops!");
   },
 });
 ```
-In development mode, Bun surfaces errors in-browser with a built-in error page.
+In development mode, when a request handler throws and no `error` handler returns a response, Bun responds with a built-in error page that includes the error message, stack trace, source code around each frame, and file paths. This is meant for debugging locally.
+
+The development error page sends source code and file paths to whoever made the request. Set `NODE_ENV=production` (or
+`development: false`) when deploying so uncaught errors return a plain `500` instead.
 
 ### `error` callback
 

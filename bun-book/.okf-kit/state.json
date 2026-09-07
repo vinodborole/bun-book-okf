@@ -2,7 +2,7 @@
   "generator": "okf-kit",
   "okf_version": "0.1",
   "root_url": "https://bun.sh/docs",
-  "updated_at": "2026-08-31T12:03:24.800470+00:00",
+  "updated_at": "2026-09-07T10:57:18.843114+00:00",
   "config": {
     "max_depth": 3,
     "max_pages": 90,
@@ -22,7 +22,7 @@
       "path": "pages/docs/bundler.md",
       "url": "https://bun.sh/docs/bundler",
       "title": "Bundler | Bun Docs",
-      "hash": "40e1d8f2642e0dfe3d49d3ed0e8b73ab38541c44f757da242d480735bb5f07a0"
+      "hash": "e3e2dcbfc3b714f6cdd493b694c2b616ec8737d7efdff6aa4dbaed84342c75f8"
     },
     {
       "path": "pages/docs/feedback.md",
@@ -82,7 +82,7 @@
       "path": "pages/docs/pm/cli/prune.md",
       "url": "https://bun.sh/docs/pm/cli/prune",
       "title": "bun prune | Bun Docs",
-      "hash": "45fd4462de91ed45f45e905e7ee2980b768b86e59e0583a26e37f8e5cd3812a6"
+      "hash": "4b9ef8ed7e542b711abd7cd9f85a6c5145232b20e551c342c0ded45fbe7fe7b6"
     },
     {
       "path": "pages/docs/pm/cli/publish.md",
@@ -112,7 +112,7 @@
       "path": "pages/docs/pm/workspaces.md",
       "url": "https://bun.sh/docs/pm/workspaces",
       "title": "Workspaces | Bun Docs",
-      "hash": "c1fd8454fe493df1affe16d6af0136bbe5c259fc6725473061db84bef1535942"
+      "hash": "6c8945af5b1df308123de79848047270eeee3bef902b5f47b6f305f535a70aad"
     },
     {
       "path": "pages/docs/project/benchmarking.md",
@@ -130,19 +130,19 @@
       "path": "pages/docs/project/building-windows.md",
       "url": "https://bun.sh/docs/project/building-windows",
       "title": "Building Windows | Bun Docs",
-      "hash": "189b487a244a99fd0c0832b67aa044494fd302bd614e1f0fd976480621928e8e"
+      "hash": "02c0b6cb0de06cb31327d17b2d487dcb4308c57cd0a1e2783d4f0563312846ca"
     },
     {
       "path": "pages/docs/project/contributing.md",
       "url": "https://bun.sh/docs/project/contributing",
       "title": "Contributing | Bun Docs",
-      "hash": "9138bd2e9b5fbcc81762837eef900769fcb8023ade74992079a1c8787a3b2160"
+      "hash": "35e8e9c13d88ec46092f203c0660541b386b1b988a79752dd4a81464b3a004f2"
     },
     {
       "path": "pages/docs/project/license.md",
       "url": "https://bun.sh/docs/project/license",
       "title": "License | Bun Docs",
-      "hash": "fa7d72adf56f4c012dca1dab12bd100d8c5432e605695d973a81b0312a3360ad"
+      "hash": "91fafb13e650b1147d9fcd8a068218dc2753eda2a92e338ce5c7eb93735b120e"
     },
     {
       "path": "pages/docs/project/roadmap.md",
@@ -160,7 +160,7 @@
       "path": "pages/docs/runtime.md",
       "url": "https://bun.sh/docs/runtime",
       "title": "Bun Runtime | Bun Docs",
-      "hash": "1454f7922ffcfb8edb9fcc75b99772a09bcca5015893dc47d502a38787727e45"
+      "hash": "a3fbf1784a7211bd50572558788c54302ae5fbff57b51b9866775ed381ee0048"
     },
     {
       "path": "pages/docs/runtime/archive.md",
@@ -190,7 +190,7 @@
       "path": "pages/docs/runtime/bunfig.md",
       "url": "https://bun.sh/docs/runtime/bunfig",
       "title": "bunfig.toml | Bun Docs",
-      "hash": "7097d6c7dae720d8ee6cb01f93e53496e987ea4794e310ca87552800411e8c06"
+      "hash": "a9ad9aab0bfbcc9adfcb8d4a42aa4aa6e923d84d62552c9c6a1fddaf68896326"
     },
     {
       "path": "pages/docs/runtime/c-compiler.md",
@@ -268,7 +268,7 @@
       "path": "pages/docs/runtime/file-types.md",
       "url": "https://bun.sh/docs/runtime/file-types",
       "title": "File Types | Bun Docs",
-      "hash": "a86efaeb7daa71d560e77a0d2d25db6b229c2c179945e0c6679245fd3913a64b"
+      "hash": "afddb35a9bb62d84fcfd38b158f3ec794a4ce59c31255f537feb3265e23f8e88"
     },
     {
       "path": "pages/docs/runtime/glob.md",
@@ -304,7 +304,7 @@
       "path": "pages/docs/runtime/http/error-handling.md",
       "url": "https://bun.sh/docs/runtime/http/error-handling",
       "title": "Error Handling | Bun Docs",
-      "hash": "41614271474b402743c37021c4157b3245f6a7d2bbfb7f5582a7f3a2b596c62b"
+      "hash": "2a74d9d91fc4e0b03379da99d23274dbec722c069ea4066a81c62c37ec67fd37"
     },
     {
       "path": "pages/docs/runtime/http/metrics.md",
@@ -406,7 +406,7 @@
       "path": "pages/docs/runtime/nodejs-compat.md",
       "url": "https://bun.sh/docs/runtime/nodejs-compat",
       "title": "Node.js Compatibility | Bun Docs",
-      "hash": "bf1e73fed2c246894217866223916392a6bb1ec74586947bd2f4ace54100c742"
+      "hash": "1ebd88701db2c8f412833d939b741b4201566aae37e35cec8b2f83c670c91202"
     },
     {
       "path": "pages/docs/runtime/plugins.md",
@@ -442,7 +442,7 @@
       "path": "pages/docs/runtime/semver.md",
       "url": "https://bun.sh/docs/runtime/semver",
       "title": "Semver | Bun Docs",
-      "hash": "d7f7da76fa0d54af39e5b9301c0b67815bfe574ec9cc09b7c345e1f8ca2074f4"
+      "hash": "61e7b2d90ec5019fff5357b492841aa4f14462495d5558b07f7c598768477c65"
     },
     {
       "path": "pages/docs/runtime/shell.md",
@@ -496,7 +496,7 @@
       "path": "pages/docs/runtime/utils.md",
       "url": "https://bun.sh/docs/runtime/utils",
       "title": "Utils | Bun Docs",
-      "hash": "8c6682040d563266f675c9ea1683c4812c526a06c2d525bd0f613850d9836a67"
+      "hash": "3251cbbf69c1938af6e6d5d2b7a2745830bad8c6ceec78e04c711d60f0351c5e"
     },
     {
       "path": "pages/docs/runtime/watch-mode.md",
@@ -514,13 +514,13 @@
       "path": "pages/docs/runtime/webview.md",
       "url": "https://bun.sh/docs/runtime/webview",
       "title": "WebView | Bun Docs",
-      "hash": "39c5b46d6572669dfd89f55d46ef3ca5066ac7cbdf0d05e0eec870866f90f8d8"
+      "hash": "8be73ce664ad7259e7d44d0c35edd3915b8765ac819823bc641f848573ac167f"
     },
     {
       "path": "pages/docs/runtime/workers.md",
       "url": "https://bun.sh/docs/runtime/workers",
       "title": "Workers | Bun Docs",
-      "hash": "7287a8aac3f74ea1eb8e00f57d4f2435b48e4ebfa5d978b6ed925b6c92b6ed3b"
+      "hash": "95fa24b3359b66cbd3798c42f4b2717184df0ff0a7e8f53636f8a57cbeb32040"
     },
     {
       "path": "pages/docs/runtime/xml.md",
@@ -912,9 +912,9 @@
     ]
   ],
   "last_sync": {
-    "synced_at": "2026-08-31T12:03:24.765000+00:00",
+    "synced_at": "2026-09-07T10:57:18.802150+00:00",
     "added": 0,
-    "changed": 7,
+    "changed": 15,
     "removed": 0,
     "pages": 90
   }
