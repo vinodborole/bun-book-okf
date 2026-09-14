@@ -2,7 +2,7 @@
   "generator": "okf-kit",
   "okf_version": "0.1",
   "root_url": "https://bun.sh/docs",
-  "updated_at": "2026-09-07T10:57:18.843114+00:00",
+  "updated_at": "2026-09-14T11:09:51.889599+00:00",
   "config": {
     "max_depth": 3,
     "max_pages": 90,
@@ -22,7 +22,7 @@
       "path": "pages/docs/bundler.md",
       "url": "https://bun.sh/docs/bundler",
       "title": "Bundler | Bun Docs",
-      "hash": "e3e2dcbfc3b714f6cdd493b694c2b616ec8737d7efdff6aa4dbaed84342c75f8"
+      "hash": "0b1329f33c021eb11b324e8cf6c81bea68fd8dbb5db0984816e2d6dc919913f2"
     },
     {
       "path": "pages/docs/feedback.md",
@@ -130,19 +130,19 @@
       "path": "pages/docs/project/building-windows.md",
       "url": "https://bun.sh/docs/project/building-windows",
       "title": "Building Windows | Bun Docs",
-      "hash": "02c0b6cb0de06cb31327d17b2d487dcb4308c57cd0a1e2783d4f0563312846ca"
+      "hash": "189b487a244a99fd0c0832b67aa044494fd302bd614e1f0fd976480621928e8e"
     },
     {
       "path": "pages/docs/project/contributing.md",
       "url": "https://bun.sh/docs/project/contributing",
       "title": "Contributing | Bun Docs",
-      "hash": "35e8e9c13d88ec46092f203c0660541b386b1b988a79752dd4a81464b3a004f2"
+      "hash": "9138bd2e9b5fbcc81762837eef900769fcb8023ade74992079a1c8787a3b2160"
     },
     {
       "path": "pages/docs/project/license.md",
       "url": "https://bun.sh/docs/project/license",
       "title": "License | Bun Docs",
-      "hash": "91fafb13e650b1147d9fcd8a068218dc2753eda2a92e338ce5c7eb93735b120e"
+      "hash": "fa7d72adf56f4c012dca1dab12bd100d8c5432e605695d973a81b0312a3360ad"
     },
     {
       "path": "pages/docs/project/roadmap.md",
@@ -406,7 +406,7 @@
       "path": "pages/docs/runtime/nodejs-compat.md",
       "url": "https://bun.sh/docs/runtime/nodejs-compat",
       "title": "Node.js Compatibility | Bun Docs",
-      "hash": "1ebd88701db2c8f412833d939b741b4201566aae37e35cec8b2f83c670c91202"
+      "hash": "adb102880778f2ce2b832de76bc4dedd46aeb2448217fae45adbe3f4482e043d"
     },
     {
       "path": "pages/docs/runtime/plugins.md",
@@ -466,7 +466,7 @@
       "path": "pages/docs/runtime/streams.md",
       "url": "https://bun.sh/docs/runtime/streams",
       "title": "Streams | Bun Docs",
-      "hash": "3d7a2d7d94305f2838a5c7b1955ef6999d460e2876ee71024e3383a248f61cea"
+      "hash": "833848f85e7edb340c6560ab79ffb3c035f3c917dda46ebec502c8644f910ac6"
     },
     {
       "path": "pages/docs/runtime/templating/create.md",
@@ -912,9 +912,9 @@
     ]
   ],
   "last_sync": {
-    "synced_at": "2026-09-07T10:57:18.802150+00:00",
+    "synced_at": "2026-09-14T11:09:51.853135+00:00",
     "added": 0,
-    "changed": 15,
+    "changed": 6,
     "removed": 0,
     "pages": 90
   }

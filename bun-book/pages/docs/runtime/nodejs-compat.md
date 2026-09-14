@@ -3,7 +3,7 @@ type: Web Page
 title: Node.js Compatibility | Bun Docs
 description: Bun's compatibility status with Node.js APIs, modules, and globals
 resource: https://bun.sh/docs/runtime/nodejs-compat
-timestamp: '2026-09-07T10:57:18.683997+00:00'
+timestamp: '2026-09-14T11:09:51.847401+00:00'
 ---
 
 # Node.js Compatibility
@@ -46,7 +46,7 @@ We update this page regularly. It reflects the latest version of Bun's compatibi
 ### [`node:dns`](https://nodejs.org/api/dns.html)
 
 `node:dns`
-🟢 Fully implemented. Missing `resolveTlsa`. Bun ignores the `Resolver` `maxTimeout` option, and the callback-style `Resolver` class cannot be subclassed (`dns.promises.Resolver` can).
+🟢 Fully implemented. Missing `resolveTlsa`. Bun ignores the `Resolver` `maxTimeout` option.
 
 ### [`node:events`](https://nodejs.org/api/events.html)
 
@@ -101,7 +101,7 @@ We update this page regularly. It reflects the latest version of Bun's compatibi
 ### [`node:string_decoder`](https://nodejs.org/api/string_decoder.html)
 
 `node:string_decoder`
-🟢 Fully implemented. 100% of Node.js's test suite passes. `end()` does not accept a string argument, and `StringDecoder` cannot be subclassed with `class extends`.
+🟢 Fully implemented. 100% of Node.js's test suite passes. `end()` does not accept a string argument.
 
 ### [`node:timers`](https://nodejs.org/api/timers.html)
 

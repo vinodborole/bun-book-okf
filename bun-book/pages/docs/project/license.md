@@ -3,7 +3,7 @@ type: Web Page
 title: License | Bun Docs
 description: License for Bun
 resource: https://bun.sh/docs/project/license
-timestamp: '2026-09-07T10:57:18.683997+00:00'
+timestamp: '2026-09-14T11:09:51.847401+00:00'
 ---
 
 # License
@@ -20,8 +20,8 @@ Bun statically links JavaScriptCore (and WebKit), which is LGPL-2 licensed. WebC
 
 Bun's patched version of WebKit lives at [https://github.com/oven-sh/webkit](https://github.com/oven-sh/webkit). To relink Bun with changes:
 
-- `git clone https://github.com/oven-sh/WebKit ../WebKit && export BUN_WEBKIT_PATH=$PWD/../WebKit`
-- `git -C ../WebKit checkout <the WEBKIT_VERSION pinned in scripts/build/deps/webkit.ts>`
+- `git clone https://github.com/oven-sh/WebKit vendor/WebKit`
+- `bun sync-webkit-source` (checks out the version pinned in`WEBKIT_VERSION` in`scripts/build/deps/webkit.ts` )
 - `bun run build:local`
 
 `bun run build:local` compiles JavaScriptCore, compiles Bun's `.cpp` bindings for JavaScriptCore (the object files that use JavaScriptCore), and outputs a new `bun` binary with your changes.
